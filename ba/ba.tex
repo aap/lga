@@ -1,0 +1,40 @@
+\documentclass[12pt,a4paper,normalheadings]{scrartcl}
+\usepackage[a4paper,top=3cm, bottom=3cm, left=4cm, right=3cm]{geometry}
+
+\usepackage{polyglossia}
+\defaultfontfeatures{Mapping=tex-text}
+\setmainlanguage{german}
+\setotherlanguage[variant=ancient]{greek}
+\input{$HOME/griechisch/greektokens.tex}
+\setmainfont{Junicode}
+\newfontfamily\greekfont{GFS Neohellenic}
+
+\usepackage{setspace}
+\usepackage{calc}
+
+\usepackage{enumitem}
+\setlist{parsep=0pt,listparindent=\parindent}
+
+\usepackage[backend=bibtex,style=authoryear,maxcitenames=1,language=german]{biblatex}
+\bibliography{ba}
+
+%\usepackage[texcoord,gridunit=cm]{showframe}
+
+\newcommand{\up}[1]{\textsuperscript{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\ur}[1]{\up{\ref{#1}}}
+\def\rek#1{*\textit{#1}}
+\def\bel#1{\textit{#1}}
+
+\begin{document}
+
+\section*{Einleitung}
+
+Ziel dieser Arbeit ist es, ein Program zu entwickeln,
+das Lautgesetze auf Wörter anwendet,
+und die Lautgesetze vom Urindogermanischen in die altgriechischen Dialekte
+zu sammeln und zu sortieren.
+
+\printbibliography
+
+\end{document}
