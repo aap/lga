@@ -61,6 +61,8 @@ um die Lautentwicklung vom Urindogermanischen ins Altgriechische zu modellieren.
 
 \section{lga}
 
+\subsection{Vorüberlegungen}
+
 Wenn ein Lautgesetzt wirkt,
 wird ein Laut (oder mehrere) durch einen anderen ersetzt.
 Da man Laute phonetisch notieren kann,
@@ -76,6 +78,105 @@ die Lautgesetze kompakt beschreiben
 und von einem Computerprogramm verstanden werden kann.
 Eine naheliegende Wahl ist daher eine Form von \emph{regulären Ausdrücken},
 die in vielen Programmen implementiert und weithin bekannt sind.
+Reguläre Ausdrücke sind zwar für diesen Zweck nicht perfekt geeignet,
+aber für einen Prototyp ausreichend.
+Wenn sich gezeigt hat,
+welche Defizite reguläre Ausdrücke für diesen Anwendungsfall haben,
+wird man eine besser geeignete Sprache entwickeln und implementieren können.
+
+Als Programmiersprache wird CHICKEN -- eine Implementation von Scheme --
+verwendet (\texttt{http://www.call-cc.org/}).
+
+\subsection{Reguläre Ausdrücke}
+
+Hier eine (informelle)
+Beschreibung der hier verwendeten Untermenge regulärer Ausdrücke.
+Die vollständige Dokumentation für die \texttt{irregex} Engine für
+CHICKEN findet sich auf
+\texttt{http://wiki.call-cc.org/man/4/Unit\%20irregex}
+
+Die grundlegende Funktion von regulären Ausdrücken ist das
+Finden (engl. \bel{match}) von Zeichenketten anhand eines Musters.
+Der gematchte Text kann dann durch einen anderen ersetzt werden,
+der Teile des Matches wieder aufnehmen kann.
+
+Ein regulärer Ausdruck matcht eine Zeichenkette aus einem Alphabet;
+hier die Menge der Unicode \emph{Codepoints} (nicht
+der \emph{Grapheme}, die aus mehreren Codepoints bestehen können).
+
+Ein Zeichen des Alphabets, das kein Metazeichen ist (dazu unten),
+matcht sich selbst.
+Metazeichen verlieren ihre spezielle Funktion,
+wenn ihnen ein Backslash \texttt{\textbackslash} vorangeht.
+Der Ausdruck \texttt{foo} matcht also die Zeichenkette \texttt{foo}
+(und auch das \texttt{foo} in \texttt{foobar}).
+
+Der Punkt \texttt{.} matcht ein beliebiges Zeichen.
+Der Ausdruck \texttt{...} matcht also alle Zeichenketten mit drei Zeichen,
+\texttt{\textbackslash.\textbackslash.\textbackslash.} matcht drei Punkte.
+
+Eine in eckigen Klammern stehende Menge an Zeichen matcht eins dieser Zeichen,
+oder alle außer dieser Zeichen,
+wenn das erste Zeichen ein Zirkumflex \texttt{\^{}} ist.
+Dabei können auch Zeichenbereiche mit Bindestrich angegeben werden.
+\texttt{[abc]} matcht also \texttt{a}, \texttt{b} oder \texttt{c},
+\texttt{[\^{}abc]} alle Zeichen außer \texttt{a}, \texttt{b} und \texttt{c}.
+Alternativ hätte man auch \texttt{[a-c]} schreiben können.
+
+Der Zirkumflex \texttt{\^{}} und das Dollarzeichen \texttt{\$}
+matchen den Anfang bzw. das Ende einer Zeile.
+\texttt{\^{}foo} matcht also \texttt{foo} am Anfang der Zeile,
+\texttt{bar\$} matcht \texttt{bar} am Ende der Zeile
+und \texttt{\^{}quux\$} die Zeile, die nur \texttt{quux} enthält.
+Da in \texttt{lga} jedes Wort in einer eigenen Zeile steht,
+kann man die Zeichen für den Anfang bzw. das Ende des Wortes benutzen.
+
+\texttt{?}, \texttt{*} und \texttt{+} sind Quantoren
+und matchen, was ihnen vorangeht, null oder einmal, null bis unendlich mal
+und ein bis unendlich mal.
+Der Ausdruck \texttt{.?[a-d]*x+} z.B.
+matcht optional ein beliebiges Zeichen, dann eins der Zeichen \texttt{a-d}
+null bis unendlich mal und schließlich mindestens ein \texttt{x}.
+
+Mit Klammern \texttt{()} werden analog zur mathematischen Notation
+Matches enger gruppiert.
+So würde \texttt{[ab]c+} \texttt{a} oder \texttt{b} und dann mindestens ein
+\texttt{c} matchen (also z.B. \texttt{accc} oder \texttt{bc}).
+\texttt{([ab]c)+} dagegen matcht \texttt{[ab]c} mindestens einmal
+(also z.B. \texttt{acbcbc}).
+
+Neben ihrer Gruppierungsfunktion werden die Submatches innerhalb
+der Klammern für die Ersetzung gespeichert.
+\texttt{([0-9]+)foo([0-9]+)} würde also zwei Zahlen und \texttt{foo} dazwischen
+matchen.
+Die Zahlen wären dann in den submatchtes \texttt{1} und \texttt{2} gespeichert
+und können im Ersetzungstext wieder aufgegriffen werden.
+
+Mit dem senkrechten Strich \texttt{e0|e1} wird \texttt{e0}
+oder \texttt{e1} gematcht (der Senkrechtstrich hat die niedrigste Präzedenz).
+\texttt{foo|bar+} matcht also \texttt{foo} oder mindestens ein \texttt{bar}.
+\texttt{(foo|bar)+} dagegen matcht mindestens ein \texttt{foo} oder \texttt{bar}.
+
+\subsection{Funktionsweise}
+
+Im Kern arbeitet \texttt{lga} mit einer Liste von Wörtern
+und einer Liste von Lautgesetzen
+(in der Form von Textersetzung durch reguläre Ausdrücke)
+und wendet der Reihe nach alle Lautgesetze auf die Liste der Wörter an.
+Das Resultat sind die Wörter nach Anwendung aller Lautgesetze.
+
+Die Liste der Lautgesetze aber hängt davon ab,
+von welcher in welche Sprache die Wörter transformiert werden sollen
+und wird aus einem \emph{Baum} von Lautgesetzen und einem
+zugehörigen Sprachstammbaum generiert.
+
+Die Liste der Wörter wird vorher durch eine weitere Liste von Regeln,
+die von der Ausganssprache abhängt,
+von ihrer graphematischen Form in eine interne phonetische gebracht
+(was natürlich eine eindeutige Graphie voraussetzt)
+und am Ende durch noch eine Liste von Regeln,
+die von der Zielsprache abhängig ist,
+wieder in eine graphematische Darstellung gebracht.
 
 \section{Lautentwicklung des Altgriechischen}
 
