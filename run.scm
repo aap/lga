@@ -1,15 +1,11 @@
-(define run-list
-  (lambda (from to words)
-    (let ((r1 (make-rules rules (make-path languages from to)))
-          (r2 (lookup from phonological-rules))
-          (r3 (lookup to prettyprint-rules)))
-      (print (apply-rules r3
-                          (apply-rules r1
-                                       (apply-rules r2 words)))))))
+(load "main.scm")
+
+(define run
+  (lambda () (load "run.scm")))
 
 (define run-gr
   (lambda ()
-    (run-list 'uridg 'urgr (make-words
+    (run-list 'uridg 'urgr (list
       "k̑r̥d-"
       "gʷr̥Hus"
       "Hi̯ēkʷr̥"
@@ -111,11 +107,11 @@
       "bʰéroh₂"
       "bʰéronti"
       ))))
-;(run-gr)
+(run-gr)
 
 (define run-test
   (lambda ()
-    (run-list 'uridg 'ved (make-words
+    (run-list 'uridg 'ved (list
       "-ak̑da-"
       "-ak̑d"
       "-ak̑ta-"
@@ -194,7 +190,7 @@
 
 (define run-av
   (lambda ()
-    (run-list 'uridg 'urav (make-words
+    (run-list 'uridg 'urav (list
       "kok̑so-"
       "kr̥tá-"
       "poti-"
@@ -207,7 +203,7 @@
 
 (define run-ved
   (lambda ()
-    (run-list 'uridg 'ved (make-words
+    (run-list 'uridg 'ved (list
       "bʰeu̯dʰsi̯eti"
       "upopdós"
       "nigʷtós"
@@ -283,4 +279,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-(run-ved)
+;(run-ved)

@@ -25,6 +25,7 @@
 \newcommand{\ur}[1]{\up{\ref{#1}}}
 \def\rek#1{*\textit{#1}}
 \def\bel#1{\textit{#1}}
+\def\tt#1{\texttt{#1}}
 
 \begin{document}
 
@@ -45,18 +46,18 @@ aber trotz der Computerrevolution des 20. Jh. hat sich offenbar
 noch niemand daran gemacht,
 diese eigentlich sehr naheliegenden Idee zu verwirklichen.
 
-Das hier besprochene Programm \texttt{lga} ist
-der Nachfolger eines Prototyps (komplett in \texttt{sed} geschrieben),
+Das hier besprochene Programm \tt{lga} ist
+der Nachfolger eines Prototyps (komplett in \tt{sed} geschrieben),
 der primitiver war und einige Mängel aufzeigte.
-Ebenso ist aber \texttt{lga} nur als Prototyp
+Ebenso ist aber \tt{lga} nur als Prototyp
 für ein elaborierteres Programm zu verstehen.
 Im Laufe der Arbeit wird sich herausstellen,
 welche Probleme, Mängel und weiteren Anforderungen es gibt,
 die man in einer nächsten Version angehen müsste.
 
-Im ersten Teil dieser Arbeit wird \texttt{lga}
+Im ersten Teil dieser Arbeit wird \tt{lga}
 in seinen Designideen und in seiner Funktionsweise vorgestellt.
-Im zweiten Teil wird \texttt{lga} benutzt,
+Im zweiten Teil wird \tt{lga} benutzt,
 um die Lautentwicklung vom Urindogermanischen ins Altgriechische zu modellieren.
 
 \section{lga}
@@ -85,81 +86,81 @@ welche Defizite reguläre Ausdrücke für diesen Anwendungsfall haben,
 wird man eine besser geeignete Sprache entwickeln und implementieren können.
 
 Als Programmiersprache wird CHICKEN -- eine Implementation von Scheme --
-verwendet (\texttt{http://www.call-cc.org/}).
+verwendet (\tt{http://www.call-cc.org/}).
 
 \subsection{Reguläre Ausdrücke}
 
 Hier eine (informelle)
 Beschreibung der hier verwendeten Untermenge regulärer Ausdrücke.
-Die vollständige Dokumentation für die \texttt{irregex} Engine für
+Die vollständige Dokumentation für die \tt{irregex} Engine für
 CHICKEN findet sich auf
-\texttt{http://wiki.call-cc.org/man/4/Unit\%20irregex}
+\tt{http://wiki.call-cc.org/man/4/Unit\%20irregex}
 
 Die grundlegende Funktion von regulären Ausdrücken ist das
-Finden (engl. \bel{match}) von Zeichenketten anhand eines Musters.
+Finden (engl. \bel{match}) von Zeichenketten (String) anhand eines Musters.
 Der gematchte Text kann dann durch einen anderen ersetzt werden,
 der Teile des Matches wieder aufnehmen kann.
 
-Ein regulärer Ausdruck matcht eine Zeichenkette aus einem Alphabet;
+Ein regulärer Ausdruck matcht einen String aus einem Alphabet;
 hier die Menge der Unicode \emph{Codepoints} (nicht
 der \emph{Grapheme}, die aus mehreren Codepoints bestehen können).
 
 Ein Zeichen des Alphabets, das kein Metazeichen ist (dazu unten),
 matcht sich selbst.
 Metazeichen verlieren ihre spezielle Funktion,
-wenn ihnen ein Backslash \texttt{\textbackslash} vorangeht.
-Der Ausdruck \texttt{foo} matcht also die Zeichenkette \texttt{foo}
-(und auch das \texttt{foo} in \texttt{foobar}).
+wenn ihnen ein Backslash \tt{\textbackslash} vorangeht.
+Der Ausdruck \tt{foo} matcht also den String \tt{foo}
+(und auch das \tt{foo} in \tt{foobar}).
 
-Der Punkt \texttt{.} matcht ein beliebiges Zeichen.
-Der Ausdruck \texttt{...} matcht also alle Zeichenketten mit drei Zeichen,
-\texttt{\textbackslash.\textbackslash.\textbackslash.} matcht drei Punkte.
+Der Punkt \tt{.} matcht ein beliebiges Zeichen.
+Der Ausdruck \tt{...} matcht also alle Strings mit drei Zeichen,
+\tt{\textbackslash.\textbackslash.\textbackslash.} matcht drei Punkte.
 
 Eine in eckigen Klammern stehende Menge an Zeichen matcht eins dieser Zeichen,
 oder alle außer dieser Zeichen,
-wenn das erste Zeichen ein Zirkumflex \texttt{\^{}} ist.
+wenn das erste Zeichen ein Zirkumflex \tt{\^{}} ist.
 Dabei können auch Zeichenbereiche mit Bindestrich angegeben werden.
-\texttt{[abc]} matcht also \texttt{a}, \texttt{b} oder \texttt{c},
-\texttt{[\^{}abc]} alle Zeichen außer \texttt{a}, \texttt{b} und \texttt{c}.
-Alternativ hätte man auch \texttt{[a-c]} schreiben können.
+\tt{[abc]} matcht also \tt{a}, \tt{b} oder \tt{c},
+\tt{[\^{}abc]} alle Zeichen außer \tt{a}, \tt{b} und \tt{c}.
+Alternativ hätte man auch \tt{[a-c]} schreiben können.
 
-Der Zirkumflex \texttt{\^{}} und das Dollarzeichen \texttt{\$}
+Der Zirkumflex \tt{\^{}} und das Dollarzeichen \tt{\$}
 matchen den Anfang bzw. das Ende einer Zeile.
-\texttt{\^{}foo} matcht also \texttt{foo} am Anfang der Zeile,
-\texttt{bar\$} matcht \texttt{bar} am Ende der Zeile
-und \texttt{\^{}quux\$} die Zeile, die nur \texttt{quux} enthält.
-Da in \texttt{lga} jedes Wort in einer eigenen Zeile steht,
+\tt{\^{}foo} matcht also \tt{foo} am Anfang der Zeile,
+\tt{bar\$} matcht \tt{bar} am Ende der Zeile
+und \tt{\^{}quux\$} die Zeile, die nur \tt{quux} enthält.
+Da in \tt{lga} jedes Wort in einer eigenen Zeile steht,
 kann man die Zeichen für den Anfang bzw. das Ende des Wortes benutzen.
 
-\texttt{?}, \texttt{*} und \texttt{+} sind Quantoren
+\tt{?}, \tt{*} und \tt{+} sind Quantoren
 und matchen, was ihnen vorangeht, null oder einmal, null bis unendlich mal
 und ein bis unendlich mal.
-Der Ausdruck \texttt{.?[a-d]*x+} z.B.
-matcht optional ein beliebiges Zeichen, dann eins der Zeichen \texttt{a-d}
-null bis unendlich mal und schließlich mindestens ein \texttt{x}.
+Der Ausdruck \tt{.?[a-d]*x+} z.B.
+matcht optional ein beliebiges Zeichen, dann eins der Zeichen \tt{a-d}
+null bis unendlich mal und schließlich mindestens ein \tt{x}.
 
-Mit Klammern \texttt{()} werden analog zur mathematischen Notation
+Mit Klammern \tt{()} werden analog zur mathematischen Notation
 Matches enger gruppiert.
-So würde \texttt{[ab]c+} \texttt{a} oder \texttt{b} und dann mindestens ein
-\texttt{c} matchen (also z.B. \texttt{accc} oder \texttt{bc}).
-\texttt{([ab]c)+} dagegen matcht \texttt{[ab]c} mindestens einmal
-(also z.B. \texttt{acbcbc}).
+So würde \tt{[ab]c+} \tt{a} oder \tt{b} und dann mindestens ein
+\tt{c} matchen (also z.B. \tt{accc} oder \tt{bc}).
+\tt{([ab]c)+} dagegen matcht \tt{[ab]c} mindestens einmal
+(also z.B. \tt{acbcbc}).
 
 Neben ihrer Gruppierungsfunktion werden die Submatches innerhalb
 der Klammern für die Ersetzung gespeichert.
-\texttt{([0-9]+)foo([0-9]+)} würde also zwei Zahlen und \texttt{foo} dazwischen
+\tt{([0-9]+)foo([0-9]+)} würde also zwei Zahlen und \tt{foo} dazwischen
 matchen.
-Die Zahlen wären dann in den submatchtes \texttt{1} und \texttt{2} gespeichert
+Die Zahlen wären dann in den submatchtes \tt{1} und \tt{2} gespeichert
 und können im Ersetzungstext wieder aufgegriffen werden.
 
-Mit dem senkrechten Strich \texttt{e0|e1} wird \texttt{e0}
-oder \texttt{e1} gematcht (der Senkrechtstrich hat die niedrigste Präzedenz).
-\texttt{foo|bar+} matcht also \texttt{foo} oder mindestens ein \texttt{bar}.
-\texttt{(foo|bar)+} dagegen matcht mindestens ein \texttt{foo} oder \texttt{bar}.
+Mit dem senkrechten Strich \tt{e0|e1} wird \tt{e0}
+oder \tt{e1} gematcht (der Senkrechtstrich hat die niedrigste Präzedenz).
+\tt{foo|bar+} matcht also \tt{foo} oder mindestens ein \tt{bar}.
+\tt{(foo|bar)+} dagegen matcht mindestens ein \tt{foo} oder \tt{bar}.
 
 \subsection{Funktionsweise}
 
-Im Kern arbeitet \texttt{lga} mit einer Liste von Wörtern
+Im Kern arbeitet \tt{lga} mit einer Liste von Wörtern
 und einer Liste von Lautgesetzen
 (in der Form von Textersetzung durch reguläre Ausdrücke)
 und wendet der Reihe nach alle Lautgesetze auf die Liste der Wörter an.
@@ -171,12 +172,54 @@ und wird aus einem \emph{Baum} von Lautgesetzen und einem
 zugehörigen Sprachstammbaum generiert.
 
 Die Liste der Wörter wird vorher durch eine weitere Liste von Regeln,
-die von der Ausganssprache abhängt,
+die von der Ausgangssprache abhängt,
 von ihrer graphematischen Form in eine interne phonetische gebracht
 (was natürlich eine eindeutige Graphie voraussetzt)
 und am Ende durch noch eine Liste von Regeln,
 die von der Zielsprache abhängig ist,
 wieder in eine graphematische Darstellung gebracht.
+
+Die Funktion \tt{(run-list from to words)}
+generiert die drei Listen von Regeln anhand der Sprachen \tt{from} und \tt{to},
+macht aus der Liste von Wörtern \tt{words} aus Effizienzgründen einen
+einzigen String,
+in dem jedes Element von \tt{words} in einer eigenen Zeile steht,
+wendet darauf die drei Regellisten an,
+und gibt das Ergebnis aus.
+
+Zunächst wird mit der Funktion \tt{(make-path tree start end)} anhand
+eines Sprachstammbaums \tt{tree}
+eine Liste aller Sprachen von der Ausgangs- zur Zielsprache generiert.
+Der Aufruf \tt{(make-path lang-tree 'uridg 'lesb)} würde bspw.
+die Liste \tt{(uridg urgr uraiol lesb)} erzeugen.
+
+Der Sprachstammbaum (gespeichert in der globalen Variable \tt{lang-tree})
+definiert das Verwandtschaftsverhältnis von Sprachen.
+Wenn eine Sprache keine Untersprachen hat,
+ist sie (in Scheme-Terminologie) ein Symbol
+(also hat z.B. \tt{myk} keine Abkömmlinge).
+Hat eine Sprache Untersprachen,
+ist sie eine Liste, dessen erstes Element ein Symbol für die Sprache selber ist;
+die weiteren Elemente sind Untersprachen (wiederum Symbole oder Listen).
+Ein vereinfachter Stammbaum könnte also bswp. folgendermaßen aussehen:
+\begin{verbatim}
+(uridg (urgr (urark myk ark kypr)
+             (uraiol thess boiot lesb)
+             (urwgr nwgr dor)
+             (urion (aion ion) (aatt att))))
+\end{verbatim}
+Es sei angemerkt,
+dass die so beschriebene Verhältnisse nicht streng als Verwandtschaft
+interpretiert werden sollten.
+Urion. mag zwar eine Ursprache gewesen sein,
+aber auch nach der Aufspaltung von att. und ion. teilen sie
+noch gewisse Entwicklungen.
+Ebenso gibt es gemeingriechische Entwicklung die nach-urgriechisch sind.
+Eine präzisere Trennung von Verwandtschaft und ``Sprachgruppen''
+würde aber das Modell möglicherweise zu sehr verkomplizieren.
+Die beste Möglichkeit ist es womöglich,
+auf die Vorsilbe \textit{ur-} zu verzichten und bspw. \tt{gr}
+gleichermaßen für urgriechisch und gemeingriechisch zu verwenden.
 
 \section{Lautentwicklung des Altgriechischen}
 
