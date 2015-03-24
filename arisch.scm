@@ -94,7 +94,7 @@
     (s "ṝ('?)" "a" 1 "r")
     (s "ʰ")
     'urir
-    `(r (urav) ,rules-urav)))
+    `(br (urav) ,rules-urav)))
 
   (urar (list
     ;;; satem
@@ -149,8 +149,8 @@
     (s "(<vok>)('?)H(<vok>)" 1 2 3)
     (s "(<kons>)H(<kons>)" 1 "@" 2)
     'urar
-    `(r (uria) ,rules-uria)
-    `(r (urir) ,rules-urir))))
+    `(br (uria) ,rules-uria)
+    `(br (urir) ,rules-urir))))
 
   (set! rules-urar urar))
 

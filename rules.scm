@@ -4,8 +4,9 @@
 (define rules
   (list
     'uridg
-    `(r (urar) ,rules-urar)
-    `(r (urgr) ,rules-urgr)
+    `(br (urar) ,rules-urar)
+;    `(br (urar) '())
+    `(br (urgr) ,rules-urgr)
     ))
 
 (set-phono-rules 'uridg
