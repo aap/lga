@@ -3,20 +3,18 @@
 ;;;;
 
 ;; applies list of rules to the submatch i in a match
-(define match-rulelist
-  (lambda (rules)
-    (lambda (i)
-      (lambda (match)
-        (let ((m (or (irregex-match-substring match i)
-                     "")))
-          (apply-rules rules m))))))
+(define (match-rulelist rules)
+  (lambda (i)
+    (lambda (match)
+      (let ((m (or (irregex-match-substring match i)
+                   "")))
+        (apply-rules rules m)))))
 
-(define match-do
-  (lambda (f)
-    (lambda (i)
-      (lambda (match)
-        (let ((m (irregex-match-substring match i)))
-          (f m))))))
+(define (match-do f)
+  (lambda (i)
+    (lambda (match)
+      (let ((m (irregex-match-substring match i)))
+        (f m)))))
 
 (define match-print
   (match-do

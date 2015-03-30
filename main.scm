@@ -85,7 +85,7 @@
   (to-end (find-start tree)))
 
 ;; make a list of rules that apply to the language development in path
-(define (make-rules lst path)
+(define (make-rules tree path)
   (define start (car path))
   (define end (car (reverse path)))
   (define (rule-applies? langlist)
@@ -93,33 +93,33 @@
         (if (equal? (car langlist) 'not)
             (eq? '() (lset-intersection eq? path (cdr langlist)))
             (not (eq? '() (lset-intersection eq? path langlist))))))
-  (define (find-start lst)
-    (cond ((null? lst)
+  (define (find-start tree)
+    (cond ((null? tree)
            '())
-          ((eq? (car lst) start)
-           (cdr lst))
-          ((and (list? (car lst))
-                (eq? 'br (caar lst)))
-           (let ((l (find-start (caddar lst))))
+          ((eq? (car tree) start)
+           (cdr tree))
+          ((and (list? (car tree))
+                (eq? 'br (caar tree)))
+           (let ((l (find-start (caddar tree))))
              (if (null? l)
-                 (find-start (cdr lst))
+                 (find-start (cdr tree))
                  l)))
-          (else (find-start (cdr lst)))))
-  (define (to-end lst)
-    (cond ((or (null? lst)
-               (eq? (car lst) end))
+          (else (find-start (cdr tree)))))
+  (define (to-end tree)
+    (cond ((or (null? tree)
+               (eq? (car tree) end))
            '())
-          ((or (number? (car lst))    ; use numbers for testing ONLY
-               (procedure? (car lst)))
-           (cons (car lst) (to-end (cdr lst))))   ; better use tail recursion
-          ((and (list? (car lst))
-                (rule-applies? (cadar lst)))
-           (case (caar lst)
-             ((br) (to-end (caddar lst)))
-             ((sub) (append (to-end (caddar lst)) (to-end (cdr lst))))
-             (else (to-end (cdr lst)))))
-          (else (to-end (cdr lst)))))
-  (to-end (find-start lst)))
+          ((or (number? (car tree))    ; use numbers for testing ONLY
+               (procedure? (car tree)))
+           (cons (car tree) (to-end (cdr tree))))   ; better use tail recursion
+          ((and (list? (car tree))
+                (rule-applies? (cadar tree)))
+           (case (caar tree)
+             ((br) (to-end (caddar tree)))
+             ((sub) (append (to-end (caddar tree)) (to-end (cdr tree))))
+             (else (to-end (cdr tree)))))
+          (else (to-end (cdr tree)))))
+  (to-end (find-start tree)))
 
 ;;;
 ;;; helper functions
@@ -135,10 +135,10 @@
             (s+ (car lst) "\n" s)))))
 
 ;; make regex substitute function
-(define (s . x)
-  (let ((regex (make-regex (car x))))
+(define (s pattern . subst)
+  (let ((pat (make-regex pattern)))
     (lambda (word)
-      (apply irregex-replace/all (cons regex (cons word (cdr x)))))))
+      (apply irregex-replace/all (cons pat (cons word subst))))))
 
 ;; compile regex containing custom character classes
 (define (make-regex s)

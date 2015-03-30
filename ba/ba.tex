@@ -7,6 +7,8 @@
 \setotherlanguage[variant=ancient]{greek}
 \input{$HOME/griechisch/greektokens.tex}
 \setmainfont{Junicode}
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+%\setmonofont{Courier New}
 \newfontfamily\greekfont{GFS Neohellenic}
 
 \usepackage{setspace}
@@ -209,7 +211,7 @@ Ein vereinfachter Stammbaum könnte also bswp. folgendermaßen aussehen:
              (urion (aion ion) (aatt att))))
 \end{verbatim}
 Es sei angemerkt,
-dass die so beschriebene Verhältnisse nicht streng als Verwandtschaft
+dass die so beschriebenen Verhältnisse nicht streng als Verwandtschaft
 interpretiert werden sollten.
 Urion. mag zwar eine Ursprache gewesen sein,
 aber auch nach der Aufspaltung von att. und ion. teilen sie
@@ -220,6 +222,79 @@ würde aber das Modell möglicherweise zu sehr verkomplizieren.
 Die beste Möglichkeit ist es womöglich,
 auf die Vorsilbe \textit{ur-} zu verzichten und bspw. \tt{gr}
 gleichermaßen für urgriechisch und gemeingriechisch zu verwenden.
+
+Der Lautgesetzbaum ist eine Liste von vier möglichen Elementen, nämlich
+Funktionen, die einen String als Argument nehmen und einen String zurückgeben
+(also Funktionen, die Lautgesetze anwenden),
+Symbole, die eine Sprachstufe markieren,
+und zwei Arten von Listen des Typs \tt{(br/sub lang-lst rule-tree)},
+deren zweites Element eine Liste von Sprachen ist,
+für die sie gelten (bzw. nicht gelten, wenn das erste Element \tt{not} ist),
+und deren drittes Element ein weiterer Lautgesetzbaum ist.
+\tt{br} (für \emph{branch}) leitet einen neuen Sprachzweig ein,
+der durch \tt{rule-tree} definiert ist
+(d.h. dass alle Regeln nach einem erfolgreichen \tt{br} ignoriert werden).
+\tt{sub} (für \emph{subrules}) funktioniert ähnlich,
+macht aber nach Abarbeitung von \tt{rule-tree}
+nach der Regel weiter.
+Dies impliziert,
+dass es sich hier bei \tt{rule-tree} nicht um einen echten Baum handelt.
+\tt{sub} ist nur dazu gedacht eine Liste von Lautgesetzen bedingt anzuwenden.
+Im Griechischen ist dies besonders nützlich,
+da zwar alle Dialekte ähnliche Entwicklungen machen,
+diese sich aber im einzelnen unterscheiden.
+Mit \tt{sub} kann man einfach Regeln für bestimme Dialekte oder
+Dialektgruppen definieren ohne für jeden Dialekt einen eigenen Sprachzweig
+haben zu müssen.
+
+Die Funktion \tt{(make-rules tree path)}
+gibt anhand des Lautgesetz\emph{baums} \tt{tree} eine \emph{Liste}
+von Lautgesetzen zurück,
+die die Sprachentwicklung in \tt{path} (von \tt{make-path} erzeugt, s.o.)
+reflektiert.
+Von \tt{(apply-rules rules words)} wird dann diese Liste \tt{rules}
+auf die Wörter \tt{words} angewandt.
+
+Die Lautgesetzfunktionen werden von der Funktion \tt{(s pattern . subst)}
+erzeugt,
+die aus einem String \tt{pattern} einen regulären Ausdruck macht
+und eine Funktion zurückgibt,
+die \tt{irregex-replace/all} auf diesen regulären Ausdruck
+und die Ersetzungen in der Liste \tt{subst} anwendet.
+Matcht der reguläre Ausdruck einen Teil der Eingabe,
+wird diese durch \tt{subst} ersetzt,
+dessen Elemente Strings, Zahlen als Indizes der Submatches, sowie
+Funktionen, die anhand eines Matches Strings zurückgeben, sind.
+\tt{(irregex-replace/all "(foo)(bar)" 2 (lambda (m)
+    (string-reverse (irregex-match-substring m 1))) "quux")}
+z.B. würde den String \tt{"foobar"} durch \tt{"baroofquux"} ersetzen.
+
+Die oben beschriebenen regulären Ausdrücke
+sind für die Modellierung von Laugesetzen nicht ausreichend.
+Neben anderen Unzulänglichkeiten,
+die sich im Laufe der Arbeit herausstellen werden,
+gibt es eindeutig Probleme, mit Lautklassen umzugehen,
+und noch allgemeiner, Laute durch Zeichen zu kodieren.
+Wenn jeder Laut durch genau ein Zeichen bzw. einen Unicode Codepoint kodiert wird,
+gibt es der Lautkodierung keine Probleme.
+Da es allerdings sinnvoll ist,
+einige Laute mit mehreren Codepoints zu kodieren,
+kann es zu Problemen kommen.
+Will man bswp. ein Lautgesetz \tt{(s "b" "p")} formulieren,
+so hätte dies die Nebenwirkung,
+dass auch \tt{bʰ} zu \tt{pʰ} würde,
+was im allgemeinen Fall unerwünscht ist.
+Wenn man Laute wie \tt{bʰ} oder \tt{gʷ} mit einem einzigen Codepoint
+repräsentieren würde,
+hätte man dieses Problem natürlich zwar nicht,
+jedoch bietet Unicode für solche Vorhaben keine definierten Codepoints.
+Dafür müsste man die Private Use Area benutzen,
+wodurch die Kodierung jedoch von der Schriftart abhängig wird:
+eine unschöne Lösung.
+In der hier entwickelten Version von \tt{lga} wird das Problem nicht gelöst.
+Stattdessen müssen die Lautgesetze vorläufig
+besonders vorsichtig formuliert werden,
+der obere Fall also als \tt{(s "b([\^{}ʰ]?)" "p" 1)}.
 
 \section{Lautentwicklung des Altgriechischen}
 

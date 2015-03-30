@@ -107,7 +107,7 @@
       "bʰéroh₂"
       "bʰéronti"
       ))))
-(run-gr)
+;(run-gr)
 
 (define run-test
   (lambda ()
@@ -279,4 +279,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-;(run-ved)
+(run-ved)
