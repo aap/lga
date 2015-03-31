@@ -46,6 +46,14 @@
           (s "i" "ī")
           (s "u" "ū"))))
 
+(define kuerzung
+  (match-rulelist
+    (list (s ""ā "a")
+          (s ""ē "e")
+          (s ""ō "o")
+          (s ""ī "i")
+          (s ""ū "u"))))
+
 (define dental->retroflex
   (match-rulelist
     (list (s "t" "ṭ")

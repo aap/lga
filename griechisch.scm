@@ -59,7 +59,7 @@
     (s "(<nasal>)(<dental>|<velar>|<labiovelar>|s)" "n" 2)
     (s "my" "ny")
 
-    ;;; tautsyllabisches ns > s (später noch mal (σύζυγος))
+    ;;; tautosyllabisches ns > s (später noch mal (σύζυγος))
     ;;; TODO: vielleicht später? (nach dz > zd)
     (s "ns(<kons>)" s 1)
 

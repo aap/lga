@@ -30,6 +30,7 @@
 \def\tt#1{\texttt{#1}}
 
 \begin{document}
+\onehalfspacing
 
 \section{Einleitung}
 
@@ -94,7 +95,7 @@ verwendet (\tt{http://www.call-cc.org/}).
 
 Hier eine (informelle)
 Beschreibung der hier verwendeten Untermenge regulärer Ausdrücke.
-Die vollständige Dokumentation für die \tt{irregex} Engine für
+Die vollständige Dokumentation für die \tt{irregex}-Engine für
 CHICKEN findet sich auf
 \tt{http://wiki.call-cc.org/man/4/Unit\%20irregex}
 
@@ -203,7 +204,7 @@ ist sie (in Scheme-Terminologie) ein Symbol
 Hat eine Sprache Untersprachen,
 ist sie eine Liste, dessen erstes Element ein Symbol für die Sprache selber ist;
 die weiteren Elemente sind Untersprachen (wiederum Symbole oder Listen).
-Ein vereinfachter Stammbaum könnte also bswp. folgendermaßen aussehen:
+Ein vereinfachter Stammbaum könnte also bspw. folgendermaßen aussehen:
 \begin{verbatim}
 (uridg (urgr (urark myk ark kypr)
              (uraiol thess boiot lesb)
@@ -265,7 +266,7 @@ Matcht der reguläre Ausdruck einen Teil der Eingabe,
 wird diese durch \tt{subst} ersetzt,
 dessen Elemente Strings, Zahlen als Indizes der Submatches, sowie
 Funktionen, die anhand eines Matches Strings zurückgeben, sind.
-\tt{(irregex-replace/all "(foo)(bar)" 2 (lambda (m)
+\tt{(irregex-replace/all "(foo)(bar)" "foobar" 2 (lambda (m)
     (string-reverse (irregex-match-substring m 1))) "quux")}
 z.B. würde den String \tt{"foobar"} durch \tt{"baroofquux"} ersetzen.
 
@@ -275,16 +276,17 @@ Neben anderen Unzulänglichkeiten,
 die sich im Laufe der Arbeit herausstellen werden,
 gibt es eindeutig Probleme, mit Lautklassen umzugehen,
 und noch allgemeiner, Laute durch Zeichen zu kodieren.
+
 Wenn jeder Laut durch genau ein Zeichen bzw. einen Unicode Codepoint kodiert wird,
 gibt es der Lautkodierung keine Probleme.
 Da es allerdings sinnvoll ist,
 einige Laute mit mehreren Codepoints zu kodieren,
 kann es zu Problemen kommen.
-Will man bswp. ein Lautgesetz \tt{(s "b" "p")} formulieren,
+Will man bspw. ein Lautgesetz \tt{(s "b" "p")} formulieren,
 so hätte dies die Nebenwirkung,
 dass auch \tt{bʰ} zu \tt{pʰ} würde,
 was im allgemeinen Fall unerwünscht ist.
-Wenn man Laute wie \tt{bʰ} oder \tt{gʷ} mit einem einzigen Codepoint
+Wenn man Laute wie \bel{bʰ} oder \bel{gʷ} mit einem einzigen Codepoint
 repräsentieren würde,
 hätte man dieses Problem natürlich zwar nicht,
 jedoch bietet Unicode für solche Vorhaben keine definierten Codepoints.
@@ -295,6 +297,94 @@ In der hier entwickelten Version von \tt{lga} wird das Problem nicht gelöst.
 Stattdessen müssen die Lautgesetze vorläufig
 besonders vorsichtig formuliert werden,
 der obere Fall also als \tt{(s "b([\^{}ʰ]?)" "p" 1)}.
+
+Bei der Formulierung von Lautgesetzen ist es ferner sinnvoll,
+Laute in Lautklassen zusammenzufassen um eine konzise
+und leicht abstrahierende Darstellung zu haben.
+Der POSIX Standard definiert zwar Zeichenklassen wie \tt{[:digit:]}
+für Ziffern oder \tt{[:lower:]} für Kleinbuchstaben,
+aber die Bedürfnisse, die man als Linguist hat,
+sind damit nicht abgedeckt,
+da sich zur Laufzeit Zeichenklassen weder neu definieren noch verändern lassen.
+Dieses Problem lässt sich vorläufig lösen,
+indem die regulären Ausdrücke,
+bevor sie von \tt{string->irregex} in eine interne Form kompiliert werden,
+noch verändert werden,
+so dass die tatsächlich im Quelltext vorkommenden regulären Ausdrücke
+erst zu echten regulären Ausdrücken verarbeitet werden,
+die von der \tt{irregex}-Engine verstanden werden.
+Konkret funktioniert dies so,
+dass in einer assoziativen Liste Lautklassennamen (als Symbole)
+mit Strings assoziiert werden
+und bei der Vorbearbeitung der regulären Ausdrücke
+Strings der Form \tt{<lautklassenname>} durch den mit dem Symbol
+\tt{lautklassenname} assoziierten String ersetzt werden.
+Die Funktion \tt{(set-class key value)} assoziiert den Namen \tt{key}
+mit dem String \tt{value} und \tt{(l key)} (kurz für \emph{lookup})
+findet den zu \tt{key} passenden String in der assoziativen Liste.
+
+So kann man bspw. mit \tt{(set-class 'kurz-vok "a|e|i|o|u")} und
+\tt{(set-class 'lang-vok "ā|ē|ī|ō|ū")} Kurz- und Langvokale definieren,
+mit \tt{(set-class 'vok (s+ (l 'kurz-vok) "|" (l 'lang-vok)))} dann die Menge
+aller Vokale
+(\tt{s+} ist eine Abkürzung für \tt{string-append} zum Verketten von Strings)
+und diese in einem Lautgesetz wie \tt{(s "<vok>" "a")} verwenden.
+
+Die Lautklassen sind jedoch zur Laufzeit nicht vernünftig veränderbar,
+da sie zur Zeit der Auswertung von \tt{s} in den regulären Ausdruck
+eingefügt werden,
+man die Definition aber wohl am ehesten aus dem Lautgesetzbaum heraus
+verändern wollen würde.
+Hier wird nur eine neuentwickelte Lautgesetzengine wirklich
+Abhilfe schaffen können.
+
+Es gibt jedoch noch ein weiteres Problem.
+So kann man nicht ohne weiteres z.B. einen Langvokal durch seinen
+entsprechenden Kurzvokal oder einen silbischen durch sein unsilbisches
+Pendant ersetzen.
+Beispiele für solche Vorgänge gibt es genug und es ist eine Methode notwendig,
+mit der man diese Fälle unkompliziert ausdrücken kann.
+In einer späteren Version wäre vielleicht eine Ersetzung wie
+\tt{(s "<lang-vok>" "<kurz-vok>")} wünschenswert,
+in der aktuellen Version können jedoch auch Funktionen,
+die auf Submatches angewandt werden, denselben Effekt erzielen.
+Als Ersetzungsargumente kann man an \tt{irregex-replace/all}
+neben Strings und Zahlen, die das entsprechende Submatch bezeichnen,
+auch Funktionen übergeben,
+die auf das aktuelle Match angewandt werden und einen String zurückgeben.
+Um also z.B. einen Langvokal in ein Kurzvokal zu verwandeln,
+braucht es nur eine Funktion,
+die auf ein Submatch eine Reihe von regulären Ausdrücken anwendet
+und das Ergebnis zurückgibt.
+Eine Funktion, die reguläre Ausdrücke auf einen String anwendet,
+gibt es ja schon: \tt{apply-rules}.
+Diese wird von der Funktion \tt{(match-rulelist rules)} benutzt,
+die eine Liste von Ersetzungsfunktionen \tt{rules}
+auf ein Submatch anwendet.
+Dazu gibt sie eine Funktion zurück,
+die einen Submatchindex \tt{i} bindet und eine Funktion zurückgibt,
+auf die \tt{irregex-replace/all} angewandt werden kann.
+Die Vokalkürzung könnte somit folgendermaßen definiert werden:
+\begin{verbatim}
+(define kuerzung
+  (match-rulelist
+    (list (s "ā" "a")
+          (s "ē" "e")
+          (s "ō" "o")
+          (s "ī" "i")
+          (s "ū" "u"))))
+\end{verbatim}
+Ein Lautgesetz, das alle Langvokale kürzt,
+könnte dann als \tt{(s "(<lang-vok>)" (kuerzung 1))} formuliert werden.
+
+Die eingangs erwähnten Regellisten zur Umwandlung von einer
+graphematisch/phonologischen in eine phonetische und von
+einer phonetischen in eine graphematisch/phonologische Darstellung
+sind unter ihrem Sprachnamen ebenfalls in
+assoziativen Listen abgelegt.
+
+Hiermit ist die Funktionalität von \tt{lga} weitestgehend erläutert.
+Eine genauere Beschreibung kann natürlich nur der Quelltext selber liefern.
 
 \section{Lautentwicklung des Altgriechischen}
 

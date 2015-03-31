@@ -109,8 +109,7 @@
     (cond ((or (null? tree)
                (eq? (car tree) end))
            '())
-          ((or (number? (car tree))    ; use numbers for testing ONLY
-               (procedure? (car tree)))
+          ((procedure? (car tree))
            (cons (car tree) (to-end (cdr tree))))   ; better use tail recursion
           ((and (list? (car tree))
                 (rule-applies? (cadar tree)))
