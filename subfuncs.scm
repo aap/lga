@@ -48,11 +48,11 @@
 
 (define kuerzung
   (match-rulelist
-    (list (s ""ā "a")
-          (s ""ē "e")
-          (s ""ō "o")
-          (s ""ī "i")
-          (s ""ū "u"))))
+    (list (s "ā" "a")
+          (s "ē" "e")
+          (s "ō" "o")
+          (s "ī" "i")
+          (s "ū" "u"))))
 
 (define dental->retroflex
   (match-rulelist

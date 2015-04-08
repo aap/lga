@@ -1,11 +1,11 @@
-(load "arisch.scm")
+;(load "arisch.scm")
 (load "griechisch.scm")
 
 (define rules
   (list
     'uridg
-    `(br (urar) ,rules-urar)
-;    `(br (urar) '())
+;    `(br (urar) ,rules-urar)
+    `(br (urar) '())
     `(br (urgr) ,rules-urgr)
     ))
 

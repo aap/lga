@@ -106,8 +106,16 @@
       "Hi̯ugʷih₃ḗs"
       "bʰéroh₂"
       "bʰéronti"
+      ""
+
+      "eh₃r̥to"
+      "teh₂m̥"
+      "eu̯eu̯kʷom"
+      "tekþn̥i̯h₂"
+      "enemsm̥"
+      "demspotis"
       ))))
-;(run-gr)
+(run-gr)
 
 (define run-test
   (lambda ()
@@ -279,4 +287,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-(run-ved)
+;(run-ved)
