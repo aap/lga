@@ -90,7 +90,7 @@
       "-oi̯"
       "-ons"
       "-ōn"
-      "-ōis"
+      "-ōi̯s"
       "-oi̯si"
       "-eh₂"
       "h₃okʷih₁"
@@ -114,8 +114,71 @@
       "tekþn̥i̯h₂"
       "enemsm̥"
       "demspotis"
+      "sedleh₂"
+      "tiktoh₂"
+      "kʷidkʷe"
+      ""
       ))))
-(run-gr)
+;(run-gr)
+
+(define (run-gr-s)
+  (run-list 'uridg 'urgr (list
+    "pn̥dʰskoh₂"
+    "dikskos"
+    "legʰskeh₂"
+    "migskoh₂"
+    "u̯oidtʰh₂e"
+    "bʰte"
+    "bte"
+    "pte"
+    "dʰte"
+    "dte"
+    "tte"
+    "gʷʰte"
+    "gʷte"
+    "kʷte"
+    "gʰte"
+    "gte"
+    "kte"
+    ""
+
+    "bʰdʰe"
+    "bdʰe"
+    "pdʰe"
+    "dʰdʰe"
+    "ddʰe"
+    "tdʰe"
+    "gʷʰdʰe"
+    "gʷdʰe"
+    "kʷdʰe"
+    "gʰdʰe"
+    "gdʰe"
+    "kdʰe"
+    ""
+
+    "bʰde"
+    "bde"
+    "pde"
+    "dʰde"
+    "dde"
+    "tde"
+    "gʷʰde"
+    "gʷde"
+    "kʷde"
+    "gʰde"
+    "gde"
+    "kde"
+    ""
+
+    "kþe"
+    "gʰþe"
+    "gʷʰþe"
+    ""
+
+    "tu̯e-"
+    "etu̯e-"
+    )))
+(run-gr-s)
 
 (define run-test
   (lambda ()

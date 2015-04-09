@@ -13,6 +13,9 @@
     ;;; Ein Laut der Einfachheit halber
     (s "z" "s")
 
+    ;;; Rix §106c
+    (s "(<dental>)(<dental>)" "s" 2)
+
     ;;; (H)i̯ im Anlaut -- gegen Rix §68,80e
     (s "^y(<vok>)" "dy" 1)
     (s "^(<lary>)y(<vok>)" "y" 2)
@@ -45,10 +48,10 @@
     ; kompletter Verlust -- Rix §79a,81a,82d,84
     (s "<lary>" "")
 
-    ;;; vor labiovelar > velar wegen εἶπον -- nicht bei Rix
+    ;;; vor Labiovelar > Velar wegen εἶπον -- nicht bei Rix
     (s "wew" "wey")
 
-    ;;; Labiovelar > velar -- Rix §97
+    ;;; Labiovelar > Velar -- Rix §97
     (s "(w|u|ū)('?)(<labiovelar>)" 1 2 (labiovelar->velar 3))
     (s "(<labiovelar>)(w|u|ū|y)" (labiovelar->velar 1) 2)
 
@@ -70,10 +73,6 @@
     ; Rix §77
     (s "my" "ny")
 
-    ;;; tautosyllabisches [mn]s > s (später noch mal (σύζυγος))
-    ;;; TODO: vielleicht später? (nach dz > zd)
-    (s "(<nasal>)s(<kons>)" "s" 2)
-
     ;;; 1. Kontraktion (nach Laryngalverlust)
     ;; TODO: Langvokale? gibt es die überhaupt?
     ; Rix §81
@@ -87,27 +86,63 @@
     (s "(i|u)('?)(<vok>)" 1 2 (sonans->consonans 1) 3)
     (s "(<vok>)(['~]?)(i|u)" 1 2 (sonans->consonans 3))
 
+    ;;; Thorn -- Rix §91
+    (s "kþ" "kt")
+    (s "(k!|K!)þ" 1 "t!")
+
+    ;;; Osthoff
+    ; TODO: Datierung unklar, wohl vor Verlust von Okklusiven im Auslaut
+    ;       aber ōrto < eh3rto (vermutlich analog augmentiert)
+    (s "(<lang-vok>)(<res-yw>)(<kons>)" (kuerzung 1) 2 3)
+
     ;;; Konsonanten im Auslaut (Datierung unklar)
     ; nach *r̥C > *rəC wegen ὑπόδρα < *upo-dr̥k
     (s "(<okklu>)+$")
     ; Rix §77
     (s "m$" "n")
 
+    ;;; unmittelbare Assimilation -- Rix §106a
+    ; TODO: früher (idg); phonologisch?
+    (s "(<okklu>)(<media>)([^!])" (->M 1) 2 3)
+    (s "(<okklu>)(<tenuis>)([^!])" (->T 1) 2 3)
+    (s "(<okklu>)(<tenuisasp>)([^!])" (->TA 1) 2 3)
+
+    ;;; Assimilation über s -- Rix §105
+    (s "(<media>)s(<tenuis>)([^!])" 1 "s" (stimmhaft 2) 3)
+    (s "(<tenuisasp>)s(<tenuis>)([^!])" 1 "s" (->A 2) 3)
+
+    ; CsC -- Rix §87c
+    ;  tautosyllabisches [mn]s > s später noch mal (σύζυγος)
+    (s "(<nasal>|<dental>)s(<kons>)" "s" 2)
+    ; s zwischen gleichen Konsonanten -- TODO: unschön; alle Fälle abgedeckt?
+    (s "ksk" "sk") (s "gsg" "sg") (s "k!sk!" "sk!")
+    (s "KsK" "sK") (s "GsG" "sG") (s "K!sK!" "sK!")
+    (s "psp" "sp") (s "bsb" "sb") (s "p!sp!" "sp!")
+    (s "lsr" "sr") (s "lsl" "sl")
+
+    ;;; Okklusive vor s -- Rix §105
+    (s "(<labial>)s" "ps")
+    (s "(<dental>)s" "ts")
+    (s "(<velar>)s" "ks")
+    (s "(<labiovelar>)s" "Ks")
+
     ;;; s > h
     ; Rix §86b -- TODO: *si̯-?
     (s "^s(<vok>|<liquid>|n|w)" "h" 1)
     ; Rix §86c -- TODO: manchmal aber sm
     (s "^sm" "hm")
-    ; Rix §87
+    ; Rix §89f
     (s "(<vok>)(['~]?)s(<vok>)" 1 2 "h" 3)
+    ; Rix §89g -- TODO: ys > yy laut Rix, aber -οισι < *-oi̯si (oder analog?)
+    (s "sy" "yy")
 
-    ;;; Palatalisierung
+    ;;; Palatalisierung -- TODO -- Rix §102
     ;;; TODO: ty hinter langvokal in tt-dialekten
     ;;;       tw (wohl nicht urgr (Allen 124))
-    (s "(^|<kons>)(tʰ|t)y" 1 "s")
-    (s "(tʰ|t)y" "ts")
+    (s "(^|<kons>)(t!|t)y" 1 "s")
+    (s "(t!|t)y" "ts")
     (s "dy" "dz")
-    (s "(kʰ|k)y" "tč")
+    (s "(k!|k)y" "tč")
     (s "gy" "dz")   ;;; TODO: oder dǰ? (eigentlich ziemlich egal)
     (s "(<labial>)y" "pč")
 
@@ -116,7 +151,15 @@
     (s "ry" "ŕŕ")
     (s "ny" "ńń")
 
+    ;;; Datierung? -- Rix §105
+    (s "dl" "ll")
+
+    ;;; tk, tp, tkw Metathese
+    (s "(t)(k|p|K)" 2 1)
+
     'urgr
+
+    (s "pč" "pt")
 
     ))
 

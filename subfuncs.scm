@@ -113,23 +113,38 @@
 
 (define ->F
   (match-rulelist
-    (list (s "k(ʰ?)" "χ")
-          (s "g(ʰ?)" "γ")
-          (s "t(ʰ?)" "θ")
-          (s "d(ʰ?)" "δ")
-          (s "p(ʰ?)" "f")
-          (s "b(ʰ?)" "β"))))
+    (list (s "k(!?)" "χ")
+          (s "g(!?)" "γ")
+          (s "t(!?)" "θ")
+          (s "d(!?)" "δ")
+          (s "p(!?)" "f")
+          (s "b(!?)" "β"))))
 
 (define ->A
   (match-rulelist
-    (list (s "$" "ʰ"))))
+    (list (s "(!|$)" "!"))))
 
 (define ->!A
   (match-rulelist
-    (list (s "ʰ"))))
+    (list (s "!"))))
+
+(define ->M
+  (match-rulelist
+    (list (s "(.*)" (->!A 1))
+          (s "(.*)" (stimmhaft 1)))))
 
 (define ->MA
   (match-rulelist
     (list (s "(.*)" (->A 1))
           (s "(.*)" (stimmhaft 1)))))
+
+(define ->T
+  (match-rulelist
+    (list (s "(.*)" (->!A 1))
+          (s "(.*)" (stimmlos 1)))))
+
+(define ->TA
+  (match-rulelist
+    (list (s "(.*)" (->A 1))
+          (s "(.*)" (stimmlos 1)))))
 

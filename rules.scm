@@ -10,7 +10,8 @@
     ))
 
 (set-phono-rules 'uridg
-  (list (s "kʷ" "K")
+  (list (s "ʰ" "!")
+        (s "kʷ" "K")
         (s "gʷ" "G")
         (s "k̑" "č")
         (s "g̑" "ǰ")
@@ -32,24 +33,27 @@
         (s "H3e" "H3O")
         ;;; TODO: bedingungen für stimmhaftwerdung
         (s "s(G|g|ǰ|d|b)" "z" 1)
-        (s "(G|g|ǰ|d|b)(ʰ?)s" 1 2 "z")
+        (s "(G|g|ǰ|d|b)(!?)s" 1 2 "z")
         ;;; TODO: stimmtonassimilation; uridg? (gr. μίσγω < migsk̑oh₂)
-        (s "(K|k|č|t|p)(s|z)?(G|g|ǰ|d|b)" (stimmhaft 1) (stimmhaft 2) 3)
-        (s "(G|g|ǰ|d|b)(s|z)?(K|k|č|t|p)" (stimmlos 1) (stimmlos 2) 3)))
+        ;(s "(K|k|č|t|p)(s|z)?(G|g|ǰ|d|b)" (stimmhaft 1) (stimmhaft 2) 3)
+        ;(s "(G|g|ǰ|d|b)(s|z)?(K|k|č|t|p)" (stimmlos 1) (stimmlos 2) 3)
+        ))
 
 (set-pretty-rules 'ved
   (list (s "ē" "e")
         (s "ō" "o")
         (s "R" "ṛ")
-        (s "ʰ" "h")
+        (s "!" "h")
         (s "'" "́")))
 
 (set-pretty-rules 'urav
-  (list (s "χ" "x")
+  (list (s "!" "ʰ")
+        (s "χ" "x")
         (s "'" "́")))
 
 (set-pretty-rules 'urgr
-  (list (s "G" "gʷ")
+  (list (s "!" "ʰ")
+        (s "G" "gʷ")
         (s "K" "kʷ")
         (s "w" "u̯")
         (s "y" "i̯")
