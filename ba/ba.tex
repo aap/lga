@@ -14,6 +14,9 @@
 \usepackage{setspace}
 \usepackage{calc}
 
+\renewcommand{\theparagraph}{\arabic{paragraph}}
+\setcounter{secnumdepth}{5}
+
 \usepackage{enumitem}
 \setlist{parsep=0pt,listparindent=\parindent}
 
@@ -121,17 +124,17 @@ Der Ausdruck \tt{...} matcht also alle Strings mit drei Zeichen,
 
 Eine in eckigen Klammern stehende Menge an Zeichen matcht eins dieser Zeichen,
 oder alle außer dieser Zeichen,
-wenn das erste Zeichen ein Zirkumflex \tt{\^{}} ist.
+wenn das erste Zeichen ein Zirkumflex \tt{\textasciicircum} ist.
 Dabei können auch Zeichenbereiche mit Bindestrich angegeben werden.
 \tt{[abc]} matcht also \tt{a}, \tt{b} oder \tt{c},
-\tt{[\^{}abc]} alle Zeichen außer \tt{a}, \tt{b} und \tt{c}.
+\tt{[\textasciicircum{}abc]} alle Zeichen außer \tt{a}, \tt{b} und \tt{c}.
 Alternativ hätte man auch \tt{[a-c]} schreiben können.
 
-Der Zirkumflex \tt{\^{}} und das Dollarzeichen \tt{\$}
+Der Zirkumflex \tt{\textasciicircum} und das Dollarzeichen \tt{\$}
 matchen den Anfang bzw. das Ende einer Zeile.
-\tt{\^{}foo} matcht also \tt{foo} am Anfang der Zeile,
+\tt{\textasciicircum{}foo} matcht also \tt{foo} am Anfang der Zeile,
 \tt{bar\$} matcht \tt{bar} am Ende der Zeile
-und \tt{\^{}quux\$} die Zeile, die nur \tt{quux} enthält.
+und \tt{\textasciicircum{}quux\$} die Zeile, die nur \tt{quux} enthält.
 Da in \tt{lga} jedes Wort in einer eigenen Zeile steht,
 kann man die Zeichen für den Anfang bzw. das Ende des Wortes benutzen.
 
@@ -296,7 +299,7 @@ eine unschöne Lösung.
 In der hier entwickelten Version von \tt{lga} wird das Problem nicht gelöst.
 Stattdessen müssen die Lautgesetze vorläufig
 besonders vorsichtig formuliert werden,
-der obere Fall also als \tt{(s "b([\^{}ʰ])" "p" 1)}.
+der obere Fall also als \tt{(s "b([\textasciicircum{}ʰ])" "p" 1)}.
 
 Bei der Formulierung von Lautgesetzen ist es ferner sinnvoll,
 Laute in Lautklassen zusammenzufassen um eine konzise
@@ -386,7 +389,129 @@ assoziativen Listen abgelegt.
 Hiermit ist die Funktionalität von \tt{lga} weitestgehend erläutert.
 Eine genauere Beschreibung kann natürlich nur der Quelltext selber liefern.
 
-\section{Lautentwicklung des Altgriechischen}
+\section{Modellierung der Lautentwicklung des Altgriechischen}
+\subsection{Vorbemerkungen}
+Vor der Beschreibung der Lautentwicklung noch einige Anmerkungen,
+die nicht speziell das Griechische betreffen.
+Aufgrund von Fehlern in der Implementation von \tt{irregex}
+können in regulären Ausdrücken keine höheren Unicodezeichen
+in \tt{[]}-Sets benutzt werden.
+Da diese aber notwendig sind, um gewisse Zeichen auszuschließen
+-- insbesondere \tt{ʰ} zur Unterscheidung von Aspiraten --
+müssen diese aus dem ASCII-Vorrat stammen.
+Aus dem Grund wird für die Aspiration \tt{!} statt \tt{ʰ} verwendet.
+Eigentlich wäre wie schon oben beschrieben für Aspiraten oder sonstige Laute,
+die mit mehreren Codepoints ausgedrückt werden,
+ein einziger Codepoint
+oder eine Möglichkeit, mehrere Codepoints als ein Zeichen zu behandeln,
+praktischer und angemessen,
+aber da ersterer Fall, wie ja schon angemerkt, nicht von Unicode
+abgedeckt wird, wäre man dann von der Schriftart abhängig,
+und der zweite Fall wird von \tt{irregex} nicht unterstützt.
+Für die Labiovelare wurden im Gegensatz zu den Velaren Großbuchstaben verwendet,
+um dieses Problem zu vermeiden und auch
+die silbischen Resonanten \bel{r̥l̥m̥n̥} werden mit den Großbuchstaben \tt{RLMN} ausgedrückt.
+Die Halbvokale \bel{i̯u̯} werden mit \tt{yw} und
+die Laryngale \bel{h[₁₂₃]} mit \tt{H[123]} bezeichnet.
+Akzente werden in der graphematischen Schreibweise
+als combining diacritics geschrieben und intern mit \tt{'} und \tt{\textasciitilde}
+bezeichnet.
+
+Die Umwandlung dieser graphematischen Schreibungen in die interne
+(mehr oder weniger phonetische) Darstellung geschieht in der Liste der
+phonologischen Regeln für \tt{uridg} (in \tt{rules.scm}).
+
+Als weitere (echte) phonologische Regeln für das Uridg.
+sind Laryngalumfärbung (\rek{e} neben \rek{h₃} jedoch noch von \rek{o}
+verschieden, was allerdings für das Gr. belanglos ist)
+und Stimmhaftwerdung von \rek{s} neben stimmhaften Konsonanten beschrieben.
+Weitere phonologische Regeln müssen ggf. ergänzt werden.
+Lautgesetze wie \textsc{Stang}s Gesetz,
+die vor dem Erreichen des Sprachzustandes, der mit \tt{uridg} bezeichnet wird,
+durchlaufen wurden,
+wurden nicht berücksichtigt und die Rekonstrukte bzw. Transponate,
+die als Eingabe dienen, sollten einen entsprechenden Lautstand vorweisen
+(um bei \textsc{Stang}s Gesetz zu beleiben wäre also \rek{di̯ēm} nicht \rek{di̯eu̯m} \tt{uridg}).
+Insbesondere enthält \tt{uridg} den \textit{þ}-Laut,
+dessen Herkunft und Phonetik hier ebenfalls nicht weiter hinterfragt wird.
+
+Im Folgenden werden die Lautgesetze vom Urindogermanischen ins Griechische
+in drei Etappen aufgestellt, wobei Rix als Grundlage dient.
+Zunächst wird die Lautentwicklung bis ins Urgriechische modelliert,
+dann bis und in mykenischer Zeit und schließlich in die Dialekte
+der alphabetischen Zeit.
+
+Eine (relative) Chronologie aller Lautgesetze lässt sich nicht immer
+mit Sicherheit aufstellen,
+da viele Lautgesetze kaum mit anderen Lautgesetzen interagieren
+oder mehrere Entwicklungen denkbar sind,
+so dass man gerade in der frühesten Zeit,
+in der das Griechische noch nicht belegt ist,
+in diesen Fällen wenig mehr als nur raten kann.
+Hier werden dann die Lautgesetze entweder mit ähnlichen
+anderen Gesetzen oder nach Gefühl einsortiert.
+
+\subsection{Urindogermanisch bis Urgriechisch}
+
+Die Lautveränderung,
+die ins Urgr. führen, sind grob gesprochen
+die Kentumvertretung der Tektale,
+\rek{sT} als Reflex von \rek{TT},
+die Entwicklung von \rek{þ},
+jegliche Laryngalentwicklungen,
+die Entwicklung der silbischen Resonanten (teilweise aber auch erst dialektal),
+die Stimmloswerdung der Mediae aspiratae,
+einige Okklusivassimilationen,
+die Entwicklung von \rek{s}
+und die Anfänge diverser Palatalisierungen.
+
+\paragraph{Kentum}
+Das Griechische ist eine Kentumsprache,
+es fallen also die uridg. Palatale mit den Velaren zusammen.
+(Rix §92-94)
+
+\paragraph{*TT > sT}
+In der Verbindung zweier Dentale wird der erste zu urgr. \rek{s}.
+(Rix §106c)
+
+\paragraph{*MA > TA}
+Mediae aspiratae werden zu Tenues aspiratae.
+% TODO: phrygisch, makedonisch?
+(Rix §94)
+
+\paragraph{\rek{(H)i̯-}}
+Da es im Gr. scheinbar zwei Vertretungen von \rek{i̯-} gibt,
+versucht man mit der Laryngaltheorie die beiden Reflexe als \rek{Hi̯-}
+und \rek{i̯-} zu unterscheiden.
+Welcher Anlaut zu urgr. \rek{dz-} verschärft wurde,
+ist unklar -- nach Rix §68,80e ist es \rek{Hi̯-} --
+und nach dem Datenmaterial kann für beides argumentiert werden.
+Eine lautlich plausible Lösung ist
+frühe Verschärfung von uridg. \rek{i̯-} zu urgr. \rek{dz-}
+(vielleicht über Zusammenfall mit ererbtem \rek{di̯-},
+das ebenfalls zu \rek{dz-} wird),
+danach Wegfall aller Laryngale (also keine Vokalisierung wie vor \rek{u̯}),
+wodurch \rek{Hi̯-} als \rek{i̯-} stehenbleibt,
+wie es im Frühmyk. belegt ist.
+
+\paragraph{Laryngale}
+Die Entwicklung der Laryngale folgt Rix §79-85.
+Teilweise sind die Lautgesetze weniger explizit als bei Rix,
+um eine lautlich plausiblere Entwicklung zu modellieren.
+So wird z.B. intervokalischer Laryngal nach \rek{i} oder \rek{u}
+nicht zum Gleitlaut sondern dieser entsteht erst als Hiattilger
+nach dem Laryngalschwund.
+
+\paragraph{\rek{u̯eu̯} > \bel{u̯ei̯}}
+\rek{u̯eu̯} wird zu \rek{u̯ei̯} dissimiliert,
+wie εἶπον < \rek{e-u̯e-u̯kʷ-om} (vgl. ai. \bel{avocam}) lehrt.
+Dies muss ferner vor \ref{labvel-vel} passieren,
+wie εἶπον ebenfalls zeigt.
+
+\paragraph{Labiovelar > Velar}
+\label{labvel-vel}
+Neben \rek{ū̆}, \rek{u̯} und vor \rek{i̯}
+fallen die Labiovelare mit den Velaren zusammen.
 
 \printbibliography
 

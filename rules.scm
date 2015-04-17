@@ -32,8 +32,8 @@
         (s "e('?)H3" "O" 1 "H3")
         (s "H3e" "H3O")
         ;;; TODO: bedingungen für stimmhaftwerdung
-        (s "s(G|g|ǰ|d|b)" "z" 1)
-        (s "(G|g|ǰ|d|b)(!?)s" 1 2 "z")
+        (s "s(G|g|ǰ|d|b|r|l|m|n)" "z" 1)
+        (s "(G|g|ǰ|d|b|r|l|m|n)(!?)s" 1 2 "z")
         ;;; TODO: stimmtonassimilation; uridg? (gr. μίσγω < migsk̑oh₂)
         ;(s "(K|k|č|t|p)(s|z)?(G|g|ǰ|d|b)" (stimmhaft 1) (stimmhaft 2) 3)
         ;(s "(G|g|ǰ|d|b)(s|z)?(K|k|č|t|p)" (stimmlos 1) (stimmlos 2) 3)

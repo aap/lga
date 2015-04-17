@@ -107,6 +107,19 @@
     (s "(<okklu>)(<tenuis>)([^!])" (->T 1) 2 3)
     (s "(<okklu>)(<tenuisasp>)([^!])" (->TA 1) 2 3)
 
+    ;; Beseitigung von Geminaten (αἰπόλος < *ai̯g-kʷolos) -- nicht Rix
+    ;; TODO: mehr Laute; vermutlich nicht nach Kurzvokal
+    (s "k(k|K)" 1)
+    (s "g(g|G)" 1)
+    (s "pp" "p")
+    (s "bb" "b")
+    (s "tt" "t")
+    (s "dd" "d")
+
+    ;; Kw > Kʷ (Beibehaltung des Silbengewichts)
+    (s "(<kurz-vok>)('?)(<velar>)w(<vok>)" 1 2 3 (velar->labiovelar 3) 4)
+    (s "(<velar>)w" (velar->labiovelar 1))
+
     ;;; Assimilation über s -- Rix §105
     (s "(<media>)s(<tenuis>)([^!])" 1 "s" (stimmhaft 2) 3)
     (s "(<tenuisasp>)s(<tenuis>)([^!])" 1 "s" (->A 2) 3)

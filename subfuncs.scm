@@ -69,6 +69,11 @@
     (list (s "K" "k")
           (s "G" "g"))))
 
+(define velar->labiovelar
+  (match-rulelist
+    (list (s "k" "K")
+          (s "g" "G"))))
+
 (define sonans->consonans
   (match-rulelist
     (list (s "i" "y")

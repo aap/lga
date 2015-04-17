@@ -121,6 +121,13 @@
       ))))
 ;(run-gr)
 
+(define (run-gr-test)
+  (run-list 'uridg 'urgr (list
+    "ai̯gkʷolos"
+    "h₁ék̑u̯os"
+    )))
+(run-gr-test)
+
 (define (run-gr-s)
   (run-list 'uridg 'urgr (list
     "pn̥dʰskoh₂"
@@ -178,7 +185,7 @@
     "tu̯e-"
     "etu̯e-"
     )))
-(run-gr-s)
+;(run-gr-s)
 
 (define run-test
   (lambda ()
