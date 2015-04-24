@@ -118,6 +118,7 @@
       "tiktoh₂"
       "kʷidkʷe"
       ""
+      "i̯ugom"
       ))))
 ;(run-gr)
 
@@ -126,7 +127,7 @@
     "ai̯gkʷolos"
     "h₁ék̑u̯os"
     )))
-(run-gr-test)
+;(run-gr-test)
 
 (define (run-gr-s)
   (run-list 'uridg 'urgr (list
@@ -357,4 +358,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-;(run-ved)
+(run-ved)

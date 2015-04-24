@@ -86,8 +86,8 @@
     (s "(i|u)('?)(<vok>)" 1 2 (sonans->consonans 1) 3)
     (s "(<vok>)(['~]?)(i|u)" 1 2 (sonans->consonans 3))
 
-    ;;; Thorn -- Rix §91
-    (s "kþ" "kt")
+    ;;; Thorn -- Rix §91 -- Schindler 'A thorny problem'
+    (s "(k|K)þ" 1 "t")
     (s "(k!|K!)þ" 1 "t!")
 
     ;;; Osthoff
