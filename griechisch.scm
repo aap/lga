@@ -95,7 +95,7 @@
     ;       aber ōrto < eh3rto (vermutlich analog augmentiert)
     (s "(<lang-vok>)(<res-yw>)(<kons>)" (kuerzung 1) 2 3)
 
-    ;;; Konsonanten im Auslaut (Datierung unklar)
+    ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100
     ; nach *r̥C > *rəC wegen ὑπόδρα < *upo-dr̥k
     (s "(<okklu>)+$")
     ; Rix §77
