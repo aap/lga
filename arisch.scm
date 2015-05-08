@@ -20,7 +20,7 @@
     ;;; Sibilanten
     (s "ž" "ẓ")
     (s "š" "ṣ")
-    (s "(z|ẓ)ʰ" 1)
+    (s "(z|ẓ)!" 1)
     (s "(<okklu>)(<sibil>)(<okklu>)" 1 3)
     ;;; Retroflektierung
     (s "(ṣ|ẓ)(<dental>)" 1 (dental->retroflex 2))
@@ -40,12 +40,12 @@
     (s "ṭṣ" "kṣ")
     ;;; Palatale
     (s "ǰ" "j")
-    (s "čʰ" "cʰ")
+    (s "č!" "c!")
     (s "č" "ś")
-    (s "jʰ" "h")
+    (s "j!" "h")
     ;;; sk (TODO: wann?)
-    (s "(<kurz-vok>)sś" 1 "ccʰ")
-    (s "sś" "cʰ")
+    (s "(<kurz-vok>)sś" 1 "cc!")
+    (s "sś" "c!")
     ;;; Stimmhafte Sibilanten
     (s "(i|u|y|w)('?)(z|ẓ)" (dehnung 1) 2)
     ;;; TODO: oder o
@@ -92,7 +92,7 @@
     (s "R('?)(<kons>)" "ə" 1 "r" 2)
     (s "R('?)(<vok>)" "a" 1 "r" 2)
     (s "ṝ('?)" "a" 1 "r")
-    (s "ʰ")
+    (s "!")
     'urir
     `(br (urav) ,rules-urav)))
 
@@ -104,7 +104,7 @@
     (s "(<velar>|<palatal>)þy" 1 "y")
     (s "þ" "s")
     ;;; H2 aspiration
-    (s "(<media>|<tenuis>)(ʰ?)H2" 1 "ʰ")
+    (s "(<media>|<tenuis>)(!?)H2" 1 "!")
     ;;; laryngalzusammenfall
     (s "<lary>" "H")
     ;;; Brugmann
@@ -112,8 +112,8 @@
     ;;; zusammenfall o und o-gefärbtes e
     (s "O" "o")
     ;;; palatalisierung
-    (s "k(ʰ?)(e|ē|i|ī)" "c" 1 2)
-    (s "g(ʰ?)(e|ē|i|ī)" "j" 1 2)
+    (s "k(!?)(e|ē|i|ī)" "c" 1 2)
+    (s "g(!?)(e|ē|i|ī)" "j" 1 2)
     ;;; e,o > a
     (s "e|o" "a")
     (s "ē|ō" "ā")
@@ -121,9 +121,9 @@
     (s "l" "r")
     (s "L" "R")
     ;;; BARTHOLOMAE
-    (s "(<mediaasp>)(s|z)?(<tenuis>|<media>)(ʰ?)"
+    (s "(<mediaasp>)(s|z)?(<tenuis>|<media>)(!?)"
        (->!A 1) (stimmhaft 2) (->MA 3))
-    (s "(<mediaasp>)(s|z)" (->!A 1) "zʰ")
+    (s "(<mediaasp>)(s|z)" (->!A 1) "z!")
     ;;; RUKI
     (s "(i|ī|u|ū|y|w|<velar>|<palatal>|r|R)('?)s" 1 2 "š")
     (s "(i|ī|u|ū|y|w|<velar>|<palatal>|r|R)('?)z" 1 2 "ž")

@@ -19,7 +19,7 @@
       (run-list 'urgr dest (list
         "pantsa"
         )))))
-(run-myk)
+;(run-myk)
 
 (define run-gr
   (lambda ()
@@ -376,4 +376,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-;(run-ved)
+(run-ved)

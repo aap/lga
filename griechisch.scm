@@ -196,8 +196,8 @@
     `(sub (boiot kret) (,(s "ts" "tt")))
     `(sub (not boiot kret) (,(s "ts" "ss")))
     (s "(<kons>)ss" 1 "s")
-    (s "(<vok>)(['!]?)(y|w)ss" 1 2 3 "s")
-    (s "(<lang-vok>)(['!]?)ss" 1 2 "s")
+    (s "(<vok>)(['~]?)(y|w)ss" 1 2 3 "s")
+    (s "(<lang-vok>)(['~]?)ss" 1 2 "s")
     `(sub (ion-att) (,(s "ss" "ss")))
 
     ))
