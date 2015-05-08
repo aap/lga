@@ -63,9 +63,6 @@
     (s "(<s-liquid>)($|<vok>|<halb-vok>)" "ə" (sonans->consonans 1) 2)
     (s "(<s-liquid>)" (sonans->consonans 1) "ə")
 
-;   ;;; TODO: erst dialektal
-    (s "ə" "a")
-
     ;;; Assimilationen (nach Labiovelarwandel noch mal!) -- Rix §78
     (s "(<nasal>)(<labial>)" "m" 2)
     ; gegen Rix nicht *ms > *ns wegen ἔνειμα < *enemsa (oder analog?)
@@ -90,10 +87,10 @@
     (s "(k|K)þ" 1 "t")
     (s "(k!|K!)þ" 1 "t!")
 
-    ;;; Osthoff
+    ;;; Osthoff -- Rix §64
     ; TODO: Datierung unklar, wohl vor Verlust von Okklusiven im Auslaut
     ;       aber ōrto < eh3rto (vermutlich analog augmentiert)
-    (s "(<lang-vok>)(<res-yw>)(<kons>)" (kuerzung 1) 2 3)
+    (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
 
     ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100
     ; nach *r̥C > *rəC wegen ὑπόδρα < *upo-dr̥k
@@ -146,17 +143,16 @@
     (s "^sm" "hm")
     ; Rix §89f
     (s "(<vok>)(['~]?)s(<vok>)" 1 2 "h" 3)
-    ; Rix §89g -- TODO: ys > yy laut Rix, aber -οισι < *-oi̯si (oder analog?)
+    ; Rix §89g -- TODO: ys > yy laut Rix
     (s "sy" "yy")
 
     ;;; Palatalisierung -- TODO -- Rix §102
     ;;; TODO: ty hinter langvokal in tt-dialekten
     ;;;       tw (wohl nicht urgr (Allen 124))
-    (s "(^|<kons>)(t!|t)y" 1 "s")
+    (s "^(t!|t)y" "s")
     (s "(t!|t)y" "ts")
-    (s "dy" "dz")
-    (s "(k!|k)y" "tč")
-    (s "gy" "dz")   ;;; TODO: oder dǰ? (eigentlich ziemlich egal)
+    (s "(d|g)y" "dž")
+    (s "(k!|k)y" "tš")
     (s "(<labial>)y" "pč")
 
     ;;; TODO: Umgebung. nach Langvokal, Diphthong, Konsonant?
@@ -167,12 +163,42 @@
     ;;; Datierung? -- Rix §105
     (s "dl" "ll")
 
-    ;;; tk, tp, tkw Metathese
-    (s "(t)(k|p|K)" 2 1)
+    ;;; tk, tkw, tp Metathese -- Rix §106 (etwas anders)
+    (s "(t)(k|K|p)" 2 1)
 
     'urgr
 
+    ; ti > si -- Rix §101
+    ;  Kein wirkliches (ausnahmsloses) Lautgesetz;
+    ;    schwierig einigermaßen zufriedenstellend zu formulieren.
+    `(sub (sogr) (,(s "([^sk])ti" 1 "si")))
+
+    ; TODO: wann o?
+    (s "ə" "a")
+
     (s "pč" "pt")
+
+    ; heteromorphemisches ty
+    (s "(t!|t)y" "ts")
+
+    (s "^y(<vok>)" "h" 1)
+    (s "(<vok>)(['~]?)y(<vok>)" 1 2 "h" 3)
+
+    'myk
+
+    ; Rix §102
+    (s "dž" "dz")
+    `(sub (boiot kret lak el) (,(s "^dz" "d")
+                               ,(s "dz" "dd")))
+    (s "dz" "zd")
+
+    ; ts > ss/tt -- Rix §102
+    `(sub (boiot kret) (,(s "ts" "tt")))
+    `(sub (not boiot kret) (,(s "ts" "ss")))
+    (s "(<kons>)ss" 1 "s")
+    (s "(<vok>)(['!]?)(y|w)ss" 1 2 3 "s")
+    (s "(<lang-vok>)(['!]?)ss" 1 2 "s")
+    `(sub (ion-att) (,(s "ss" "ss")))
 
     ))
 

@@ -17,6 +17,10 @@
 \renewcommand{\theparagraph}{\arabic{paragraph}}
 \setcounter{secnumdepth}{5}
 
+\newcounter{para}
+\newcommand{\mypara}[1]{\vspace{1em}\par\noindent\refstepcounter{para}%
+\textbf{\textsf{\thepara}}\enspace\textsf{#1}\quad}
+
 \usepackage{enumitem}
 \setlist{parsep=0pt,listparindent=\parindent}
 
@@ -53,7 +57,14 @@ noch niemand daran gemacht,
 diese eigentlich sehr naheliegenden Idee zu verwirklichen.
 (TODO: doch, Amir Zeldes ansatzweise)
 
-Das hier besprochene Programm \tt{lga} ist
+Eine solche Lautwandelsimulation erfordert,
+dass die Lautgesetze präzise und in korrekter Chronologie formuliert werden,
+und erlaubt sowohl
+selbige Aufstellung ohne großen Aufwand an beliebig vielen Testwörtern
+zu überprüfen
+als auch belegte Wörter auf ihre Lautgesetzlichkeit hin zu überprüfen.
+
+Das hier vorgestellte Programm \tt{lga} ist
 der Nachfolger eines Prototyps (komplett in \tt{sed} geschrieben),
 der primitiver war und einige Mängel aufzeigte.
 Ebenso ist aber \tt{lga} nur als Prototyp
@@ -198,7 +209,7 @@ Zunächst wird mit der Funktion \tt{(make-path tree start end)} anhand
 eines Sprachstammbaums \tt{tree}
 eine Liste aller Sprachen von der Ausgangs- zur Zielsprache generiert.
 Der Aufruf \tt{(make-path lang-tree 'uridg 'lesb)} würde bspw.
-die Liste \tt{(uridg urgr uraiol lesb)} erzeugen.
+die Liste \tt{(uridg urgr nwgr aiol lesb)} erzeugen.
 
 Der Sprachstammbaum (gespeichert in der globalen Variable \tt{lang-tree})
 definiert das Verwandtschaftsverhältnis von Sprachen.
@@ -210,23 +221,23 @@ ist sie eine Liste, dessen erstes Element ein Symbol für die Sprache selber ist
 die weiteren Elemente sind Untersprachen (wiederum Symbole oder Listen).
 Ein vereinfachter Stammbaum könnte also bspw. folgendermaßen aussehen:
 \begin{verbatim}
-(uridg (urgr (urark myk ark kypr)
-             (uraiol thess boiot lesb)
-             (urwgr nwgr dor)
-             (urion (aion ion) (aatt att))))
+(urgr (nwgr (dor nwdor sardor sdor)
+            (aiol boiot (thess wthess othess) lesb))
+      (sogr (ach myk ark kypr pamph)
+            (ion-att ion att euboi)))
 \end{verbatim}
 Es sei angemerkt,
 dass die so beschriebenen Verhältnisse nicht streng als Verwandtschaft
 interpretiert werden sollten.
-Urion. mag zwar eine Ursprache gewesen sein,
-aber auch nach der Aufspaltung von att. und ion. teilen sie
-noch gewisse Entwicklungen.
+Att. und ion. mögen zwar auf ein Urion. zurückgeführt werden,
+aber auch nach ihrer Aufspaltung teilen sie noch gewisse Entwicklungen.
 Ebenso gibt es gemeingriechische Entwicklung die nach-urgriechisch sind.
 Eine präzisere Trennung von Verwandtschaft und ``Sprachgruppen''
 würde aber das Modell möglicherweise zu sehr verkomplizieren.
 Die beste Möglichkeit ist es womöglich,
 auf die Vorsilbe \textit{ur-} zu verzichten und bspw. \tt{gr}
-gleichermaßen für urgriechisch und gemeingriechisch zu verwenden.
+gleichermaßen für urgriechisch und gemeingriechisch zu verwenden
+(ebenso wäre statt \tt{urion} besser \tt{ion-att} zu verwenden).
 
 Der Lautgesetzbaum ist eine Liste von vier möglichen Elementen, nämlich
 Funktionen, die einen String als Argument nehmen und einen String zurückgeben
@@ -437,10 +448,12 @@ Insbesondere enthält \tt{uridg} den \textit{þ}-Laut,
 dessen Herkunft und Phonetik hier ebenfalls nicht weiter hinterfragt wird.
 
 Im Folgenden werden die Lautgesetze vom Urindogermanischen ins Griechische
-in drei Etappen aufgestellt, wobei Rix als Grundlage dient.
+in drei Etappen aufgestellt.
 Zunächst wird die Lautentwicklung bis ins Urgriechische modelliert,
 dann bis und in mykenischer Zeit und schließlich in die Dialekte
 der alphabetischen Zeit.
+Die dazu verwendete Literatur ist im wesentlichen \cite{rix}, \cite{bart_hand},
+\cite{bart_frueh}, \cite{sihler}.
 
 Eine (relative) Chronologie aller Lautgesetze lässt sich nicht immer
 mit Sicherheit aufstellen,
@@ -451,6 +464,13 @@ in der das Griechische noch nicht belegt ist,
 in diesen Fällen wenig mehr als nur raten kann.
 Hier werden dann die Lautgesetze entweder mit ähnlichen
 anderen Gesetzen oder nach Gefühl einsortiert.
+
+Auch ist die Aufstellung hier keinesfalls als endgültig anzusehen.
+Die Details vieler Lautwandel würden oft einer genaueren Untersuchung bedürfen,
+die den Rahmen dieser Arbeit sprengen würden.
+Sowohl das Programm \tt{lga} als auch die Formulierung
+der Lautgesetze sind somit als vorläufige Ergebnisse zu sehen,
+auf denen weitere Arbeiten aufbauen sollen.
 
 \subsection{Urindogermanisch bis Urgriechisch}
 
@@ -466,22 +486,22 @@ einige Okklusivassimilationen,
 die Entwicklung von \rek{s}
 und die Anfänge diverser Palatalisierungen.
 
-\paragraph{Kentum}
+\mypara{Kentum}
 Das Griechische ist eine Kentumsprache,
 es fallen also die uridg. Palatale mit den Velaren zusammen.
 (Rix §92-94)
 
-\paragraph{*TT > sT}
+\mypara{\rek{TT} > \bel{sT}}
 In der Verbindung zweier Dentale wird der erste zu urgr. \rek{s}.
 (Rix §106c)
 
-\paragraph{*MA > TA}
+\mypara{*MA > TA}
 Mediae aspiratae werden zu Tenues aspiratae
 (Rix §94).
 Aufgrund der Nähe zum Makedonischen und Phrygischen
 ist dieser Wandel vielleicht später anzusetzen.
 
-\paragraph{\rek{(H)i̯-}}
+\mypara{\rek{(H)i̯-}}
 Da es im Gr. scheinbar zwei Vertretungen von \rek{i̯-} gibt,
 versucht man mit der Laryngaltheorie die beiden Reflexe als \rek{Hi̯-}
 und \rek{i̯-} zu unterscheiden.
@@ -496,7 +516,7 @@ danach Wegfall aller Laryngale (also keine Vokalisierung wie vor \rek{u̯}),
 wodurch \rek{Hi̯-} als \rek{i̯-} stehenbleibt,
 wie es im Frühmyk. belegt ist.
 
-\paragraph{Laryngale}
+\mypara{Laryngale}
 \label{laryngale}
 Die Entwicklung der Laryngale folgt Rix §79-85.
 Teilweise sind die Lautgesetze weniger explizit als bei Rix formuliert,
@@ -505,24 +525,25 @@ So wird z.B. intervokalischer Laryngal nach \rek{i} oder \rek{u}
 nicht zum Gleitlaut sondern dieser entsteht erst als Hiattilger
 nach dem Laryngalschwund.
 
-\paragraph{\rek{u̯eu̯} > \bel{u̯ei̯}}
+\mypara{\rek{u̯eu̯} > \bel{u̯ei̯}}
 \rek{u̯eu̯} wird zu \rek{u̯ei̯} dissimiliert,
 wie εἶπον < \rek{e-u̯e-u̯kʷ-om} (vgl. ai. \bel{avocam}) lehrt.
 Dies muss ferner vor \ref{labvel-vel} passieren,
 wie εἶπον ebenfalls zeigt.
 
-\paragraph{Labiovelar > Velar}
+\mypara{Labiovelar > Velar}
 \label{labvel-vel}
 Neben \rek{ū̆}, \rek{u̯} und vor \rek{i̯}
 fallen die Labiovelare mit den Velaren zusammen (Rix §97).
 
-\paragraph{Silbische Resonanten}
+\mypara{Silbische Resonanten}
 Die Entwicklung der silbischen Resonanten folgt Rix §75 und §76.
 Für das Urgr. wird ein Sprossvokal \rek{ə} angesetzt,
 welcher sich dialektal zu \bel{a} oder \bel{o} entwickelt.
+
 Genauere Datierung unklar.
 
-\paragraph{Nasal vor Okklusiv}
+\mypara{Nasal vor Okklusiv}
 Vor Okklusiven wird der homorgane Nasal realisiert (Rix §78).
 Gegen Rix jedoch nicht \rek{ms} > \rek{ns} wegen
 ἔνειμα < \rek{enemsa}.
@@ -531,13 +552,13 @@ aber ohne ein Beispiel, das bei Rix fehlt, ist die Regel zunächst unnötig.
 Die Nasalassimilation passiert auch später noch und
 dürfte tatsächlich wohl über lange Zeit eine synchrone phonologische Regel sein.
 
-\paragraph{\rek{m} > \rek{n} \textbackslash\ \rek{i̯}}
+\mypara{\rek{m} > \rek{n} \textbackslash\ \rek{i̯}}
 Rix §77.
 Datierung unklar.
 Vielleicht nach \rek{m̥} > \rek{am}, aber \rek{m̥} > \rek{n̥} \textbackslash\ \rek{i̯}
 ist ebenfalls als zusätzliche Regel denkbar.
 
-\paragraph{Benachbarte Vokale nach Laryngalschwund (1. Kontraktion)}
+\mypara{Benachbarte Vokale nach Laryngalschwund (1. Kontraktion)}
 Kontraktion von \rek{e}, \rek{a}, \rek{o},
 zwischen denen Laryngal geschwunden ist (Rix §81).
 Datierung unklar.
@@ -545,22 +566,22 @@ Datierung unklar.
 Nach Vokal werden \rek{i}, \rek{u} zu Halbvokalen (es entstehen also Diphthonge).
 Im umgekehrten Fall entsteht ein Gleitlaut zwischen den beiden Lauten.
 
-\paragraph{Thorn}
+\mypara{Thorn}
 \rek{þ} (genauer Lautwert unklar) tritt nach Velaren und Labiovelaren auf.
 Nach Tenues ist entsprich \bel{t}, nach Aspirata \bel{tʰ}
 (Rix §81).
 
-\paragraph{\textsc{Osthoff}}
+\mypara{\textsc{Osthoff}}
 \label{osthoff}
 \textsc{Osthoff}s Gesetz kürzt Langvokale vor tautosyllabischem
-Resonanten.
+Resonanten (Rix §64).
 Im Auslaut ist die antevokalische Sandhivariante verallgemeinert
 und Langvokale bleiben erhalten.
 Nach Laryngaldehnung (\ref{laryngale}) und vor Okklusivverlust im Auslaut
 (\ref{konsausl}) zu datieren,
 wie z.B. hom. ἔσταν < \rek{estānt} < \rek{e-steh₂-n̥t} zeigt.
 
-\paragraph{Konsonanten im Auslaut}
+\mypara{Konsonanten im Auslaut}
 \label{konsausl}
 Wortauslautende Okklusive gehen verloren (Rix §100).
 Dies muss nach der Vokalisierung der silbischen Liquiden passiert sein,
@@ -572,13 +593,13 @@ Auslautendes \rek{m} erscheint als \bel{n} (Rix §77).
 
 Genauere Datierung in beiden Fällen unklar.
 
-\paragraph{Okklusivassimilation}
+\mypara{Okklusivassimilation}
 Okklusive werden an folgende Okklusive in
 Aspiration und Stimmhafigkeit assimiliert (Rix §106a).
 
 Hier dürfte es sich wohl eigentlich um eine phonologische Regel handeln.
 
-\paragraph{Beseitigung von Geminaten}
+\mypara{Beseitigung von Geminaten}
 \label{gem}
 Wie das Uridg. muss auch das Gr. eine Zeit lang Geminaten vermieden haben
 (vielleicht nur nach Langvokal/Diphthong?),
@@ -589,7 +610,7 @@ Datierung unklar,
 möglicherweise handelt es sich hier um eine phonologische Regel
 (die in späterer Zeit jedoch nicht mehr gilt).
 
-\paragraph{\rek{ku̯} > \rek{kʷ}}
+\mypara{\rek{ku̯} > \rek{kʷ}}
 \rek{ku̯} > \rek{kʷ} (Rix §104).
 Statt Gemination im Inlaut, wie Rix schreibt,
 scheint eine Erhaltung des Silbengewichts wahrscheinlicher
@@ -602,44 +623,142 @@ Wenn sie hingegen nur überschwere Silben (also Langvokal/Diphthong + Geminate)
 betraf,
 ist die Datierung gänzlich unklar.
 
-\paragraph{Assimilation über \bel{s}}
+\mypara{Assimilation über \bel{s}}
 Eine Tenuis hinter \rek{s} wird an eine vor \rek{s} stehende
 Media oder Tenuis aspirata in ihrer Artikulationsart angeglichen (Rix §105).
 
 Auf jeden Fall vor \ref{okklu-s} wegen πάσχω < \rek{pʰatʰskō},
 λέσχη < \rek{lekʰskā}, μίσγω < \rek{migskō}.
 
-\paragraph{CsC > sC}
+\mypara{CsC > sC}
 Steht \rek{s} zwischen zwei gleichen Okklusiven, schwindet der erste.
 Nasal vor \rek{s} und Konsonant schwindet ebenfalls (Rix §87c).
 
 Datierung etwas unklar, da der Nasalschwund später noch mal stattfindet
 (σύζυγος < \rek{sun-zdugos} < \rek{sun-dzugos}.
 
-\paragraph{Cs}
+\mypara{Cs}
 \label{okklu-s}
 Vor \bel{s} werden Okklusive zu Tenues (Rix §105).
 
-\paragraph{\rek{s} > \rek{h}}
+\mypara{\rek{s} > \rek{h}}
 \rek{s} > \rek{h} vor Vokal oder Resonant oder zwischen Vokalen (Rix §86,89).
 Vor \rek{m} ist \rek{s} jedoch (sogar im selben Wort) teilweise erhalten.
 
 Datierung unklar.
 
-\paragraph{\rek{s} neben \rek{i̯}}
+\mypara{\rek{s} neben \rek{i̯}}
 Nach Rix §89g ist \rek{s} neben \rek{i̯} über \rek{h} assimilert worden.
 Die Beispiele belegen jedoch nur eine Assimilation bei \rek{si̯}
 und der Weg über \rek{h} scheint nur aus systematischen Gründen gewählt zu sein.
 
-Tatsächlich gibt es Probleme wenn man die (synchrone) Dat.Pl. Endung -οισι
+Tatsächlich gibt es nämlich Probleme wenn man die Dat.Pl. Endung -οισι
 lautgesetzlich aus \rek{-oi̯si} erklären möchte.
 Daher wird hier auf die Annahme einer Assimilation bei \rek{i̯s} verzichtet.
 
 Datierung unklar.
 
-\paragraph{Palatalisierung}
+\mypara{Palatalisierung}
 Die Anfänge der Palatalisierungen liegen wohl in urgr. Zeit
 und die genaue Entwicklung in den Dialekten ist kompliziert.
+Zu diesem Thema siehe Allen 1958, Rix §102,103 und Bartoněk S. 140ff.
+
+Linear B hat zwei Reihen für die Schreibung der Zischlaute,
+deren Konsonanten mit <z> und <s> transliteriert werden.
+Welche Laute mit diesen Zeichen bezeichnet wurden ist unklar.
+Oft wird <s> als einfacher Sibilant und <z> als Affrikate verstanden,
+jedoch ist es sehr gut möglich,
+dass es sich tatsächlich um einen Unterschied der Palatalität handelt
+und beide Zeichenreihen sowohl Sibilanten als auch Affrikaten bezeichnen können.
+die Z-Reihe würde dann einen palataleren Laut als die S-Reihe bezeichnen.
+Mit dieser Annahme lassen sich die mykenischen Schreibungen
+und die Lautentwicklung zufriedenstellend erklären,
+wie sich noch zeigen wird.
+
+Dentale Tenuis (aspirata) + \rek{i̯} im Anlaut ergibt in allen Dialekten \bel{s},
+das wohl als urgr. gelten darf.
+Im Inlaut wird hier \rek{ts} angesetzt, das mit altem \rek{ts} zusammenfällt
+und sich dann dialektal unterschiedlich entwickelt.
+In Linear B wird für diesen Laut die S-Reihe benutzt,
+weswegen eine palatale Qualität sehr unwahrscheinlich ist.
+
+Dieselbe Lautkombination an morphologisch transparenter Stelle
+ergibt einen anderen Laut,
+der in alphabetischer Zeit mit dem Resultat der Palatalisierung der
+Velare zusammenfällt,
+in Linear B aber mit der S-Reihe geschrieben wird.
+Vielleicht wurde an dieser Stelle das \rek{i̯} restituiert
+und die Gruppe \rek{tsi̯} nachmyk. weiterpalatalisiert,
+so dass sie mit Resultat der palatalisierten Velare zusammenfiel.
+
+\rek{di̯}, \rek{gi̯} > \rek{dž}.
+Da der hier entstehende Laut in Linear B mit der Z-Reihe geschrieben wird,
+dürfte dieser Laut palatal gewesen sein.
+Die genaue Phonetik ist offensichtlich dunkel.
+
+Velare Tenuis (aspirata) + \rek{i̯} scheint eine spätere Palatalisierung
+als die der Dentale zu sein.
+Das Ergebnis wird in Linear B ebenfalls mit der Z-Reihe geschrieben,
+was eine stimmlose Version des obigen Lautes nahelegt,
+also \rek{tš}.
+
+Labial + \rek{i̯} ergibt \bel{pt} in allen Dialekten,
+muss jedoch eine Vorstufe urgr. \rek{pč} gehabt haben,
+da das Myk. ein eigenes Zeichen für diesen Laut kennt,
+der erst später auch für ererbtes \bel{pt} verwendet wird.
+%TODO: artikel dazu
+
+Die Resonanten \rek{l}, \rek{r}, \rek{n}
+(\rek{m} in dieser Position schon mit \rek{n} zusammengefallen)
+werden vor \rek{i̯} zu palatalisierten Geminaten.
+Ob hier Anlaut oder Silbengewicht eine Rolle spielen, ist noch zu überprüfen.
+
+\mypara{\rek{dl} > \rek{ll}}
+Datierung unklar.
+
+\mypara{Metathese von \rek{t} und (Labio)velaren}
+Nach Rix (§106) werden \rek{tk} und \rek{tp} metathetiert.
+Für \rek{tp} > \rek{pt} gibt er als Beispiel \rek{kʷid-pe} > τίπτε,
+das aber wohl besser als \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε zu erklären ist.
+Daher wird hier zunächst aus Mangel an Beispielen nur eine Metathese von
+\rek{t} und (Labio)velaren angenommen.
+
+Datierung unklar.
+
+\subsection{Urgriechisch bis mykenische Zeit}
+
+In diesem Abschnitt wird die Lautentwicklung bis zur Zeit,
+in der die mykenische Überlieferung endet, modelliert.
+Am Anfang dieser Zeit steht die erste dialektale Aufspaltung.
+Da außer dem recht einheitlichen myk. Dialekt keine weiteren aus dieser
+Zeit überliefert sind,
+wird der Lautstand des Myk.
+-- sofern es keinen Grund gibt, etwas anderes anzunehmen --
+als repräsentativ für das gesamte gr. Sprachgebiet gesehen.
+
+Die dialektale Gliederung ist aus \cite{bart_frueh} Tab. B genommen
+und sieht in Scheme wie folgt aus:
+\begin{verbatim}
+(urgr (nwgr (dor nwdor sardor sdor)
+            (aiol boiot (thess wthess othess) lesb))
+      (sogr (ach myk ark kypr pamph)
+            (ion-att ion att euboi)))
+\end{verbatim}
+
+\mypara{\rek{ti} > \bel{si}}
+Dieser Lautwandel wird als grundlegende Unterscheidung zwischen Südost-
+und Nordwestgriechisch gesehen,
+ist aber weniger Lautgesetz als einem lieb wäre (Rix §101).
+Auch westgr. Dialekte haben \bel{si} in \emph{ti}-Abstrakta
+und das Myk. geht in \bel{ko-ri-si-o} weiter als andere Dialekte,
+die alle Κορίνθιοι zeigen (\cite[144]{bart_hand}).
+Hier wird der Lautwandel wegen z.B. ἔστι, κτίσις
+nach \bel{s} und \bel{k} ausgesetzt
+Eine genauere Lautumgebung -- falls man sie überhaupt angeben kann --
+ist unsicher.
+Vermutlich ist der Wandel schlicht nicht lautgesetzlich
+sondern als eine Verallgemeinerung von Sandhivarianten zu sehen
+(und somit Analogie).
 
 \printbibliography
 

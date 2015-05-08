@@ -135,7 +135,7 @@
 
 ;; make regex substitute function
 (define (s pattern . subst)
-  (let ((pat (make-regex pattern)))
+  (let ((pat (string->irregex (make-regex pattern) 'utf8 'fast 'm)))
     (lambda (word)
       (apply irregex-replace/all (cons pat (cons word subst))))))
 
@@ -144,7 +144,7 @@
   (let loop ((classes sound-classes)
              (s s))
     (if (null? classes)
-        (string->irregex s 'utf8 'fast 'm)
+        s
         (loop (cdr classes)
               (irregex-replace/all (s+ "<"
                                        (symbol->string (caar classes))
@@ -176,14 +176,19 @@
 ;;  an atom is a leaf language
 ;;  a list's car is a language, the cdr its children
 (define lang-tree
-  '(uridg (urgr (urark myk ark kypr)
-                (uraiol thess boiot lesb)
-                (urwgr nwgr dor)
-                (ion-att ion att))
+  '(uridg (urgr (nwgr (dor nwdor sardor (sdor el kret lak inseldor))
+                      (aiol boiot (thess wthess othess) lesb))
+                (sogr (ach myk ark kypr pamph)
+                      (ion-att ion att euboi)))
           (urar (urir ap
                       (urav aav jav))
                 (uria ved))
           ))
+
+;     (urgr (urark myk ark kypr)
+;                (uraiol thess boiot lesb)
+;                (urwgr nwgr dor)
+;                (ion-att ion att))
 
 ;; sound classes
 ;; TODO: these should be changeable by the rules

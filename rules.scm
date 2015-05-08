@@ -5,7 +5,6 @@
   (list
     'uridg
 ;    `(br (urar) ,rules-urar)
-    `(br (urar) '())
     `(br (urgr) ,rules-urgr)
     ))
 

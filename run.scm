@@ -3,6 +3,24 @@
 (define run
   (lambda () (load "run.scm")))
 
+(define run-myk
+  (lambda ()
+    (let ((dest 'ion-att))
+      (run-list 'uridg dest (list
+        "Hi̯os"
+        "trei̯es"
+        "dh₃tis"
+        "di̯ḗu̯s"
+        "di̯ḗm"
+        "toti̯os"
+        "medʰi̯os"
+        "podsi"
+        ))
+      (run-list 'urgr dest (list
+        "pantsa"
+        )))))
+(run-myk)
+
 (define run-gr
   (lambda ()
     (run-list 'uridg 'urgr (list
@@ -358,4 +376,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-(run-ved)
+;(run-ved)
