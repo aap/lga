@@ -176,19 +176,17 @@
 ;;  an atom is a leaf language
 ;;  a list's car is a language, the cdr its children
 (define lang-tree
-  '(uridg (urgr (nwgr (dor nwdor sardor (sdor el kret lak inseldor))
-                      (aiol boiot (thess wthess othess) lesb))
-                (sogr (ach myk ark kypr pamph)
-                      (ion-att ion att euboi)))
+  '(uridg (urgr1 (urgr (nwgr (dor (nwdor phok lokr aitol)
+                                  (sardor kor meg oarg)
+                                  (sdor el lak inseldor warg kret))
+                             (aiol boiot (thess wthess othess) lesb))
+                       (sogr (ach myk ark kypr pamph)
+                             (ion-att ion att euboi))))
           (urar (urir ap
                       (urav aav jav))
                 (uria ved))
+          urgerm
           ))
-
-;     (urgr (urark myk ark kypr)
-;                (uraiol thess boiot lesb)
-;                (urwgr nwgr dor)
-;                (ion-att ion att))
 
 ;; sound classes
 ;; TODO: these should be changeable by the rules

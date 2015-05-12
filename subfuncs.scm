@@ -46,6 +46,15 @@
           (s "i" "ī")
           (s "u" "ū"))))
 
+; =e= and =o= are to be replaced with Ē,Ō or ē,ō according to dialect 
+(define dehnung2
+  (match-rulelist
+    (list (s "a" "ā")
+          (s "e" "=e=")
+          (s "o" "=o=")
+          (s "i" "ī")
+          (s "u" "ū"))))
+
 (define kuerzung
   (match-rulelist
     (list (s "ā" "a")
@@ -124,6 +133,12 @@
           (s "d(!?)" "δ")
           (s "p(!?)" "f")
           (s "b(!?)" "β"))))
+
+(define depala
+  (match-rulelist
+    (list (s "ŕŕ" "r")
+          (s "ĺĺ" "l")
+          (s "ńń" "n"))))
 
 (define ->A
   (match-rulelist

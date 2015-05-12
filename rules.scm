@@ -1,12 +1,18 @@
-(load "arisch.scm")
+;(load "arisch.scm")
 (load "griechisch.scm")
+;(load "germanisch.scm")
 
 (define rules
   (list
     'uridg
-    `(br (urar) ,rules-urar)
+;    `(br (urar) ,rules-urar)
     `(br (urgr) ,rules-urgr)
+;    `(br (urgerm) ,rules-urgerm)
     ))
+
+;;
+;; This stuff is still really, really ugly :(
+;;
 
 (set-phono-rules 'uridg
   (list (s "ʰ" "!")
@@ -33,10 +39,16 @@
         ;;; TODO: bedingungen für stimmhaftwerdung
         (s "s(G|g|ǰ|d|b|r|l|m|n)" "z" 1)
         (s "(G|g|ǰ|d|b|r|l|m|n)(!?)s" 1 2 "z")
-        ;;; TODO: stimmtonassimilation; uridg? (gr. μίσγω < migsk̑oh₂)
-        ;(s "(K|k|č|t|p)(s|z)?(G|g|ǰ|d|b)" (stimmhaft 1) (stimmhaft 2) 3)
-        ;(s "(G|g|ǰ|d|b)(s|z)?(K|k|č|t|p)" (stimmlos 1) (stimmlos 2) 3)
         ))
+
+(let ((rules (list (s "ʰ" "!")
+                   (s "kʷ" "K")
+                   (s "gʷ" "G")
+                   (s "i̯" "y")
+                   (s "u̯" "w")
+                   (s "́" "'"))))
+  (set-phono-rules 'urgr1 rules)
+  (set-phono-rules 'urgr rules))
 
 (set-pretty-rules 'ved
   (list (s "ē" "e")
@@ -50,10 +62,33 @@
         (s "χ" "x")
         (s "'" "́")))
 
-(set-pretty-rules 'urgr
-  (list (s "!" "ʰ")
-        (s "G" "gʷ")
-        (s "K" "kʷ")
-        (s "w" "u̯")
-        (s "y" "i̯")
-        (s "'" "́")))
+(set-pretty-rules 'urgerm
+  (list (s "'" "́")))
+
+(let ((rules (list (s "!" "ʰ")
+                   (s "G" "gʷ")
+                   (s "K" "kʷ")
+                   (s "w" "u̯")
+                   (s "y" "i̯")
+                   (s "ē" "ɛ̄")
+                   (s "ō" "ɔ̄")
+                   (s "Ā" "ǣ")
+                   (s "Ē" "ē")
+                   (s "Ō" "ō")
+                   (s "'" "́"))))
+  (set-pretty-rules 'urgr1 rules)
+  (set-pretty-rules 'urgr rules)
+  (set-pretty-rules 'lesb rules)
+  (set-pretty-rules 'ion-att rules)
+  (set-pretty-rules 'ion rules)
+  (set-pretty-rules 'att rules)
+  (set-pretty-rules 'kret rules)
+  (set-pretty-rules 'inseldor rules)
+  (set-pretty-rules 'kypr rules)
+  (set-pretty-rules 'thess rules)
+  (set-pretty-rules 'boiot rules)
+  (set-pretty-rules 'el rules)
+  (set-pretty-rules 'kor rules)
+  (set-pretty-rules 'ark rules)
+  )
+

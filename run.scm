@@ -3,22 +3,129 @@
 (define run
   (lambda () (load "run.scm")))
 
-(define run-myk
-  (lambda ()
-    (let ((dest 'ion-att))
-      (run-list 'uridg dest (list
-        "Hi̯os"
-        "trei̯es"
-        "dh₃tis"
-        "di̯ḗu̯s"
-        "di̯ḗm"
-        "toti̯os"
-        "medʰi̯os"
-        "podsi"
-        ))
-      (run-list 'urgr dest (list
-        "pantsa"
-        )))))
+(define (run-test)
+  (run-list 'uridg 'urgr (list
+    "asa"
+    "a'sa"
+    "asra"
+    "a'sra"
+    "asla"
+    "a'sla"
+    "asma"
+    "a'sma"
+    "asna"
+    "a'sna"
+    "aswa"
+    "a'swa"
+    "sa"
+    "sra"
+    "sla"
+    "sma"
+    "sna"
+    "swa"
+    )))
+;(run-test) (newline)
+
+(define (run-2ed dest)
+  (print "  " (symbol->string dest))
+  (run-list 'urgr1 dest (list
+    "-ánti̯a"
+    "-ónti̯a"
+    "-énti̯a"
+    "-áns"
+    "-óns"
+    "-éns"
+    ))
+  (newline))
+(run-2ed 'urgr)
+(run-2ed 'lesb)
+(run-2ed 'thess)
+(run-2ed 'boiot)
+(run-2ed 'ion)
+(run-2ed 'el)
+(run-2ed 'ark)
+(run-2ed 'kret)
+(run-2ed 'inseldor)
+
+(define (run-wau dest)
+  (print "  " (symbol->string dest))
+  (run-list 'urgr1 dest (list
+    "kalu̯ós"
+    "ksénu̯os"
+    "kórwā"
+    "néwā"
+    "kʰṓrā"
+    ))
+  (newline))
+;(run-wau 'att)
+;(run-wau 'ion)
+;(run-wau 'inseldor)
+;(run-wau 'kret)
+;(run-wau 'el)
+;(run-wau 'kor)
+;(run-wau 'ark)
+;(run-wau 'boiot)
+;(run-wau 'lesb)
+
+(define (run-1ed dest)
+  (print "  " (symbol->string dest))
+  (run-list 'urgr1 dest (list
+    "korsā́"
+    "akou̯sā́"
+    "au̯sṓs"
+    "ou̯satós"
+    "kórsā"
+    "akóu̯sō"
+    "éu̯sō"
+    "kʰésras"
+    " selásnā"
+    "kʰánsas"
+    "énemsa"
+    "kʷélson"
+    "nasu̯ós"
+    ))
+  (newline))
+;(run-1ed 'urgr)
+;(run-1ed 'att)
+;(run-1ed 'kret)
+;(run-1ed 'lesb)
+
+(define (run-pala dest)
+  (print "  " (symbol->string dest))
+  (run-list 'uridg dest (list
+    "gʷm̥i̯oh₂"
+    "komi̯os"
+    "ali̯os"
+    ))
+  (run-list 'urgr1 dest (list
+    "katʰari̯ō"
+    "pʰtʰeri̯ō"
+    "oi̯ktiri̯ō"
+    "kteni̯ō"
+    "krini̯ō"
+    "pluni̯ō"
+    ))
+  (newline))
+;(run-pala 'ion-att)
+;(run-pala 'kypr)
+;(run-pala 'thess)
+;(run-pala 'boiot)
+
+(define (run-myk)
+  (let ((dest 'ion-att))
+    (run-list 'uridg dest (list
+      "Hi̯os"
+      "trei̯es"
+      "dh₃tis"
+      "di̯ḗu̯s"
+      "di̯ḗm"
+      "toti̯os"
+      "medʰi̯os"
+      "podsi"
+      ))
+    (run-list 'urgr dest (list
+      "pantsa"
+      ))))
 ;(run-myk)
 
 (define run-gr
@@ -376,4 +483,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-(run-ved)
+;(run-ved)

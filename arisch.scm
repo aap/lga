@@ -50,6 +50,7 @@
     (s "(i|u|y|w)('?)(z|ẓ)" (dehnung 1) 2)
     ;;; TODO: oder o
     (s "a('?)(z|ẓ)" "e" 1)
+    (s "z" "s")
     'uria
     (s "(a|ā)('?)u" 1 2 "w")
     (s "(a|ā)('?)i" 1 2 "y")
@@ -97,6 +98,9 @@
     `(br (urav) ,rules-urav)))
 
   (urar (list
+    (s "(K|k|č|t|p)(s|z)?(G|g|ǰ|d|b)" (stimmhaft 1) (stimmhaft 2) 3)
+    (s "(G|g|ǰ|d|b)(s|z)?(K|k|č|t|p)" (stimmlos 1) (stimmlos 2) 3)
+
     ;;; satem
     (s "K" "k")
     (s "G" "g")
