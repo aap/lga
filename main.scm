@@ -164,9 +164,9 @@
   (let ((r1 (make-rules rules (make-path lang-tree from to)))
         (r2 (lookup from phonological-rules))
         (r3 (lookup to prettyprint-rules)))
-    (print (apply-rules r3
-                        (apply-rules r1
-                                     (apply-rules r2 (make-words words)))))))
+    (apply-rules r3
+                 (apply-rules r1
+                              (apply-rules r2 (make-words words))))))
 
 ;;;
 ;;; data

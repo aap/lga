@@ -140,15 +140,9 @@
     'urgr1
 
     ;;; s > h
-;    ; Rix §86b -- TODO: *si̯-?
-;    (s "^s(<vok>|<liquid>|n|w)" "h" 1)
-;    ; Rix §86c -- TODO: manchmal aber sm
-;    (s "^sm" "hm")
-;    ; Rix §89f
-;    (s "(<vok>)(['~]?)s(<vok>)" 1 2 "h" 3)
     ; s > h \ (#|V)_(V|RV) -- Rix §88,89
     (s "(^|(<vok>)(['~]?))s((<vok>)|(<res>|w)(<vok>))" 1 "h" 4)
-    ; Rix §89g -- TODO: ys > yy laut Rix
+    ; Rix §89g
     (s "sy" "yy")
     (s "ys" "yy")
 
@@ -172,6 +166,11 @@
     ;;; tk, tkw, tp Metathese -- Rix §106 (etwas anders)
     (s "(t)(k|K|p)" 2 1)
 
+    ;;; Datierung unklar, vermutlich später und gestaffelt -- Rix §78
+    (s "^m(<liquid>)" "b" 1)
+    (s "m(<liquid>)" "bm" 1)
+    (s "^n(<liquid>)" "d" 1)
+    (s "n(<liquid>)" "nd" 1)
 
     ;;
     ;; Urgriechisch
@@ -206,6 +205,19 @@
 
     ;;;; ca. 1000
 
+    ;;; tw -- Rix §104
+    `(sub (not kret) (,(s "^tw" "s")))
+    (s "(.)tw" 1 "tš")
+    ;;; tʰw -- unklar, aber vgl. -σθε ai. -dhvam
+    (s "^t!w" "t!")
+    (s "t!w" "st!")
+
+    ;;; CsC -- Rix §87c
+    (s "(<kons>)s(<kons>)" 1 "h" 2)
+    (s "(<tenuis>)h" (->A 1))
+    (s "h(<tenuis>)([^!])" (->A 1) 2) ; TODO: beispiele?
+    (s "(<tenuisasp>)(<tenuis>)([^!])" 1 (->A 2) 3)
+
     ;;; Palatale ŕŕ ĺĺ ńń -- Rix §70
     ; TODO: Datierung? wohl nach myk.
     (s "(a|o)(['~]?)(ŕŕ|ńń)" 1 2 "y" (depala 3))
@@ -213,18 +225,40 @@
     (s "ĺĺ" "ll")
     `(sub (thess lesb) (,(s "(ŕŕ|ńń)" (depala 1) (depala 1))))
 
+;    ;;; 1. Ersatzdehnung/Gemination
+;    (s "(e|i|u)(['~]?)(ŕŕ|ńń)" (dehnung2 1) 2 (depala 3))
+;    ;; VRsV > VRhV in unbetonten Silben
+;    `(sub (not thess lesb) (,(s "(<vok>)(r|l|w)s(<vok>)" 1 2 "h" 3)))
+;    (s "(<vok>)(['~]?)(r|l|w)h(<vok>)" (dehnung2 1) 2 3 4)
+;    (s "ws(<vok>)" "ww" 1)
+;    ; VNsV
+;    `(sub (thess lesb) (,(s "(<vok>)(['~]?)(m|n)s(<vok>)" 1 2 3 3 4)))
+;    (s "(<vok>)(['~]?)(m|n)s(<vok>)" (dehnung2 1) 2 3 4)
+;    ; VhRV
+;    `(sub (thess lesb) (,(s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)))
+;    (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" (dehnung2 1) 2 3 4)
+;    ; VlnV
+;    `(sub (thess lesb) (,(s "(<vok>)(['~]?)ln(<vok>)" 1 2 "ll" 3)))
+;    (s "(<vok>)(['~]?)ln(<vok>)" (dehnung2 1) 2 "l" 3)
+
     ;;; 1. Ersatzdehnung/Gemination
+    ;; Palataldehnung
     (s "(e|i|u)(['~]?)(ŕŕ|ńń)" (dehnung2 1) 2 (depala 3))
-    ;; VRsV > VRhV in unbetonten Silben
-    `(sub (not thess lesb) (,(s "(<vok>)(r|l|w)s(<vok>)" 1 2 "h" 3)))
-    (s "(<vok>)(['~]?)(r|l|w)h" (dehnung2 1) 2 3)
-    (s "ws" "ww")
-    ; VNsV
-    `(sub (thess lesb) (,(s "(<vok>)(['~]?)(m|n)s(<vok>)" 1 2 3 3 4)))
-    (s "(<vok>)(['~]?)(m|n)s(<vok>)" (dehnung2 1) 2 3 4)
-    ; VsRV
-    `(sub (thess lesb) (,(s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)))
-    (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" (dehnung2 1) 2 3 4)
+    (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
+    (s "(<vok>)(['~])(<nasal>)s(<vok>)" 1 2 3 "h" 4)
+    ;; Rh/hR-Dehnung
+    `(sub (not thess lesb) (,(s "(<vok>)(['~]?)(<res>|w)h(<vok>)"
+                                (dehnung2 1) 2 3 4)
+                            ,(s "(<vok>)(['~]?)h(<res>|w)(<vok>)"
+                                (dehnung2 1) 2 3 4)))
+    (s "(<vok>)(['~])(w)s(<vok>)" 1 2 3 "h" 4)
+    ; -- hier dialektal rs > rh (oder später rs > rr ?)
+    ; Gemination (TODO: und hauchumsprung!)
+    (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
+    (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
+    ;; ln-Dehnung
+    `(sub (not thess lesb) (,(s "(<vok>)(['~]?)ln(<vok>)" (dehnung2 1) 2 "l" 3)))
+    (s "(<vok>)(['~]?)ln(<vok>)" 1 2 "ll" 3)
 
     ;;; 7 vs. 5 Langvokale
     `(sub (ion-att nwdor sardor) (,(s "=e=" "Ē")
@@ -233,7 +267,7 @@
     (s "=o=" "ō")
 
     ;;; ts > ss/tt -- Rix §102,87
-    ;; TODO: was nach n? boiot, kret tt? (vermutlich nicht)
+    ;; TODO: wann ts > s(s) in boiot kret? (sicher nach n)
     (s "nts" "ns")
     `(sub (boiot kret) (,(s "ts" "tt")))
     (s "ts" "ss")
@@ -243,12 +277,13 @@
     `(sub (ion-att ark) (,(s "ss" "s")))
 
     ;;; dz -- Rix §102
-    `(sub (boiot kret lak el) (,(s "^dz" "d")
-                               ,(s "dz" "dd")))
+    `(sub (boiot kret lak el) (,(s "dz" "dd")))
+    (s "^dd" "d")
     (s "dz" "zd")
 
     ;;; ion. ā > ǣ
     `(sub (ion-att) (,(s "ā" "Ā")))
+
 
     ;;; 2. Ersatzdehnung/Diphthongierung
     ;; TODO: bei allen Vokale gleich? (nicht im kyrenischen)
@@ -264,27 +299,40 @@
     ;; Vokaleinreihung
     ;; TODO: dialekte? inseldorisch einteilung (ost west)? thera?
     `(sub (ion-att nwdor inseldor) (,(s "=e=" "Ē")
-                                           ,(s "=o=" "Ō")))
+                                    ,(s "=o=" "Ō")))
     (s "=e=" "ē")
     (s "=o=" "ō")
 
-    ;;; VwV
+
+    ;;; w -- Teil 1
     ;; TODO: dialekte
-    `(sub (ion-att) (,(s "(^|(<vok>)(['~]?))w(<vok>)" 1 4)))
+    `(sub (ion-att) (,(s "^hw" "h")
+                     ,(s "^w(<vok>)" 1)
+                     ,(s "(<vok>)(['~]?)w(<vok>)" 1 2 3)))
+
+    ;;; hR-
+    ;; TODO: dialekte
+    `(sub (ion-att) (,(s "^h(l|m|n)" 1)))
 
     ;;; att. ǣ > ā \ eir_
     `(sub (att) (,(s "(((e|ē|Ē|i|ī)(['~]?))|r)Ā" 1 "ā")))
 
+
     ;;; 3. Ersatzdehnung/Schwund
     ;; TODO: dialekte nach Rix §72; Bartoněk?
-    `(sub (ion inseldor kret) (,(s "(<vok>)(['~]?)(r|l|n)w" (dehnung2 1) 2 3)))
-    `(sub (ion-att lesb lak) (,(s "(r|l|n)w" 1)))
+    `(sub (ion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d)w" (dehnung2 1) 4)))
+    `(sub (ion-att lesb lak) (,(s "(r|l|n|d)w" 1)))
     ;; TODO: dialekte?
     `(sub (ion-att nwdor sardor) (,(s "=e=" "Ē")
                                   ,(s "=o=" "Ō")))
     (s "=e=" "ē")
     (s "=o=" "ō")
 
+
+    `(sub (att euboi boiot kret) (,(s "tš" "tt")))
+    (s "^tt" "t")
+    (s "tš" "ss")
+    (s "^ss" "s")
 
     `(sub (ion-att) (,(s "Ā" "ē")))
     ))
