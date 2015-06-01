@@ -46,12 +46,11 @@
           (s "i" "ī")
           (s "u" "ū"))))
 
-; =e= and =o= are to be replaced with Ē,Ō or ē,ō according to dialect 
 (define dehnung2
   (match-rulelist
     (list (s "a" "ā")
-          (s "e" "=e=")
-          (s "o" "=o=")
+          (s "e" "Ē")
+          (s "o" "Ō")
           (s "i" "ī")
           (s "u" "ū"))))
 

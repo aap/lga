@@ -89,7 +89,6 @@
 
     ;;; Osthoff -- Rix §64
     ; TODO: Datierung unklar, wohl vor Verlust von Okklusiven im Auslaut
-    ;       aber ōrto < eh3rto (vermutlich analog augmentiert)
     (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
 
     ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100
@@ -193,7 +192,6 @@
     (s "^y(<vok>)" "h" 1)
     (s "(<vok>)(['~]?)y(<vok>)" 1 2 "h" 3)
 
-
     ;;
     ;; Mykenisch
     ;;
@@ -225,26 +223,12 @@
     (s "ĺĺ" "ll")
     `(sub (thess lesb) (,(s "(ŕŕ|ńń)" (depala 1) (depala 1))))
 
-;    ;;; 1. Ersatzdehnung/Gemination
-;    (s "(e|i|u)(['~]?)(ŕŕ|ńń)" (dehnung2 1) 2 (depala 3))
-;    ;; VRsV > VRhV in unbetonten Silben
-;    `(sub (not thess lesb) (,(s "(<vok>)(r|l|w)s(<vok>)" 1 2 "h" 3)))
-;    (s "(<vok>)(['~]?)(r|l|w)h(<vok>)" (dehnung2 1) 2 3 4)
-;    (s "ws(<vok>)" "ww" 1)
-;    ; VNsV
-;    `(sub (thess lesb) (,(s "(<vok>)(['~]?)(m|n)s(<vok>)" 1 2 3 3 4)))
-;    (s "(<vok>)(['~]?)(m|n)s(<vok>)" (dehnung2 1) 2 3 4)
-;    ; VhRV
-;    `(sub (thess lesb) (,(s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)))
-;    (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" (dehnung2 1) 2 3 4)
-;    ; VlnV
-;    `(sub (thess lesb) (,(s "(<vok>)(['~]?)ln(<vok>)" 1 2 "ll" 3)))
-;    (s "(<vok>)(['~]?)ln(<vok>)" (dehnung2 1) 2 "l" 3)
-
     ;;; 1. Ersatzdehnung/Gemination
     ;; Palataldehnung
     (s "(e|i|u)(['~]?)(ŕŕ|ńń)" (dehnung2 1) 2 (depala 3))
+    ;; VRsV > VRhV in unbetonten Silben
     (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
+    ;; VNsV > VNhV
     (s "(<vok>)(['~])(<nasal>)s(<vok>)" 1 2 3 "h" 4)
     ;; Rh/hR-Dehnung
     `(sub (not thess lesb) (,(s "(<vok>)(['~]?)(<res>|w)h(<vok>)"
@@ -253,25 +237,28 @@
                                 (dehnung2 1) 2 3 4)))
     (s "(<vok>)(['~])(w)s(<vok>)" 1 2 3 "h" 4)
     ; -- hier dialektal rs > rh (oder später rs > rr ?)
-    ; Gemination (TODO: und hauchumsprung!)
-    (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
-    (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
     ;; ln-Dehnung
     `(sub (not thess lesb) (,(s "(<vok>)(['~]?)ln(<vok>)" (dehnung2 1) 2 "l" 3)))
     (s "(<vok>)(['~]?)ln(<vok>)" 1 2 "ll" 3)
+    ;; 7 vs. 5 Langvokale
+    `(sub (not ion-att nwdor sardor) (,(s "Ē" "ē")
+                                      ,(s "Ō" "ō")))
 
-    ;;; 7 vs. 5 Langvokale
-    `(sub (ion-att nwdor sardor) (,(s "=e=" "Ē")
-                                  ,(s "=o=" "Ō")))
-    (s "=e=" "ē")
-    (s "=o=" "ō")
+    ;; Gemination und Hauchumsprung
+    (s "^(<vok>)(['~]?)h(<vok>)([^'~])" "h" 1 2 3 4)
+    (s "^(<vok>)(['~]?)(<res>|w)h" "h" 1 2 3 "h")
+    (s "(<kons>)h(<kons>)" 1 2)
+    ; TODO: prohorā aspirieren
+    (s "(<vok>)(['~]?)h(<vok>)" 1 2 3)
+    (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
+    (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
 
+    ;;; ts > s (nach sw > hw wegen *u̯idsu̯os > ἴσος)
+    (s "(<kons>)ts" 1 "s")
+    (s "ts(<kons>)" "s" 1)
     ;;; ts > ss/tt -- Rix §102,87
-    ;; TODO: wann ts > s(s) in boiot kret? (sicher nach n)
-    (s "nts" "ns")
     `(sub (boiot kret) (,(s "ts" "tt")))
     (s "ts" "ss")
-    (s "(<kons>)ss" 1 "s")
     (s "(<vok>)(['~]?)(y|w)ss" 1 2 3 "s")
     (s "(<lang-vok>)(['~]?)ss" 1 2 "s")
     `(sub (ion-att ark) (,(s "ss" "s")))
@@ -279,7 +266,7 @@
     ;;; dz -- Rix §102
     `(sub (boiot kret lak el) (,(s "dz" "dd")))
     (s "^dd" "d")
-    (s "dz" "zd")
+    (s "dz" "sd")
 
     ;;; ion. ā > ǣ
     `(sub (ion-att) (,(s "ā" "Ā")))
@@ -298,16 +285,15 @@
           (,(s "(<vok>)(['~]?)ns$" (dehnung2 1) 2 "s")))
     ;; Vokaleinreihung
     ;; TODO: dialekte? inseldorisch einteilung (ost west)? thera?
-    `(sub (ion-att nwdor inseldor) (,(s "=e=" "Ē")
-                                    ,(s "=o=" "Ō")))
-    (s "=e=" "ē")
-    (s "=o=" "ō")
+    `(sub (not ion-att nwdor inseldor) (,(s "Ē" "ē")
+                                        ,(s "Ō" "ō")))
 
 
     ;;; w -- Teil 1
     ;; TODO: dialekte
     `(sub (ion-att) (,(s "^hw" "h")
                      ,(s "^w(<vok>)" 1)
+                     ,(s "^wr" "hr")
                      ,(s "(<vok>)(['~]?)w(<vok>)" 1 2 3)))
 
     ;;; hR-
@@ -320,13 +306,11 @@
 
     ;;; 3. Ersatzdehnung/Schwund
     ;; TODO: dialekte nach Rix §72; Bartoněk?
-    `(sub (ion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d)w" (dehnung2 1) 4)))
-    `(sub (ion-att lesb lak) (,(s "(r|l|n|d)w" 1)))
+    `(sub (ion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d|s)w" (dehnung2 1) 4)))
+    `(sub (ion-att lesb lak) (,(s "(r|l|n|d|s)w" 1)))
     ;; TODO: dialekte?
-    `(sub (ion-att nwdor sardor) (,(s "=e=" "Ē")
-                                  ,(s "=o=" "Ō")))
-    (s "=e=" "ē")
-    (s "=o=" "ō")
+    `(sub (not ion-att nwdor sardor) (,(s "Ē" "ē")
+                                      ,(s "Ō" "ō")))
 
 
     `(sub (att euboi boiot kret) (,(s "tš" "tt")))

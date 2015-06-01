@@ -3,6 +3,17 @@
 (define run
   (lambda () (load "run-gr.scm")))
 
+(define (run-misc dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "u̯eu̯r̥h₁mh₁nos"
+    "u̯r̥h₁mn̥"
+    "h₂ensíi̯eh₂"
+    )))
+  (newline))
+;(run-misc 'att)
+;(run-misc 'oarg)
+
 (define (run-ky dest)
   (print "  " (symbol->string dest))
   (print (run-list 'urgr1 dest (list
@@ -61,11 +72,11 @@
     "-éns"
     )))
   (newline))
-;(run-2ed 'urgr)
-;(run-2ed 'lesb)
-;(run-2ed 'thess)
-;(run-2ed 'boiot)
-;(run-2ed 'ion)
+(run-2ed 'urgr)
+(run-2ed 'lesb)
+(run-2ed 'thess)
+(run-2ed 'boiot)
+(run-2ed 'ion)
 ;(run-2ed 'el)
 ;(run-2ed 'ark)
 ;(run-2ed 'kret)
@@ -79,7 +90,7 @@
     "kórwā"
     "néwā"
     "kʰṓrā"
-    "du̯einós"
+    "du̯ei̯nós"
     "dédu̯imen"
     )))
   (newline))
@@ -96,12 +107,12 @@
 (define (run-s dest)
   (print "  " (symbol->string dest))
   (print (run-list 'urgr1 dest (list
-    "ploksmos"
-    "ekstros"
-    "ai̯ksmā"
-    "persnā"
-    "orsmā"
-    "prosorā"
+    "ploksmós"
+    "ekstrós"
+    "ai̯ksmā́"
+    "persnā́"
+    "orsmā́"
+    "prosorā́"
     "akóu̯sō"
 
     "éu̯sō"
@@ -112,11 +123,12 @@
     "isáni̯ō"
     "esús"
     "īsā́tro-"
+    "witswos"
     )))
   (newline))
-(run-s 'urgr)
-(run-s 'att)
-(run-s 'lesb)
+;(run-s 'urgr)
+;(run-s 'att)
+;(run-s 'lesb)
 
 (define (run-1ed dest)
   (print "  " (symbol->string dest))
@@ -137,10 +149,10 @@
     "gʷolnā́"
     )))
   (newline))
-(run-1ed 'urgr)
-(run-1ed 'att)
-(run-1ed 'kret)
-(run-1ed 'lesb)
+;(run-1ed 'urgr)
+;(run-1ed 'att)
+;(run-1ed 'kret)
+;(run-1ed 'lesb)
 
 (define (run-pala dest)
   (print "  " (symbol->string dest))

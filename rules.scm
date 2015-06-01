@@ -96,6 +96,8 @@
   (set-pretty-rules 'boiot rules)
   (set-pretty-rules 'el rules)
   (set-pretty-rules 'kor rules)
+  (set-pretty-rules 'warg rules)
+  (set-pretty-rules 'oarg rules)
   (set-pretty-rules 'ark rules)
   )
 
