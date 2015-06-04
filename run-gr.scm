@@ -72,11 +72,11 @@
     "-éns"
     )))
   (newline))
-(run-2ed 'urgr)
-(run-2ed 'lesb)
-(run-2ed 'thess)
-(run-2ed 'boiot)
-(run-2ed 'ion)
+;(run-2ed 'urgr)
+;(run-2ed 'lesb)
+;(run-2ed 'thess)
+;(run-2ed 'boiot)
+;(run-2ed 'ion)
 ;(run-2ed 'el)
 ;(run-2ed 'ark)
 ;(run-2ed 'kret)
@@ -147,12 +147,15 @@
     "kʷélson"
     "nasu̯ós"
     "gʷolnā́"
+    "mēnsós"
+    "mḗns"
     )))
   (newline))
-;(run-1ed 'urgr)
-;(run-1ed 'att)
-;(run-1ed 'kret)
-;(run-1ed 'lesb)
+(run-1ed 'urgr)
+(run-1ed 'att)
+(run-1ed 'inseldor)
+(run-1ed 'kret)
+(run-1ed 'lesb)
 
 (define (run-pala dest)
   (print "  " (symbol->string dest))

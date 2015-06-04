@@ -173,4 +173,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-;(run-ved)
+(run-ved)

@@ -10,6 +10,10 @@
     ;;; MA > TA -- Rix §94
     (s "(<mediaasp>)" (stimmlos 1))
 
+    ;;; Thorn -- Rix §91 -- Schindler 'A thorny problem'
+    (s "(k|K)þ" 1 "t")
+    (s "(k!|K!)þ" 1 "t!")
+
     ;;; Ein Laut der Einfachheit halber
     (s "z" "s")
 
@@ -83,20 +87,6 @@
     (s "(i|u)('?)(<vok>)" 1 2 (sonans->consonans 1) 3)
     (s "(<vok>)(['~]?)(i|u)" 1 2 (sonans->consonans 3))
 
-    ;;; Thorn -- Rix §91 -- Schindler 'A thorny problem'
-    (s "(k|K)þ" 1 "t")
-    (s "(k!|K!)þ" 1 "t!")
-
-    ;;; Osthoff -- Rix §64
-    ; TODO: Datierung unklar, wohl vor Verlust von Okklusiven im Auslaut
-    (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
-
-    ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100
-    ; nach *r̥C > *rəC wegen ὑπόδρα < *upo-dr̥k
-    (s "(<okklu>)+$")
-    ; Rix §77
-    (s "m$" "n")
-
     ;;; unmittelbare Assimilation -- Rix §106a
     ; TODO: früher (idg); phonologisch?
     (s "(<okklu>)(<media>)([^!])" (->M 1) 2 3)
@@ -141,9 +131,25 @@
     ;;; s > h
     ; s > h \ (#|V)_(V|RV) -- Rix §88,89
     (s "(^|(<vok>)(['~]?))s((<vok>)|(<res>|w)(<vok>))" 1 "h" 4)
+    ;; VNsV > VNhV
+    (s "(<vok>)(['~]?)(<nasal>)s(<vok>)" 1 2 3 "h" 4)
     ; Rix §89g
     (s "sy" "yy")
     (s "ys" "yy")
+
+    ;;; Osthoff -- Rix §64
+    ; Wohl nach *ns > *nh wegen μηνός < *mēnsós und
+    ;      vor Verlust von Okklusiven im Auslaut
+    ; *nh (und *nm *u̯i̯?) nicht betroffen
+    (s "nh" "#nh")
+    (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
+    (s "#" "")
+
+    ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100
+    ; nach *r̥C > *rəC wegen ὑπόδρα < *upo-dr̥k
+    (s "(<okklu>)+$")
+    ; Rix §77
+    (s "m$" "n")
 
     ;;; Palatalisierung -- TODO -- Rix §102
     ;;; TODO: ty hinter langvokal in tt-dialekten
@@ -226,10 +232,13 @@
     ;;; 1. Ersatzdehnung/Gemination
     ;; Palataldehnung
     (s "(e|i|u)(['~]?)(ŕŕ|ńń)" (dehnung2 1) 2 (depala 3))
+    ;;;
+    ;;; TODO: datierung? mykenisch?
+    ;;;
     ;; VRsV > VRhV in unbetonten Silben
     (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
-    ;; VNsV > VNhV
-    (s "(<vok>)(['~])(<nasal>)s(<vok>)" 1 2 3 "h" 4)
+;    ;; VNsV > VNhV
+;    (s "(<vok>)(['~])(<nasal>)s(<vok>)" 1 2 3 "h" 4)
     ;; Rh/hR-Dehnung
     `(sub (not thess lesb) (,(s "(<vok>)(['~]?)(<res>|w)h(<vok>)"
                                 (dehnung2 1) 2 3 4)

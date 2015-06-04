@@ -57,8 +57,8 @@
 (define kuerzung
   (match-rulelist
     (list (s "ā" "a")
-          (s "ē" "e")
-          (s "ō" "o")
+          (s "ē|Ē" "e")
+          (s "ō|Ō" "o")
           (s "ī" "i")
           (s "ū" "u"))))
 
