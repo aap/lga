@@ -77,6 +77,16 @@
     (list (s "K" "k")
           (s "G" "g"))))
 
+(define labiovelar->labial
+  (match-rulelist
+    (list (s "K" "p")
+          (s "G" "b"))))
+
+(define labiovelar->dental
+  (match-rulelist
+    (list (s "K" "t")
+          (s "G" "d"))))
+
 (define velar->labiovelar
   (match-rulelist
     (list (s "k" "K")

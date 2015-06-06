@@ -5,7 +5,7 @@
 
     (s "č" "k")
     (s "ǰ" "g")
-    (s "(<vok>)([']?)(<lary>)(<kons>|$)" (dehnung 1) 2 4)
+    (s "(<vok>)('?)(<lary>)(<kons>|$)" (dehnung 1) 2 4)
 
     (s "p" "f")
     (s "t" "þ")

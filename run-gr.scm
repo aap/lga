@@ -6,13 +6,54 @@
 (define (run-misc dest)
   (print "  " (symbol->string dest))
   (print (run-list 'uridg dest (list
-    "u̯eu̯r̥h₁mh₁nos"
-    "u̯r̥h₁mn̥"
-    "h₂ensíi̯eh₂"
+;    "u̯eu̯r̥h₁mh₁nos"
+;    "u̯r̥h₁mn̥"
+;    "h₂ensíi̯eh₂"
+    "demspot-"
+    "u̯idsu̯os"
+    "orsmā́"
+    "h₂eu̯sriom"
+    "u̯erg̑i̯oh₂"
+    "ph₂n̥tih₂"
+    )))
+  (print (run-list 'urgr dest (list
+    "sundžugos"
     )))
   (newline))
-;(run-misc 'att)
+(run-misc 'urgr)
+(run-misc 'att)
 ;(run-misc 'oarg)
+
+(define (run-labvel dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "kʷis"
+    "kʷe"
+    "kʷidkʷe"
+    "gʷou̯kʷolos"
+    "gʷih₃os"
+    "h₁ln̥gʰus"
+    "kʷukʷlos"
+    "penkʷe"
+    "gʷelbʰus"
+    "gʷʰeni̯oh₂"
+    "gʷʰonos"
+    "gʷm̥i̯oh₂"
+    "kʷoineh₂"
+    "kʷinu̯oh₂"
+    "snigʷʰm̥"
+    "ogʷʰis"
+    "penkʷtos"
+    "kʷl̥Him"
+    "-gʷʰnet"
+    "sens"
+    )))
+  (newline))
+;(run-labvel 'urgr1)
+;(run-labvel 'urgr)
+;(run-labvel 'att)
+;(run-labvel 'lesb)
+;(run-labvel 'ark)
 
 (define (run-ky dest)
   (print "  " (symbol->string dest))
@@ -151,11 +192,11 @@
     "mḗns"
     )))
   (newline))
-(run-1ed 'urgr)
-(run-1ed 'att)
-(run-1ed 'inseldor)
-(run-1ed 'kret)
-(run-1ed 'lesb)
+;(run-1ed 'urgr)
+;(run-1ed 'att)
+;(run-1ed 'inseldor)
+;(run-1ed 'kret)
+;(run-1ed 'lesb)
 
 (define (run-pala dest)
   (print "  " (symbol->string dest))

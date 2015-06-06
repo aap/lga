@@ -1,5 +1,8 @@
 (define rules-urgr
   (list
+    ;;; Ein Laut der Einfachheit halber
+    (s "z" "s")
+
     ;;; *e neben *H3 und *o fallen zusammen
     (s "O" "o")
 
@@ -13,9 +16,6 @@
     ;;; Thorn -- Rix §91 -- Schindler 'A thorny problem'
     (s "(k|K)þ" 1 "t")
     (s "(k!|K!)þ" 1 "t!")
-
-    ;;; Ein Laut der Einfachheit halber
-    (s "z" "s")
 
     ;;; Rix §106c
     (s "(<dental>)(<dental>)" "s" 2)
@@ -50,7 +50,7 @@
     ; Rix §79bc
     (s "^(<lary>)(u|ū|<s-res>)" (laryngal->vokal 1) (sonans->consonans 2))
     ; kompletter Verlust -- Rix §79a,81a,82d,84
-    (s "<lary>" "")
+    (s "<lary>")
 
     ;;; vor Labiovelar > Velar wegen εἶπον -- nicht bei Rix
     (s "wew" "wey")
@@ -111,13 +111,12 @@
     (s "(<tenuisasp>)s(<tenuis>)([^!])" 1 "s" (->A 2) 3)
 
     ; CsC -- Rix §87c
-    ;  tautosyllabisches [mn]s > s später noch mal (σύζυγος)
-    (s "(<nasal>|<dental>)s(<kons>)" "s" 2)
     ; s zwischen gleichen Konsonanten -- TODO: unschön; alle Fälle abgedeckt?
     (s "ksk" "sk") (s "gsg" "sg") (s "k!sk!" "sk!")
     (s "KsK" "sK") (s "GsG" "sG") (s "K!sK!" "sK!")
+    (s "tst" "st") (s "dsd" "sd") (s "t!st!" "st!")
     (s "psp" "sp") (s "bsb" "sb") (s "p!sp!" "sp!")
-    (s "lsr" "sr") (s "lsl" "sl")
+    (s "rsr" "sr") (s "lsl" "sl")
 
     ;;; Okklusive vor s -- Rix §105
     (s "(<labial>)s" "ps")
@@ -131,6 +130,8 @@
     ;;; s > h
     ; s > h \ (#|V)_(V|RV) -- Rix §88,89
     (s "(^|(<vok>)(['~]?))s((<vok>)|(<res>|w)(<vok>))" 1 "h" 4)
+    ;; VRsV > VRhV in unbetonten Silben
+    (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
     ;; VNsV > VNhV
     (s "(<vok>)(['~]?)(<nasal>)s(<vok>)" 1 2 3 "h" 4)
     ; Rix §89g
@@ -143,7 +144,7 @@
     ; *nh (und *nm *u̯i̯?) nicht betroffen
     (s "nh" "#nh")
     (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
-    (s "#" "")
+    (s "#")
 
     ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100
     ; nach *r̥C > *rəC wegen ὑπόδρα < *upo-dr̥k
@@ -203,7 +204,7 @@
     ;;
     'myk
 
-    (s "dž" "dz")
+    (s "dž" "ds")
 
     `(sub (el) (,(s "ē" "ā")))
 
@@ -216,11 +217,33 @@
     (s "^t!w" "t!")
     (s "t!w" "st!")
 
+    ;;; ds > sd
+    ; vor CsC > ChC wegen ἔρδω < *u̯erzdō < *u̯erg̑i̯e/o-
+    (s "ds" "sd")
+
+    ;;; (N|T)sC > sC -- Rix §87c
+    ; vor CsC > ChC wegen ἴσος < u̯idsu̯os und δεσπότης < *demspot-
+    ; nach dz > zd wegen σύζυγος < *sun-dzugos
+    (s "(<nasal>|<dental>)s(<kons>)" "s" 2)
+
     ;;; CsC -- Rix §87c
     (s "(<kons>)s(<kons>)" 1 "h" 2)
     (s "(<tenuis>)h" (->A 1))
     (s "h(<tenuis>)([^!])" (->A 1) 2) ; TODO: beispiele?
     (s "(<tenuisasp>)(<tenuis>)([^!])" 1 (->A 2) 3)
+
+    ;;; Labiovelare > T/P -- Rix §96-99
+    `(sub (not ach aiol) (,(s "K(i|ī)" "t" 1)
+                         ,(s "(<labiovelar>)(e|ē)" (labiovelar->dental 1) 2)))
+    (s "(<labiovelar>)" (labiovelar->labial 1))
+    ;; Assimilationen an Labiovelarreflexe
+    (s "(<nasal>)(<labial>)" "m" 2)
+    (s "(<nasal>)(<dental>)" "n" 2)
+    (s "(<nasal>)(<velar>)" "ŋ" 2)
+
+    ;; b,g > m,ŋ \ _n -- Rix §105
+    (s "bn" "mn")
+    (s "gn" "ŋn")
 
     ;;; Palatale ŕŕ ĺĺ ńń -- Rix §70
     ; TODO: Datierung? wohl nach myk.
@@ -232,26 +255,21 @@
     ;;; 1. Ersatzdehnung/Gemination
     ;; Palataldehnung
     (s "(e|i|u)(['~]?)(ŕŕ|ńń)" (dehnung2 1) 2 (depala 3))
-    ;;;
-    ;;; TODO: datierung? mykenisch?
-    ;;;
-    ;; VRsV > VRhV in unbetonten Silben
-    (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
-;    ;; VNsV > VNhV
-;    (s "(<vok>)(['~])(<nasal>)s(<vok>)" 1 2 3 "h" 4)
     ;; Rh/hR-Dehnung
     `(sub (not thess lesb) (,(s "(<vok>)(['~]?)(<res>|w)h(<vok>)"
                                 (dehnung2 1) 2 3 4)
                             ,(s "(<vok>)(['~]?)h(<res>|w)(<vok>)"
                                 (dehnung2 1) 2 3 4)))
-    (s "(<vok>)(['~])(w)s(<vok>)" 1 2 3 "h" 4)
-    ; -- hier dialektal rs > rh (oder später rs > rr ?)
     ;; ln-Dehnung
     `(sub (not thess lesb) (,(s "(<vok>)(['~]?)ln(<vok>)" (dehnung2 1) 2 "l" 3)))
     (s "(<vok>)(['~]?)ln(<vok>)" 1 2 "ll" 3)
     ;; 7 vs. 5 Langvokale
     `(sub (not ion-att nwdor sardor) (,(s "Ē" "ē")
                                       ,(s "Ō" "ō")))
+
+    ;; ws > wh
+    ; TODO: dialektal rs > rh (oder später rs > rr ?)
+    (s "(<vok>)(['~])(w)s(<vok>)" 1 2 3 "h" 4)
 
     ;; Gemination und Hauchumsprung
     (s "^(<vok>)(['~]?)h(<vok>)([^'~])" "h" 1 2 3 4)
@@ -262,24 +280,23 @@
     (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
     (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
 
-    ;;; ts > s (nach sw > hw wegen *u̯idsu̯os > ἴσος)
+    ;;; Cts > Cs (TODO: alle Konsonanten? Halbvokale/Diphthonge?)
     (s "(<kons>)ts" 1 "s")
-    (s "ts(<kons>)" "s" 1)
     ;;; ts > ss/tt -- Rix §102,87
     `(sub (boiot kret) (,(s "ts" "tt")))
     (s "ts" "ss")
+    ; ss > s nach Langvokal oder Diphthong
     (s "(<vok>)(['~]?)(y|w)ss" 1 2 3 "s")
     (s "(<lang-vok>)(['~]?)ss" 1 2 "s")
     `(sub (ion-att ark) (,(s "ss" "s")))
 
     ;;; dz -- Rix §102
-    `(sub (boiot kret lak el) (,(s "dz" "dd")))
+    `(sub (boiot kret lak el) (,(s "sd" "dd")))
     (s "^dd" "d")
-    (s "dz" "sd")
+
 
     ;;; ion. ā > ǣ
     `(sub (ion-att) (,(s "ā" "Ā")))
-
 
     ;;; 2. Ersatzdehnung/Diphthongierung
     ;; TODO: bei allen Vokale gleich? (nicht im kyrenischen)
@@ -328,5 +345,8 @@
     (s "^ss" "s")
 
     `(sub (ion-att) (,(s "Ā" "ē")))
+
+    ;;; Psilose -- Rix §68
+    `(sub (lesb ion el kret) (,(s "h")))
     ))
 
