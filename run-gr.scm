@@ -3,6 +3,8 @@
 (define run
   (lambda () (load "run-gr.scm")))
 
+(define usegrkalphabet #f)
+
 (define (run-misc dest)
   (print "  " (symbol->string dest))
   (print (run-list 'uridg dest (list
@@ -15,14 +17,38 @@
     "h₂eu̯sriom"
     "u̯erg̑i̯oh₂"
     "ph₂n̥tih₂"
+    "kʷelesi̯etai̯"
+    "gelosi̯os"
+    )))
+  (print (run-list 'urgr1 dest (list
+    "plangi̯ō"
+    "si̯umēn"
     )))
   (print (run-list 'urgr dest (list
     "sundžugos"
     )))
   (newline))
-(run-misc 'urgr)
-(run-misc 'att)
+;(run-misc 'urgr)
+;(run-misc 'att)
 ;(run-misc 'oarg)
+
+(define (run-y dest)
+  (print "  " (symbol->string dest))
+  (print (togrk (run-list 'urgr1 dest (list
+    "káu̯i̯ō"
+    "au̯i̯etós"
+    "glukéu̯i̯a"
+    "eu̯réu̯i̯a"
+    "díu̯i̯os"
+    "élai̯u̯om"
+    "elái̯u̯ā"
+    "ai̯u̯ési"
+    "pói̯u̯ā"
+    ))))
+  (newline))
+(run-y 'urgr)
+(run-y 'att)
+(run-y 'lesb)
 
 (define (run-labvel dest)
   (print "  " (symbol->string dest))
@@ -153,6 +179,8 @@
     "ai̯ksmā́"
     "persnā́"
     "orsmā́"
+    "parstádes"
+    "tʰúrstʰen"
     "prosorā́"
     "akóu̯sō"
 

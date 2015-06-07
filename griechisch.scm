@@ -130,13 +130,19 @@
     ;;; s > h
     ; s > h \ (#|V)_(V|RV) -- Rix §88,89
     (s "(^|(<vok>)(['~]?))s((<vok>)|(<res>|w)(<vok>))" 1 "h" 4)
-    ;; VRsV > VRhV in unbetonten Silben
+    ;; VRsV > VRhV in unbetonten Silben (Datierung?)
     (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
     ;; VNsV > VNhV
     (s "(<vok>)(['~]?)(<nasal>)s(<vok>)" 1 2 3 "h" 4)
-    ; Rix §89g
-    (s "sy" "yy")
-    (s "ys" "yy")
+
+    ; sy,ys > yy -- Rix §89g, Lejeune §127
+    ; TODO: Datierung
+    ;       was neben Konsonant (Csy)? vermutlich verlust
+    ;       was im Anlaut sy- (ὑμήν)
+    (s "(<vok>)(['~]?)sy" 1 2 "yy")
+    (s "^sy" "y")
+    ; TODO: beispiele (-oi̯si > myk. -o-i)
+    (s "ys(<vok>)" "yy" 1)
 
     ;;; Osthoff -- Rix §64
     ; Wohl nach *ns > *nh wegen μηνός < *mēnsós und
@@ -162,6 +168,7 @@
     (s "(<labial>)y" "pč")
 
     ;;; TODO: Umgebung. nach Langvokal, Diphthong, Konsonant?
+    ;; Datierung evtl. nachmyk. wegen u̯i̯ > ẅẅ nachmyk.
     (s "ly" "ĺĺ")
     (s "ry" "ŕŕ")
     (s "ny" "ńń")
@@ -193,8 +200,9 @@
 
     (s "pč" "pt")
 
-    ; heteromorphemisches ty
-    (s "(t!|t)y" "ts")
+;;    ; WRONG
+;;    ; heteromorphemisches ty
+;;    (s "(t!|t)y" "ts")
 
     (s "^y(<vok>)" "h" 1)
     (s "(<vok>)(['~]?)y(<vok>)" 1 2 "h" 3)
@@ -208,29 +216,11 @@
 
     `(sub (el) (,(s "ē" "ā")))
 
+    ;;; u̯i̯ > ẅẅ
+    ; Datierung?
+    (s "wy" "ẅẅ")
+
     ;;;; ca. 1000
-
-    ;;; tw -- Rix §104
-    `(sub (not kret) (,(s "^tw" "s")))
-    (s "(.)tw" 1 "tš")
-    ;;; tʰw -- unklar, aber vgl. -σθε ai. -dhvam
-    (s "^t!w" "t!")
-    (s "t!w" "st!")
-
-    ;;; ds > sd
-    ; vor CsC > ChC wegen ἔρδω < *u̯erzdō < *u̯erg̑i̯e/o-
-    (s "ds" "sd")
-
-    ;;; (N|T)sC > sC -- Rix §87c
-    ; vor CsC > ChC wegen ἴσος < u̯idsu̯os und δεσπότης < *demspot-
-    ; nach dz > zd wegen σύζυγος < *sun-dzugos
-    (s "(<nasal>|<dental>)s(<kons>)" "s" 2)
-
-    ;;; CsC -- Rix §87c
-    (s "(<kons>)s(<kons>)" 1 "h" 2)
-    (s "(<tenuis>)h" (->A 1))
-    (s "h(<tenuis>)([^!])" (->A 1) 2) ; TODO: beispiele?
-    (s "(<tenuisasp>)(<tenuis>)([^!])" 1 (->A 2) 3)
 
     ;;; Labiovelare > T/P -- Rix §96-99
     `(sub (not ach aiol) (,(s "K(i|ī)" "t" 1)
@@ -245,16 +235,39 @@
     (s "bn" "mn")
     (s "gn" "ŋn")
 
+    ;;; tw -- Rix §104
+    `(sub (not kret) (,(s "^tw" "s")))
+    (s "(.)tw" 1 "tš")
+    ;;; tʰw -- unklar, aber vgl. -σθε ai. -dhvam
+    (s "^t!w" "t!")
+    (s "t!w" "st!")
+
+    ;;; ds > sd
+    ; vor CsC > ChC wegen ἔρδω < *u̯erzdō < *u̯erg̑i̯e/o-
+    (s "ds" "sd")
+
+    ;;; (N|T)sC > sC -- Rix §87c, Lejeune §134
+    ; vor CsC > ChC wegen ἴσος < u̯idsu̯os und δεσπότης < *demspot-
+    ; nach dz > zd wegen σύζυγος < *sun-dzugos
+    (s "(<nasal>|<dental>)s(<kons>)" "s" 2)
+
+    ;;; CsC -- Rix §87c, Lejeune §132-133
+    ; TODO: πασταδ-/παρταδ- < parstad-
+    ;       θύσθεν < *tʰurstʰen
+    (s "(<kons>)s(<kons>)" 1 "h" 2)
+    (s "(<tenuis>)h" (->A 1))
+    (s "(<tenuisasp>)(<tenuis>)([^!])" 1 (->A 2) 3)
+
     ;;; Palatale ŕŕ ĺĺ ńń -- Rix §70
     ; TODO: Datierung? wohl nach myk.
-    (s "(a|o)(['~]?)(ŕŕ|ńń)" 1 2 "y" (depala 3))
+    (s "(a|o)(['~]?)(ŕŕ|ńń|ẅẅ)" 1 2 "y" (depala 3))
     `(sub (kypr) (,(s "a(['~]?)ĺĺ" "a" 1 "yl")))
     (s "ĺĺ" "ll")
     `(sub (thess lesb) (,(s "(ŕŕ|ńń)" (depala 1) (depala 1))))
 
     ;;; 1. Ersatzdehnung/Gemination
     ;; Palataldehnung
-    (s "(e|i|u)(['~]?)(ŕŕ|ńń)" (dehnung2 1) 2 (depala 3))
+    (s "(e|i|u)(['~]?)(ŕŕ|ńń|ẅẅ)" (dehnung2 1) 2 (depala 3))
     ;; Rh/hR-Dehnung
     `(sub (not thess lesb) (,(s "(<vok>)(['~]?)(<res>|w)h(<vok>)"
                                 (dehnung2 1) 2 3 4)
@@ -294,6 +307,7 @@
     `(sub (boiot kret lak el) (,(s "sd" "dd")))
     (s "^dd" "d")
 
+    ;;;; ca. 900
 
     ;;; ion. ā > ǣ
     `(sub (ion-att) (,(s "ā" "Ā")))
@@ -320,6 +334,7 @@
     `(sub (ion-att) (,(s "^hw" "h")
                      ,(s "^w(<vok>)" 1)
                      ,(s "^wr" "hr")
+                     ,(s "(<vok>)(['~]?)yw(<vok>)" 1 2 "yy" 3)
                      ,(s "(<vok>)(['~]?)w(<vok>)" 1 2 3)))
 
     ;;; hR-
@@ -327,7 +342,7 @@
     `(sub (ion-att) (,(s "^h(l|m|n)" 1)))
 
     ;;; att. ǣ > ā \ eir_
-    `(sub (att) (,(s "(((e|ē|Ē|i|ī)(['~]?))|r)Ā" 1 "ā")))
+    `(sub (att) (,(s "(((e|ē|Ē|i|ī)(['~]?))|r|y)Ā" 1 "ā")))
 
 
     ;;; 3. Ersatzdehnung/Schwund

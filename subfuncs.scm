@@ -145,7 +145,8 @@
 
 (define depala
   (match-rulelist
-    (list (s "ŕŕ" "r")
+    (list (s "ẅẅ" "w")
+          (s "ŕŕ" "r")
           (s "ĺĺ" "l")
           (s "ńń" "n"))))
 
