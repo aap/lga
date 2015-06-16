@@ -3,8 +3,6 @@
 (define run
   (lambda () (load "run-gr.scm")))
 
-(define usegrkalphabet #f)
-
 (define (run-misc dest)
   (print "  " (symbol->string dest))
   (print (run-list 'uridg dest (list
@@ -46,9 +44,9 @@
     "pói̯u̯ā"
     ))))
   (newline))
-(run-y 'urgr)
-(run-y 'att)
-(run-y 'lesb)
+;(run-y 'urgr)
+;(run-y 'att)
+;(run-y 'lesb)
 
 (define (run-labvel dest)
   (print "  " (symbol->string dest))

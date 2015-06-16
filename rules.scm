@@ -101,6 +101,8 @@
   (set-pretty-rules 'ark rules)
   )
 
+(define usegrkalphabet #f)
+
 (define (togrk str)
  (define rules (list
                     (s "u̯u̯" "u̯")
@@ -152,3 +154,10 @@
  (if usegrkalphabet
      (apply-rules rules str)
      str))
+
+(set-pretty-rules 'urgerm
+  (list (s "x" "h")
+        (s "X" "ƕ")
+        (s "(<vok>)('?)(w|y)" 1 2 (consonans->sonans 3))
+        (s "y" "j")))
+

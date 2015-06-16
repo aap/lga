@@ -48,7 +48,7 @@ zu sammeln und zu sortieren.
 
 Das junggrammatische Postulat der Ausnahmslosigkeit der Lautgesetze,
 das fordert, dass Lautgesetze wie mechanisch ablaufen,
-wirkt sehr einladend,
+wirkt wie eine Einladung,
 tatsächlich einen Mechanismus zu entwickeln,
 der die Anwendung von Lautgesetzen simuliert.
 Im 19. Jh. war dies natürlich unmöglich,
@@ -59,13 +59,14 @@ diese eigentlich sehr naheliegenden Idee zu verwirklichen.
 
 Eine solche Lautwandelsimulation erfordert,
 dass die Lautgesetze präzise und in korrekter Chronologie formuliert werden,
-und erlaubt sowohl
+und erlaubt sowohl,
 selbige Aufstellung ohne großen Aufwand an beliebig vielen Testwörtern
-zu überprüfen
+zu überprüfen,
 als auch belegte Wörter auf ihre Lautgesetzlichkeit hin zu überprüfen.
 
 Das hier vorgestellte Programm \tt{lga} ist
-der Nachfolger eines Prototyps (komplett in \tt{sed} geschrieben),
+der Nachfolger eines Prototyps
+(komplett in \tt{sed} geschrieben),
 der primitiver war und einige Mängel aufzeigte.
 Ebenso ist aber \tt{lga} nur als Prototyp
 für ein elaborierteres Programm zu verstehen.
@@ -73,23 +74,30 @@ Im Laufe der Arbeit wird sich herausstellen,
 welche Probleme, Mängel und weiteren Anforderungen es gibt,
 die man in einer nächsten Version angehen müsste.
 
-Im ersten Teil dieser Arbeit wird \tt{lga}
-in seinen Designideen und in seiner Funktionsweise vorgestellt.
-Im zweiten Teil wird \tt{lga} benutzt,
-um die Lautentwicklung vom Urindogermanischen ins Altgriechische zu modellieren.
+Im ersten Teil dieser Arbeit werde ich \tt{lga}
+in seinen Designideen und in seiner Funktionsweise vorstellen.
+Im zweiten Teil werde ich mit Hilfe von \tt{lga} eine relative Chronologie der
+Lautgesetze, die vom Urindogermanischen in die altgriechischen Dialekte führen,
+aufstellen.
+Hierbei ist \tt{lga} prinzipiell natürlich nicht notwendig,
+aber es ist eine große Hilfe dabei Fehler und Ungenauigkeiten zu finden,
+die sonst nicht aufgefallen wären.
+
+\section{Zum Lautwandel allgemein}
+TODO. Junggrammatiker, Katicic, ...
 
 \section{lga}
 
 \subsection{Vorüberlegungen}
 
 Wenn ein Lautgesetzt wirkt,
-wird ein Laut (oder mehrere) durch einen anderen ersetzt.
+wird ein Laut oder eine Lautgruppe durch eine andere oder nichts ersetzt.
 Da man Laute phonetisch notieren kann,
 kann man auch ein Lautgesetz durch Ersetzung
-von einem Zeichen durch ein anderes beschreiben.
+von Zeichen durch andere Zeichen beschreiben.
 
 Da Lautwandel meist durch die Lautumgebung bedingt ist
-und sich oft nicht nur ein Laut sondern Lautgruppen verändern
+und sich oft nicht nur ein Laut sondern Lautklassen verändern
 (bspw. Stimmloswerdung von stimmhaften Lauten),
 ist es sinnvoll,
 eine Sprache zu entwicklen,
@@ -103,25 +111,28 @@ Wenn sich gezeigt hat,
 welche Defizite reguläre Ausdrücke für diesen Anwendungsfall haben,
 wird man eine besser geeignete Sprache entwickeln und implementieren können.
 
-Als Programmiersprache wird CHICKEN -- eine Implementation von Scheme --
-verwendet (\tt{http://www.call-cc.org/}).
+Als Programmiersprache habe ich die Scheme-Implementation CHICKEN
+\footnote{\tt{http://www.call-cc.org/}}
+und die \tt{irregex}-Engine für reguläre Ausdrücke
+\footnote{\tt{http://wiki.call-cc.org/man/4/Unit\%20irregex}}
+gewählt.
 
 \subsection{Reguläre Ausdrücke}
 
 Hier eine (informelle)
 Beschreibung der hier verwendeten Untermenge regulärer Ausdrücke.
 Die vollständige Dokumentation für die \tt{irregex}-Engine für
-CHICKEN findet sich auf
-\tt{http://wiki.call-cc.org/man/4/Unit\%20irregex}
+CHICKEN findet sich unter dem oben genannten Link.
 
 Die grundlegende Funktion von regulären Ausdrücken ist das
 Finden (engl. \bel{match}) von Zeichenketten (String) anhand eines Musters.
 Der gematchte Text kann dann durch einen anderen ersetzt werden,
 der Teile des Matches wieder aufnehmen kann.
 
-Ein regulärer Ausdruck matcht einen String aus einem Alphabet;
-hier die Menge der Unicode \emph{Codepoints} (nicht
-der \emph{Grapheme}, die aus mehreren Codepoints bestehen können).
+Ein regulärer Ausdruck matcht einen String aus einem Alphabet.
+Dies ist hier die Menge der Unicode \emph{Codepoints}, nicht die
+der Unicode \emph{Grapheme},
+welche nämlichen aus mehreren Codepoints bestehen können.
 
 Ein Zeichen des Alphabets, das kein Metazeichen ist (dazu unten),
 matcht sich selbst.
@@ -168,8 +179,11 @@ Neben ihrer Gruppierungsfunktion werden die Submatches innerhalb
 der Klammern für die Ersetzung gespeichert.
 \tt{([0-9]+)foo([0-9]+)} würde also zwei Zahlen und \tt{foo} dazwischen
 matchen.
-Die Zahlen wären dann in den submatchtes \tt{1} und \tt{2} gespeichert
+Die Zahlen wären dann in den Submatches \tt{1} und \tt{2} gespeichert
 und können im Ersetzungstext wieder aufgegriffen werden.
+Dabei gilt, dass verschachtelte Klammerausdrücke vor Klammern derselben
+Ebene numeriert werden. Also wären die Submatches in z.B. \tt{(a(b)(c))(x)}
+der Reihe nach \tt{abc}, \tt{b}, \tt{c}, \tt{x}.
 
 Mit dem senkrechten Strich \tt{e0|e1} wird \tt{e0}
 oder \tt{e1} gematcht (der Senkrechtstrich hat die niedrigste Präzedenz).

@@ -135,6 +135,8 @@
     ;; VNsV > VNhV
     (s "(<vok>)(['~]?)(<nasal>)s(<vok>)" 1 2 3 "h" 4)
 
+    ;; ab hier substrat-s
+
     ; sy,ys > yy -- Rix §89g, Lejeune §127
     ; TODO: Datierung
     ;       was neben Konsonant (Csy)? vermutlich verlust
@@ -329,13 +331,16 @@
                                         ,(s "Ō" "ō")))
 
 
-    ;;; w -- Teil 1
-    ;; TODO: dialekte
-    `(sub (ion-att) (,(s "^hw" "h")
-                     ,(s "^w(<vok>)" 1)
-                     ,(s "^wr" "hr")
-                     ,(s "(<vok>)(['~]?)yw(<vok>)" 1 2 "yy" 3)
-                     ,(s "(<vok>)(['~]?)w(<vok>)" 1 2 3)))
+    ;;; w > 0
+    ; TODO: dialekte. vieles unklar
+    ; V_V früh -- Buck §53
+    `(sub (ion-att inseldor lesb kret ark) (,(s "(<vok>)(['~]?)w(<vok>)" 1 2 3)))
+    ; _V später (TODO: wann > h?)
+    `(sub (ion-att inseldor lesb) (,(s "^w(<vok>)(['~]?)s" "h" 1 2 "s")
+                                   ,(s "^w(<vok>)" 1)
+                                   ,(s "(<vok>)(['~]?)yw(<vok>)" 1 2 "yy" 3)
+                                   ,(s "^hw" "h")))
+    `(sub (ion-att inseldor) (,(s "^wr" "hr")))
 
     ;;; hR-
     ;; TODO: dialekte
@@ -346,7 +351,9 @@
 
 
     ;;; 3. Ersatzdehnung/Schwund
-    ;; TODO: dialekte nach Rix §72; Bartoněk?
+    ;; TODO: dialekte nach Rix §72; Bartoněk, Buck?
+    ; [wo]arg?
+    ; sw kret. erhalten
     `(sub (ion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d|s)w" (dehnung2 1) 4)))
     `(sub (ion-att lesb lak) (,(s "(r|l|n|d|s)w" 1)))
     ;; TODO: dialekte?
