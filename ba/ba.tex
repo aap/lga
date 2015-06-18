@@ -217,7 +217,7 @@ macht aus der Liste von Wörtern \tt{words} aus Effizienzgründen einen
 einzigen String,
 in dem jedes Element von \tt{words} in einer eigenen Zeile steht,
 wendet darauf die drei Regellisten an,
-und gibt das Ergebnis aus.
+und gibt das Ergebnis zurück.
 
 Zunächst wird mit der Funktion \tt{(make-path tree start end)} anhand
 eines Sprachstammbaums \tt{tree}
@@ -241,8 +241,11 @@ Ein vereinfachter Stammbaum könnte also bspw. folgendermaßen aussehen:
             (ion-att ion att euboi)))
 \end{verbatim}
 Es sei angemerkt,
-dass die so beschriebenen Verhältnisse nicht streng als Verwandtschaft
-interpretiert werden sollten.
+dass die so beschriebenen Verhältnisse nicht streng als genetische
+Verwandtschaft interpretiert oder zumindest verwendet werden sollten.
+%
+%TODO: besser schreiben
+%
 Att. und ion. mögen zwar auf ein Urion. zurückgeführt werden,
 aber auch nach ihrer Aufspaltung teilen sie noch gewisse Entwicklungen.
 Ebenso gibt es gemeingriechische Entwicklung die nach-urgriechisch sind.
@@ -252,12 +255,14 @@ Die beste Möglichkeit ist es womöglich,
 auf die Vorsilbe \textit{ur-} zu verzichten und bspw. \tt{gr}
 gleichermaßen für urgriechisch und gemeingriechisch zu verwenden
 (ebenso wäre statt \tt{urion} besser \tt{ion-att} zu verwenden).
+%
+%
 
 Der Lautgesetzbaum ist eine Liste von vier möglichen Elementen, nämlich
 Funktionen, die einen String als Argument nehmen und einen String zurückgeben
 (also Funktionen, die Lautgesetze anwenden),
-Symbole, die eine Sprachstufe markieren,
-und zwei Arten von Listen des Typs \tt{(br/sub lang-lst rule-tree)},
+Symbole, die eine erreichte Sprachstufe markieren,
+und zwei Arten von Listen des Typs \tt{(br|sub lang-lst rule-tree)},
 deren zweites Element eine Liste von Sprachen ist,
 für die sie gelten (bzw. nicht gelten, wenn das erste Element \tt{not} ist),
 und deren drittes Element ein weiterer Lautgesetzbaum ist.
@@ -276,6 +281,7 @@ diese sich aber im einzelnen unterscheiden.
 Mit \tt{sub} kann man einfach Regeln für bestimme Dialekte oder
 Dialektgruppen definieren ohne für jeden Dialekt einen eigenen Sprachzweig
 haben zu müssen.
+% TODO: problem von oben wieder aufgreifen
 
 Die Funktion \tt{(make-rules tree path)}
 gibt anhand des Lautgesetz\emph{baums} \tt{tree} eine \emph{Liste}
@@ -320,9 +326,16 @@ repräsentieren würde,
 hätte man dieses Problem natürlich zwar nicht,
 jedoch bietet Unicode für solche Vorhaben keine definierten Codepoints.
 Dafür müsste man die Private Use Area benutzen,
-wodurch die Kodierung jedoch von der Schriftart abhängig wird:
+wodurch die Kodierung jedoch von der Schriftart abhängig wird,
 eine unschöne Lösung.
-In der hier entwickelten Version von \tt{lga} wird das Problem nicht gelöst.
+Eine Möglichkeit, dieses Problem zu umgehen, ist,
+Polygraphen sowohl in den zu transformierenden Wörtern als auch in den
+die Lautgesetze beschreibenden regulären Ausdrücken durch
+beliebige unbenutzte Codepoints zu ersetzen
+und am Ende die umgekehrte Ersetzung durchzuführen,
+so dass die nur intern verwendeten Codepoints nirgendwo graphisch auftauchen.
+In der hier entwickelten Version von \tt{lga} wird das Problem
+aus Effizienzgründen jedoch noch nicht gelöst.
 Stattdessen müssen die Lautgesetze vorläufig
 besonders vorsichtig formuliert werden,
 der obere Fall also als \tt{(s "b([\textasciicircum{}ʰ])" "p" 1)}.
@@ -363,7 +376,8 @@ Die Lautklassen sind jedoch zur Laufzeit nicht vernünftig veränderbar,
 da sie zur Zeit der Auswertung von \tt{s} in den regulären Ausdruck
 eingefügt werden,
 man die Definition aber wohl am ehesten aus dem Lautgesetzbaum heraus
-verändern wollen würde.
+verändern wollen würde
+(Lautklassen sollten also dynamisch statt lexikalisch gebunden sein).
 Hier wird nur eine neuentwickelte Lautgesetzengine wirklich
 Abhilfe schaffen können.
 
@@ -413,7 +427,7 @@ sind unter ihrem Sprachnamen ebenfalls in
 assoziativen Listen abgelegt.
 
 Hiermit ist die Funktionalität von \tt{lga} weitestgehend erläutert.
-Eine genauere Beschreibung kann natürlich nur der Quelltext selber liefern.
+Eine exakte Beschreibung kann natürlich nur der Quelltext selber liefern.
 
 \section{Modellierung der Lautentwicklung des Altgriechischen}
 \subsection{Vorbemerkungen}
