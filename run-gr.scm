@@ -3,6 +3,41 @@
 (define run
   (lambda () (load "run-gr.scm")))
 
+(define (run-contr dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "enīkae"
+    "nīkáei̯"
+    "tīmáomen"
+    " ́-āo"
+    "i̯ā~u̯os"
+    "lāu̯ós"
+    "nasu̯ós"
+    "au̯sṓs"
+    "lāu̯okrínēs"
+    "-ā́sōm"
+    "tʰeāu̯ōrós"
+    "potei̯dā́u̯ōn"
+    "koināu̯ṓn"
+    "u̯étesa"
+    "kréu̯as"
+    "-éās"
+    "génesos"
+    "tʰesós"
+    "su̯ādéu̯os"
+    "pʰiléi̯ō nt i"
+    "pʰiléi̯oi̯"
+    "-ē~os"
+    "hikʷkʷóu̯anaks"
+    )))
+  (newline))
+(run-contr 'att)
+(run-contr 'ostion)
+(run-contr 'hom)
+(run-contr 'lesb)
+(run-contr 'boiot)
+(run-contr 'kret)
+
 (define (run-misc dest)
   (print "  " (symbol->string dest))
   (print (run-list 'uridg dest (list
@@ -93,7 +128,7 @@
     "-dʰu̯e"
     )))
   (newline))
-;(run-ky 'ion)
+;(run-ky 'ostion)
 ;(run-ky 'euboi)
 ;(run-ky 'att)
 ;(run-ky 'boiot)
@@ -141,7 +176,7 @@
 ;(run-2ed 'lesb)
 ;(run-2ed 'thess)
 ;(run-2ed 'boiot)
-;(run-2ed 'ion)
+;(run-2ed 'ostion)
 ;(run-2ed 'el)
 ;(run-2ed 'ark)
 ;(run-2ed 'kret)
@@ -160,7 +195,7 @@
     )))
   (newline))
 ;(run-wau 'att)
-;(run-wau 'ion)
+;(run-wau 'ostion)
 ;(run-wau 'inseldor)
 ;(run-wau 'kret)
 ;(run-wau 'el)

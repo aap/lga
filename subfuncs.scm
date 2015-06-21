@@ -150,6 +150,14 @@
           (s "ĺĺ" "l")
           (s "ńń" "n"))))
 
+(define ->acute
+  (match-rulelist
+    (list (s "~" "'"))))
+
+(define ->circumflex
+  (match-rulelist
+    (list (s "'" "~"))))
+
 (define ->A
   (match-rulelist
     (list (s "(!|$)" "!"))))

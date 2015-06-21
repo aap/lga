@@ -181,7 +181,7 @@
                                   (sdor el lak inseldor warg kret))
                              (aiol boiot (thess wthess othess) lesb))
                        (sogr (ach myk ark kypr pamph)
-                             (ion-att ion att euboi))))
+                             (ion-att (ostion hom) inselion euboi att))))
           (urar (urir ap
                       (urav aav jav))
                 (uria ved))

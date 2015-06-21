@@ -314,6 +314,8 @@
     ;;; ion. ā > ǣ
     `(sub (ion-att) (,(s "ā" "Ā")))
 
+    ;;;; ca. 800
+
     ;;; 2. Ersatzdehnung/Diphthongierung
     ;; TODO: bei allen Vokale gleich? (nicht im kyrenischen)
     ;; VnsV
@@ -330,6 +332,27 @@
     `(sub (not ion-att nwdor inseldor) (,(s "Ē" "ē")
                                         ,(s "Ō" "ō")))
 
+
+    ;;; ältere Kontraktionen, TODO: datieren
+    ; a,ā + e
+    `(sub (ion-att) (,(s "(a|ā)'e" "ā~")
+                     ,(s "(a|ā)e" "ā")))
+    (s "(a|ā)'e" "ē~")
+    (s "(a|ā)e" "ē")
+    ; a+O
+    (s "a'(o|ō|Ō)" "ō~")
+    (s "a(o|ō|Ō)" "ō")
+    ; att. a+e
+    `(sub (att) (,(s "e'a" "ē~")
+                 ,(s "ea" "ē")))
+    ; att. e+o,ō
+    `(sub (att) (,(s "e'o" "Ō~")
+                 ,(s "e'ō" "ō~")
+                 ,(s "eo([^'])" "Ō" 1)
+                 ,(s "eō([^'])" "ō" 1)))
+    ; e + ē
+    (s "e'ē" "ē~")
+    (s "eē" "ē")
 
     ;;; w > 0
     ; TODO: dialekte. vieles unklar
@@ -349,13 +372,20 @@
     ;;; att. ǣ > ā \ eir_
     `(sub (att) (,(s "(((e|ē|Ē|i|ī)(['~]?))|r|y)Ā" 1 "ā")))
 
+    ;;;; ca. 700
 
-    ;;; 3. Ersatzdehnung/Schwund
+    ;;; 3. Ersatzdehnung/Schwund; e+e, o+o Kontraktion
     ;; TODO: dialekte nach Rix §72; Bartoněk, Buck?
     ; [wo]arg?
     ; sw kret. erhalten
-    `(sub (ion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d|s)w" (dehnung2 1) 4)))
+    `(sub (inselion ostion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d|s)w" (dehnung2 1) 4)))
     `(sub (ion-att lesb lak) (,(s "(r|l|n|d|s)w" 1)))
+    ; Kontraktion
+    (s "e'e" "Ē~")
+    (s "ee" "Ē")
+    ; TODO: oe nicht in allen Dialekten
+    (s "o'(o|e)" "Ō~")
+    (s "o(o|e)" "Ō")
     ;; TODO: dialekte?
     `(sub (not ion-att nwdor sardor) (,(s "Ē" "ē")
                                       ,(s "Ō" "ō")))
@@ -366,9 +396,31 @@
     (s "tš" "ss")
     (s "^ss" "s")
 
-    `(sub (ion-att) (,(s "Ā" "ē")))
-
     ;;; Psilose -- Rix §68
-    `(sub (lesb ion el kret) (,(s "h")))
+    `(sub (el lesb ostion inselion kret) (,(s "h")))
+
+    ;;;; ca. homerisch; Sprachstufe der ionischen Archaismen
+    'hom
+
+    ; TODO: datierung? dialekte?
+    `(sub (not inselion) (,(s "Ā" "ē")))
+
+    ;;; jüngere Kontraktionen; teilweise nach Einsetzen der Überlieferung
+    ; o + a > ō (nach w > 0)
+    (s "o'a" "ō~")
+    (s "oa" "ō")
+    ; ē + o,ō; TODO: genauere Bedinungen
+    `(sub (att) (,(s "ē'ō" "ō~")))
+    (s "ē(['~]?)(o|ō)" "e" (->acute 1) "ō")
+    ; e + ē (nach ion. ā > ē)
+    (s "e'ē" "ē~")
+    (s "eē" "ē")
+    ; ā + o,ō; TODO: datierung? dialekte (aiol, hom)?
+    `(sub (dor) (,(s "ā(['~])ō" "ā~")
+                 ,(s "āō" "ā")))
+    `(sub (dor) (,(s "ā(['~])o" "ā~")
+                 ,(s "(['~])(.*)āo" 1 2 "ā")
+                 ,(s "āo([^'])" "ā" 1)))
+
     ))
 

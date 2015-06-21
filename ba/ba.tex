@@ -444,10 +444,7 @@ Eigentlich wäre wie schon oben beschrieben für Aspiraten oder sonstige Laute,
 die mit mehreren Codepoints ausgedrückt werden,
 ein einziger Codepoint
 oder eine Möglichkeit, mehrere Codepoints als ein Zeichen zu behandeln,
-praktischer und angemessen,
-aber da ersterer Fall, wie ja schon angemerkt, nicht von Unicode
-abgedeckt wird, wäre man dann von der Schriftart abhängig,
-und der zweite Fall wird von \tt{irregex} nicht unterstützt.
+praktischer und angemessen.
 Für die Labiovelare wurden im Gegensatz zu den Velaren Großbuchstaben verwendet,
 um dieses Problem zu vermeiden und auch
 die silbischen Resonanten \bel{r̥l̥m̥n̥} werden mit den Großbuchstaben \tt{RLMN} ausgedrückt.
@@ -461,7 +458,7 @@ Die Umwandlung dieser graphematischen Schreibungen in die interne
 (mehr oder weniger phonetische) Darstellung geschieht in der Liste der
 phonologischen Regeln für \tt{uridg} (in \tt{rules.scm}).
 
-Als weitere (echte) phonologische Regeln für das Uridg.
+Als weitere phonologische Regeln für das Uridg.
 sind Laryngalumfärbung (\rek{e} neben \rek{h₃} jedoch noch von \rek{o}
 verschieden, was allerdings für das Gr. belanglos ist)
 und Stimmhaftwerdung von \rek{s} neben stimmhaften Konsonanten beschrieben.
@@ -480,8 +477,11 @@ in drei Etappen aufgestellt.
 Zunächst wird die Lautentwicklung bis ins Urgriechische modelliert,
 dann bis und in mykenischer Zeit und schließlich in die Dialekte
 der alphabetischen Zeit.
-Die dazu verwendete Literatur ist im wesentlichen \cite{rix}, \cite{bart_hand},
-\cite{bart_frueh}, \cite{sihler}.
+Die dazu verwendete Literatur ist im wesentlichen \cite{rix},
+\cite{bart_frueh},
+\cite{bart_hand},
+\cite{sihler},
+\cite{buck}.
 
 Eine (relative) Chronologie aller Lautgesetze lässt sich nicht immer
 mit Sicherheit aufstellen,
@@ -494,11 +494,65 @@ Hier werden dann die Lautgesetze entweder mit ähnlichen
 anderen Gesetzen oder nach Gefühl einsortiert.
 
 Auch ist die Aufstellung hier keinesfalls als endgültig anzusehen.
-Die Details vieler Lautwandel würden oft einer genaueren Untersuchung bedürfen,
-die den Rahmen dieser Arbeit sprengen würden.
+Besonders Entwicklungen, die in die spätere dialektale Zeit fallen
+wie Digammaschwund und Kontraktionen
+die zum Teil nach Einsetzen der Überlieferung stattfinden,
+sind zu unübersichtlich und unklar,
+um sie hier angemessen zu modellieren ohne den Rahmen der Arbeit zu sprengen
+(Schwierigkeiten werden im Text genannt).
+Aber auch über sicherere Entwicklungen lässt sich im Detail fast immer streiten.
 Sowohl das Programm \tt{lga} als auch die Formulierung
-der Lautgesetze sind somit als vorläufige Ergebnisse zu sehen,
-auf denen weitere Arbeiten aufbauen sollen.
+der Lautgesetze sind somit als vorläufiges Ergebnis oder Gerüst zu sehen,
+auf dem weitere Arbeiten aufbauen sollen.
+
+\subsection{Das Lautsystem des Urindogermanischen}
+
+%TODO: ausführlicher sein
+
+Das hier angenommene Lautsystem des Uridg. besitzt folgende Laute.
+Umstrittene Laute stehen in Klammern.
+Teilweise ist nur der Phonemstatus umstritten,
+aber Phoneme sind für Lautgesetze ohnehin uninteressant.
+Andererseits sind die hier aufgeführten Laute natürlich immer noch
+eine Abstraktion über die tatsächlichen Laute,
+was aber in der Natur der Rekonstruktion liegt
+und auch aus pragmatischen Gründen kaum anders gehandhabt werden könnte.
+
+\bigskip
+\noindent
+Vokale: \rek{a}, \rek{ā}, \rek{e}, \rek{ē}, \rek{o}, \rek{ō},
+\rek{i}, (\rek{ī}), \rek{u}, (\rek{ū})
+
+\noindent
+Silbische Resonanten: \rek{r̥}, \rek{l̥}, \rek{m̥}, \rek{n̥}
+
+\noindent
+Resonanten und Halbvokale: \rek{r}, \rek{l}, \rek{m}, \rek{n}; \rek{i̯}, \rek{u̯}
+
+\noindent
+Verschlusslaute:\\
+\begin{tabular}{l l l l l}
+Labiovelare & \rek{kʷ} & \rek{gʷ} & \rek{gʷʰ} & (\rek{kʷʰ})\\
+(Rein)velare & \rek{k} & \rek{g} & \rek{gʰ} & (\rek{kʰ})\\
+Palatale & \rek{k̑} & \rek{g̑} & \rek{g̑ʰ} & (\rek{k̑ʰ})\\
+Dentale & \rek{t} & \rek{d} & \rek{dʰ} & (\rek{tʰ})\\
+Labiale & \rek{p} & \rek{b} & \rek{bʰ} & (\rek{pʰ})\\
+\end{tabular}
+
+\noindent
+Frikative und sonstige: \rek{s}, \rek{z}, \rek{h₁}, \rek{h₂}, \rek{h₃}, (\rek{þ})
+
+\bigskip
+\rek{z} ist Allophon von \rek{s} vor stimmhaften Konsonanten.
+Beide werden aber der Einfachheit halber in \tt{lga} als \rek{s} repräsentiert.
+
+Die genaue Artikulation der Laryngale \rek{h₁}, \rek{h₂}, \rek{h₃}
+ist nicht klar. Meist werden Frikative vermutet,
+neben denen ggf. Sprossvokale eingefügt werden.
+
+Der Laut \rek{þ} ist umstritten,
+sowohl seine Existenz als auch seine Artikulation
+(vielleicht dentale Affrikata?).
 
 \subsection{Urindogermanisch bis Urgriechisch}
 
@@ -518,7 +572,6 @@ und die Anfänge diverser Palatalisierungen.
 Das Griechische ist eine Kentumsprache,
 es fallen also die uridg. Palatale mit den Velaren zusammen.
 (Rix §92-94)
-
 \mypara{\rek{TT} > \bel{sT}}
 In der Verbindung zweier Dentale wird der erste zu urgr. \rek{s}.
 (Rix §106c)
