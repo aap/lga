@@ -17,12 +17,9 @@
     (s "(k|K)þ" 1 "t")
     (s "(k!|K!)þ" 1 "t!")
 
-    ;;; Rix §106c
-    (s "(<dental>)(<dental>)" "s" 2)
-
     ;;; (H)i̯ im Anlaut -- gegen Rix §68,80e
-    (s "^y(<vok>)" "dy" 1)
-    (s "^(<lary>)y(<vok>)" "y" 2)
+    (s "^y" "dy")
+    (s "^(<lary>)y" "y")
 
     ;;; Laryngale -- Rix §79-85
     ; Rix §85d
@@ -34,10 +31,8 @@
     ; Dehnung -- Rix §82b,84,85a
     (s "(<vok>)('?)(<lary>)(<kons>|<s-res>|$)"
        (dehnung 1) 2 (sonans->consonans 4))
-    ; Rix §80d
-    (s "^(<lary>)(<kons>)" (laryngal->vokal 1) 2)
-    ; Rix §82c
-    (s "(<kons>)(<lary>)(<kons>)" 1 (laryngal->vokal 2) 3)
+    ; Rix §80d, §82c
+    (s "(<kons>|^)(<lary>)(<kons>)" 1 (laryngal->vokal 1) 2)
     ; Rix §85c
     (s "NH2$" "na")
     ; Rix §84
@@ -48,7 +43,7 @@
     (s "(<s-res>)'(<lary>)(<kons>)"
        (laryngal->vokal 2) "'" (sonans->consonans 1) (laryngal->vokal 2) 3)
     ; Rix §79bc
-    (s "^(<lary>)(u|ū|<s-res>)" (laryngal->vokal 1) (sonans->consonans 2))
+    (s "^(<lary>)(u|<s-res>)" (laryngal->vokal 1) (sonans->consonans 2))
     ; kompletter Verlust -- Rix §79a,81a,82d,84
     (s "<lary>")
 
@@ -128,7 +123,7 @@
     'urgr1
 
     ;;; s > h
-    ; s > h \ (#|V)_(V|RV) -- Rix §88,89
+    ; s > h \ ($|V)_(V|RV) -- Rix §88,89
     (s "(^|(<vok>)(['~]?))s((<vok>)|(<res>|w)(<vok>))" 1 "h" 4)
     ;; VRsV > VRhV in unbetonten Silben (Datierung?)
     (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
@@ -149,7 +144,7 @@
     ;;; Osthoff -- Rix §64
     ; Wohl nach *ns > *nh wegen μηνός < *mēnsós und
     ;      vor Verlust von Okklusiven im Auslaut
-    ; *nh (und *nm *u̯i̯?) nicht betroffen
+    ; *nh (und *nm, *u̯i̯?) nicht betroffen
     (s "nh" "#nh")
     (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
     (s "#")
@@ -218,10 +213,6 @@
 
     `(sub (el) (,(s "ē" "ā")))
 
-    ;;; u̯i̯ > ẅẅ
-    ; Datierung?
-    (s "wy" "ẅẅ")
-
     ;;;; ca. 1000
 
     ;;; Labiovelare > T/P -- Rix §96-99
@@ -256,9 +247,16 @@
     ;;; CsC -- Rix §87c, Lejeune §132-133
     ; TODO: πασταδ-/παρταδ- < parstad-
     ;       θύσθεν < *tʰurstʰen
+    (s "(<res-yw>)s(<tenuis>|<tenuisasp>)" 1 "#s" 2)
     (s "(<kons>)s(<kons>)" 1 "h" 2)
     (s "(<tenuis>)h" (->A 1))
     (s "(<tenuisasp>)(<tenuis>)([^!])" 1 (->A 2) 3)
+    (s "(<tenuisasp>)(<media>)([^!])" (->M 1) 2 3)
+    (s "#")
+
+    ;;; u̯i̯ > ẅẅ
+    ; Datierung? nach ChC > CC? das aber später und auch keine gute lösung
+    (s "wy" "ẅẅ")
 
     ;;; Palatale ŕŕ ĺĺ ńń -- Rix §70
     ; TODO: Datierung? wohl nach myk.
@@ -323,7 +321,7 @@
     `(sub (lesb) (,(s "(<vok>)(['~]?)ns(<vok>)" 1 2 "ys" 3)))
     `(sub (ion-att boiot el lak inseldor kypr)
           (,(s "(<vok>)(['~]?)ns(<vok>)" (dehnung2 1) 2 "s" 3)))
-    ;; Vns#
+    ;; Vns$
     `(sub (lesb el) (,(s "(<vok>)(['~]?)ns$" 1 2 "ys")))
     `(sub (ion-att boiot lak inseldor)
           (,(s "(<vok>)(['~]?)ns$" (dehnung2 1) 2 "s")))

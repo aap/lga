@@ -39,6 +39,8 @@
         ;;; TODO: bedingungen für stimmhaftwerdung
         (s "s(G|g|ǰ|d|b|r|l|m|n)" "z" 1)
         (s "(G|g|ǰ|d|b|r|l|m|n)(!?)s" 1 2 "z")
+        ;;; TT -> TsT
+        (s "(<dental>)(<dental>)" 1 "s" 2)
         ))
 
 (let ((rules (list (s "ʰ" "!")

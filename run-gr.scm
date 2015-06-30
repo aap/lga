@@ -31,12 +31,12 @@
     "hikʷkʷóu̯anaks"
     )))
   (newline))
-(run-contr 'att)
-(run-contr 'ostion)
-(run-contr 'hom)
-(run-contr 'lesb)
-(run-contr 'boiot)
-(run-contr 'kret)
+;(run-contr 'att)
+;(run-contr 'ostion)
+;(run-contr 'hom)
+;(run-contr 'lesb)
+;(run-contr 'boiot)
+;(run-contr 'kret)
 
 (define (run-misc dest)
   (print "  " (symbol->string dest))
@@ -242,6 +242,7 @@
     "kórsā"
     "akóu̯sō"
     "éu̯sō"
+    "au̯si̯ō"
     "kʰésras"
     " selásnā"
     "kʰánsas"
@@ -425,12 +426,17 @@
 ;(run-gr-test)
 
 (define (run-gr-s)
-  (print (run-list 'uridg 'urgr (list
+  (print (run-list 'uridg 'att (list
+    "au̯si̯ō"
+    "psde-"
     "pn̥dʰskoh₂"
     "dikskos"
     "legʰskeh₂"
     "migskoh₂"
-    "u̯oidtʰh₂e"
+    "u̯oi̯dtʰh₂e"  ; lautgesetzlich?
+    "u̯iddʰi"
+    "parstádes"
+    "tʰúrstʰen"
     "bʰte"
     "bte"
     "pte"

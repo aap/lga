@@ -29,6 +29,19 @@
 
 %\usepackage[texcoord,gridunit=cm]{showframe}
 
+\usepackage{xparse}
+
+\NewDocumentCommand{\lex}{mmg}{%
+  \noindent
+  \IfNoValueTF{#3}
+    {%
+      #1 > #2%
+    }
+    {%
+      #1 > #2 \textbackslash\ #3%
+    }%
+}
+
 \newcommand{\up}[1]{\textsuperscript{#1}}
 \newcommand{\ul}[1]{\underline{#1}}
 \newcommand{\ur}[1]{\up{\ref{#1}}}
@@ -205,7 +218,8 @@ zugehörigen Sprachstammbaum generiert.
 
 Die Liste der Wörter wird vorher durch eine weitere Liste von Regeln,
 die von der Ausgangssprache abhängt,
-von ihrer graphematischen Form in eine interne phonetische gebracht
+von einer graphematisch/morphonologischen
+Form in eine interne phonetische gebracht
 (was natürlich eine eindeutige Graphie voraussetzt)
 und am Ende durch noch eine Liste von Regeln,
 die von der Zielsprache abhängig ist,
@@ -421,7 +435,7 @@ Ein Lautgesetz, das alle Langvokale kürzt,
 könnte dann als \tt{(s "(<lang-vok>)" (kuerzung 1))} formuliert werden.
 
 Die eingangs erwähnten Regellisten zur Umwandlung von einer
-graphematisch/phonologischen in eine phonetische und von
+graphematisch/morphonologischen in eine phonetische und von
 einer phonetischen in eine graphematisch/phonologische Darstellung
 sind unter ihrem Sprachnamen ebenfalls in
 assoziativen Listen abgelegt.
@@ -570,32 +584,81 @@ und die Anfänge diverser Palatalisierungen.
 
 \mypara{Kentum}
 Das Griechische ist eine Kentumsprache,
-es fallen also die uridg. Palatale mit den Velaren zusammen.
-(Rix §92-94)
-\mypara{\rek{TT} > \bel{sT}}
-In der Verbindung zweier Dentale wird der erste zu urgr. \rek{s}.
-(Rix §106c)
+es fallen also die uridg. Palatale mit den Velaren zusammen (Rix §92-94).
+Da das Griechische keinerlei Anhaltspunkte dafür bietet,
+dass es je einen Unterschied zwischen diesen Lauten gab,
+wird der Zusammenfall früh datiert.
+
+\lex{\rek{k̑}, \rek{g̑}, \rek{g̑ʰ}, (\rek{k̑ʰ})}{\rek{k}, \rek{g}, \rek{gʰ}, (\rek{kʰ})}
+
+uridg. \rek{k̑}: \rek{k̑m̥tóm}: gr. ἑκατόν vs. ai. \bel{śatáṃ} `hundert'
+
+uridg. \rek{k}: \rek{leu̯kós}: gr. λευκός vs. ai. \bel{rocás} `leuchtend'
+
+uridg. \rek{g̑}: \rek{h₂ég̑onti}: att. ἄγουσι vs. av. \bel{azənti} `sie führen'
+
+uridg. \rek{g}: \rek{gerh₂nós}: gr. γερανός vs. lit. \bel{gervė} `Kranich'
+
+uridg. \rek{g̑ʰ}: \rek{u̯eg̑ʰ-/u̯ogʰ-}: att. ὄχος `Wagen' vs. av. \bel{vazāmi} `ich fahre'
+
+uridg. \rek{gʰ}: \rek{h₃migʰ-/h₃moi̯gʰ-}: gr. ὀμίχλη `Nebel' vs. ai. \bel{meghás} `Wolke'
+
+\mypara{Thorn}
+\rek{þ} (genauer Lautwert unklar) tritt nach Velaren und Labiovelaren auf.
+Nach Tenues entsprich \rek{t}, nach Media aspirata \rek{dʰ} (Rix §81).
+
+\lex{\rek{þ}}{\rek{t}}{\{Tenuis\}\_}
+
+uridg. \rek{k̑þ}: \rek{tek̑þō(n)}: gr. τέκτων vs. ai. \bel{tákṣā} `Zimmermann'
+
+\lex{\rek{þ}}{\rek{dʰ}}{\{Media asp.\}\_}
+
+uridg. \rek{gʷʰþ}: \rek{ń̥gʷʰþitom}: gr. ἄφθιτον vs. ai. \bel{ákṣitam} `unvergänglich'
 
 \mypara{*MA > TA}
-Mediae aspiratae werden zu Tenues aspiratae
-(Rix §94).
-Aufgrund der Nähe zum Makedonischen und Phrygischen
+Mediae aspiratae werden zu Tenues aspiratae (Rix §94).
+Aufgrund der Nähe zum Makedonischen und Phrygischen,
+in denen der Reflex vermutlich Media ist,
 ist dieser Wandel vielleicht später anzusetzen.
+Spätestens im Myk. ist die Stimmlosigkeit belegt.
+
+\lex{\rek{bʰ}, \rek{dʰ}, \rek{gʰ}, \rek{gʷʰ}}{\rek{pʰ}, \rek{tʰ}, \rek{kʰ}, \rek{kʰʷ}}
+
+uridg. \rek{bʰ}: \rek{bʰéronti}: dor. φέροντι vs. ai. \bel{bháranti} `sie tragen'
+
+uridg. \rek{dʰ}: zu \rek{dʰeh₁-}: att. τίθημι vs. ai. \bel{dadhā́mi} `ich setze/stelle/lege'
+
+uridg. \rek{g̑ʰ}: zu \rek{stei̯g̑ʰ-}: gr. στείχω vs. got. \bel{steigan} `steigen'
+
+uridg. \rek{gʷʰ}: zu \rek{gʷʰen-}: gr. φόνος `Mord' vs. ai. \bel{gʰnánti} `sie erschlagen' (zu \rek{kʷʰ} > \rek{pʰ} s. TODO)
 
 \mypara{\rek{(H)i̯-}}
-Da es im Gr. scheinbar zwei Vertretungen von \rek{i̯-} gibt,
+Da es im Gr. scheinbar zwei Reflexe von \rek{i̯-} gibt,
 versucht man mit der Laryngaltheorie die beiden Reflexe als \rek{Hi̯-}
 und \rek{i̯-} zu unterscheiden.
 Welcher Anlaut zu urgr. \rek{dz-} verschärft wurde,
 ist unklar -- nach Rix §68,80e ist es \rek{Hi̯-} --
-und nach dem Datenmaterial kann für beides argumentiert werden.
-Eine lautlich plausible Lösung ist
+und nach dem Datenmaterial kann für beides argumentiert werden,
+wenn man aber ὑγιής `gesund' aus \rek{h₂i̯u-gʷih₃-ḗs} `langes Leben habend'
+herleiten will (\rek{h₁su-} würde εὐ- ergeben),
+darf man \rek{Hi̯-} > \rek{i̯-} vermuten.
+Auch lautlich plausibel ist eine
 frühe Verschärfung von uridg. \rek{i̯-} zu urgr. \rek{dz-}
 (vielleicht über Zusammenfall mit ererbtem \rek{di̯-},
 das ebenfalls zu \rek{dz-} wird),
 danach Wegfall aller Laryngale (also keine Vokalisierung wie vor \rek{u̯}),
 wodurch \rek{Hi̯-} als \rek{i̯-} stehenbleibt,
 wie es im Frühmyk. belegt ist.
+
+\lex{\rek{i̯-}}{\rek{di̯-}}
+
+uridg. \rek{i̯-}: \rek{i̯ugóm}: gr. ζυγόν vs. ai. \bel{yugám} `Joch'
+
+\lex{\rek{Hi̯-}}{\rek{i̯-}}
+
+uridg. \rek{h₂i̯-}: s.o. als \rek{h₂i̯u-} `langes Leben (→ lange Zeit → Zeit)'
+wegen Vollstufe \rek{h₃ei̯u-} in z.B.
+hom. αἰεί `immer' < \rek{h₂ei̯u̯ési} `zu allen Zeiten' zu rekonstruieren.
 
 \mypara{Laryngale}
 \label{laryngale}
@@ -605,6 +668,31 @@ um eine lautlich plausiblere Entwicklung zu modellieren.
 So wird z.B. intervokalischer Laryngal nach \rek{i} oder \rek{u}
 nicht zum Gleitlaut sondern dieser entsteht erst als Hiattilger
 nach dem Laryngalschwund.
+Der Schwund der Laryngale dürfte auch eher früh passiert sein.
+Der Wandel, der hier als \rek{H} > \rek{V} geschrieben ist,
+ist als \rek{h₁}, \rek{h₂}, \rek{h₃} > \rek{e}, \rek{a}, \rek{o} zu verstehen.
+
+\lex{\rek{H}}{\rek{V}}{C\_\#}
+
+\lex{\rek{(i, u)H}}{\rek{(i, u)V}}{CC\_\#}
+
+\lex{\rek{(i, u)H}}{\rek{(i̯, u̯)V}}{C\_\#}
+
+\lex{\rek{VH}}{\rek{V̄}}{\_(C, R̥, \#)}
+
+\lex{\rek{H}}{\rek{V}}{(\#, C)\_C}
+
+\lex{\rek{n̥h₂}}{\rek{na}}{\_\#}
+
+\lex{\rek{HR̥}}{\rek{VR}}{C\_}
+
+\lex{\rek{Ŕ̥H}}{RV̄́}{\_C}
+
+\lex{\rek{R̥H}}{V́RV}{\_C}
+
+\lex{\rek{H(u, R̥)}}{\rek{V(u̯, R)}}{\#\_}
+
+\lex{\rek{H}}{Ø}
 
 \mypara{\rek{u̯eu̯} > \bel{u̯ei̯}}
 \rek{u̯eu̯} wird zu \rek{u̯ei̯} dissimiliert,
@@ -612,10 +700,14 @@ wie εἶπον < \rek{e-u̯e-u̯kʷ-om} (vgl. ai. \bel{avocam}) lehrt.
 Dies muss ferner vor \ref{labvel-vel} passieren,
 wie εἶπον ebenfalls zeigt.
 
+\lex{\rek{u̯}}{\rek{i̯}}{u̯e\_}
+
 \mypara{Labiovelar > Velar}
 \label{labvel-vel}
 Neben \rek{ū̆}, \rek{u̯} und vor \rek{i̯}
 fallen die Labiovelare mit den Velaren zusammen (Rix §97).
+
+\lex{\rek{kʷ, gʷ, kʷʰ}}{\rek{k, g, kʰ}}{(u, ū, u̯)\_; \_(u, ū, u̯, i̯)}
 
 \mypara{Silbische Resonanten}
 Die Entwicklung der silbischen Resonanten folgt Rix §75 und §76.
@@ -646,11 +738,6 @@ Datierung unklar.
 
 Nach Vokal werden \rek{i}, \rek{u} zu Halbvokalen (es entstehen also Diphthonge).
 Im umgekehrten Fall entsteht ein Gleitlaut zwischen den beiden Lauten.
-
-\mypara{Thorn}
-\rek{þ} (genauer Lautwert unklar) tritt nach Velaren und Labiovelaren auf.
-Nach Tenues ist entsprich \bel{t}, nach Aspirata \bel{tʰ}
-(Rix §81).
 
 \mypara{\textsc{Osthoff}}
 \label{osthoff}
