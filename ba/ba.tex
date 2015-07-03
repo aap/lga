@@ -32,6 +32,7 @@
 \usepackage{xparse}
 
 \NewDocumentCommand{\lex}{mmg}{%
+  \medskip
   \noindent
   \IfNoValueTF{#3}
     {%
@@ -573,11 +574,10 @@ sowohl seine Existenz als auch seine Artikulation
 Die Lautveränderung,
 die ins Urgr. führen, sind grob gesprochen
 die Kentumvertretung der Tektale,
-\rek{sT} als Reflex von \rek{TT},
+die Stimmloswerdung der Mediae aspiratae,
 die Entwicklung von \rek{þ},
 jegliche Laryngalentwicklungen,
 die Entwicklung der silbischen Resonanten (teilweise aber auch erst dialektal),
-die Stimmloswerdung der Mediae aspiratae,
 einige Okklusivassimilationen,
 die Entwicklung von \rek{s}
 und die Anfänge diverser Palatalisierungen.
@@ -716,6 +716,14 @@ welcher sich dialektal zu \bel{a} oder \bel{o} entwickelt.
 
 Genauere Datierung unklar.
 
+\lex{\rek{N̥}}{\rek{aN}}{(V, V̯)}
+
+\lex{\rek{N̥}}{\rek{ə}}
+
+\lex{\rek{R̥}}{\rek{əR}}{(\#, V, V̯)}
+
+\lex{\rek{R̥}}{\rek{Rə}}
+
 \mypara{Nasal vor Okklusiv}
 Vor Okklusiven wird der homorgane Nasal realisiert (Rix §78).
 Gegen Rix jedoch nicht \rek{ms} > \rek{ns} wegen
@@ -725,19 +733,115 @@ aber ohne ein Beispiel, das bei Rix fehlt, ist die Regel zunächst unnötig.
 Die Nasalassimilation passiert auch später noch und
 dürfte tatsächlich wohl über lange Zeit eine synchrone phonologische Regel sein.
 
-\mypara{\rek{m} > \rek{n} \textbackslash\ \rek{i̯}}
+\lex{\rek{N}}{\rek{m}}{\{Labial\}}
+
+\lex{\rek{N}}{\rek{n}}{\{Dental, Velar, Labiovelar\}}
+
+\mypara{\rek{mi̯} > \rek{ni̯}}
 Rix §77.
 Datierung unklar.
 Vielleicht nach \rek{m̥} > \rek{am}, aber \rek{m̥} > \rek{n̥} \textbackslash\ \rek{i̯}
 ist ebenfalls als zusätzliche Regel denkbar.
 
+\lex{\rek{m}}{\rek{n}}{i̯}
+
 \mypara{Benachbarte Vokale nach Laryngalschwund (1. Kontraktion)}
 Kontraktion von \rek{e}, \rek{a}, \rek{o},
 zwischen denen Laryngal geschwunden ist (Rix §81).
+Hier entsteht zuerst der Intonationsunterschied zwischen Akut und Zirkumflex.
+Trägt der erste Vokal den Akzent, ist das Kontraktionsprodukt zirkumflektiert.
+Trägt ihn der zweite, ist es akutiert.
 Datierung unklar.
+
+\lex{\rek{VV}}{\rek{V̄}} (\rek{V} = \rek{a}, \rek{e}, \rek{o})
 
 Nach Vokal werden \rek{i}, \rek{u} zu Halbvokalen (es entstehen also Diphthonge).
 Im umgekehrten Fall entsteht ein Gleitlaut zwischen den beiden Lauten.
+
+\lex{\rek{i, u}}{\rek{i̯, u̯}}{V\_}
+
+\lex{\rek{i, u}}{\rek{ii̯, uu̯}}{\_V}
+
+\mypara{Okklusivassimilation}
+Okklusive werden an folgende Okklusive in
+Aspiration und Stimmhafigkeit assimiliert (Rix §106a).
+
+Hier dürfte es sich wohl eigentlich um eine phonologische Regel handeln.
+
+\lex{\rek{\{Okklu.\}}}{\rek{\{Media\}}}{\{Media\}}
+
+\lex{\rek{\{Okklu.\}}}{\rek{\{Tenuis\}}}{\{Tenuis\}}
+
+\lex{\rek{\{Okklu.\}}}{\rek{\{Aspirata\}}}{\{Aspirata\}}
+
+\mypara{\rek{Ku̯} > \rek{(Kʷ)Kʷ}}
+\label{kw}
+Velar + \rek{u̯} wird zum Labiovelar, zwischen Vokalen als Geminate (Rix §104),
+um das Silbengewicht zu erhalten (vielleicht nur nach Kurzvokal?).
+
+\lex{\rek{Ku̯}}{\rek{KʷKʷ}}{V\_V}
+
+\lex{\rek{Ku̯}}{\rek{Kʷ}}
+
+\mypara{Beseitigung von Geminaten}
+\label{gem}
+Das Gr. muss eine Zeit lang Geminaten vermieden haben.
+Entweder generell wie das Uridg.
+-- dann müsste diese Regel vor \ref{kw} kommen
+und dort die Gemination nur nach Kurzvokal passieren --
+oder nur im Silbenanlaut (also nur nicht nach Kurzvokal)
+wie αἰπόλος < \rek{ai̯kʷolos} < \rek{ai̯g-kʷolos} zeigt.
+Weitere Beispiele könnten die Verhältnisse klarer machen.
+
+Datierung unklar.
+Vermutlich nach \ref{kw} und sicher vor \ref{pal}.
+
+\lex{\rek{C:}}{\rek{C}}{.\_}
+
+\mypara{Assimilation über \bel{s}}
+\label{s-assim}
+Eine Tenuis hinter \rek{s} wird an eine vor \rek{s} stehende
+Media oder Tenuis aspirata in ihrer Artikulationsart angeglichen (Rix §105).
+
+Auf jeden Fall vor \ref{okklu-s} wegen πάσχω < \rek{pʰatʰskō},
+λέσχη < \rek{lekʰskā}, μίσγω < \rek{migskō}.
+
+\lex{\rek{\{Tenuis\}}}{\rek{\{Media\}}}{\{Media\}s\_}
+
+\lex{\rek{\{Tenuis\}}}{\rek{\{Aspirata\}}}{\{Aspirata\}s\_}
+
+\mypara{CsC > sC}
+Steht \rek{s} zwischen zwei gleichen Konsonanten, schwindet der erste (Rix §104).
+Welche Konsonanten das im einzelnen sind, scheint nicht ganz klar zu sein.
+
+\lex{\rek{C₁}}{\rek{Ø}}{\_C₂} (C₁ = C₂)
+
+\mypara{Cs}
+\label{okklu-s}
+Vor \bel{s} werden Okklusive zu Tenues (Rix §105).
+
+Auf jeden Fall nach \ref{s-assim} wegen μίσγω.
+
+\lex{\rek{\{Okklu.\}}}{\rek{\{Tenuis\}}}{s}
+
+\subsection*{urgr1}
+
+\mypara{\rek{s} > \rek{h}}
+\rek{s} > \rek{h} vor Vokal oder Resonant oder zwischen Vokalen (Rix §86,89).
+Vor \rek{m} ist \rek{s} jedoch (sogar im selben Wort) teilweise erhalten.
+
+Datierung unklar.
+
+\mypara{\rek{s} neben \rek{i̯}}
+Nach Rix §89g ist \rek{s} neben \rek{i̯} über \rek{h} assimilert worden.
+Die Beispiele belegen jedoch nur eine Assimilation bei \rek{si̯}
+und der Weg über \rek{h} scheint nur aus systematischen Gründen gewählt zu sein.
+
+Tatsächlich gibt es nämlich Probleme wenn man die Dat.Pl. Endung -οισι
+lautgesetzlich aus \rek{-oi̯si} erklären möchte.
+Daher wird hier auf die Annahme einer Assimilation bei \rek{i̯s} verzichtet.
+
+Datierung unklar.
 
 \mypara{\textsc{Osthoff}}
 \label{osthoff}
@@ -761,72 +865,8 @@ Auslautendes \rek{m} erscheint als \bel{n} (Rix §77).
 
 Genauere Datierung in beiden Fällen unklar.
 
-\mypara{Okklusivassimilation}
-Okklusive werden an folgende Okklusive in
-Aspiration und Stimmhafigkeit assimiliert (Rix §106a).
-
-Hier dürfte es sich wohl eigentlich um eine phonologische Regel handeln.
-
-\mypara{Beseitigung von Geminaten}
-\label{gem}
-Wie das Uridg. muss auch das Gr. eine Zeit lang Geminaten vermieden haben
-(vielleicht nur nach Langvokal/Diphthong?),
-wie αἰπόλος < \rek{ai̯kʷolos} < \rek{ai̯g-kʷolos} zeigt.
-Weitere Beispiele könnten die Verhältnisse klarer machen.
-
-Datierung unklar,
-möglicherweise handelt es sich hier um eine phonologische Regel
-(die in späterer Zeit jedoch nicht mehr gilt).
-
-\mypara{\rek{ku̯} > \rek{kʷ}}
-\rek{ku̯} > \rek{kʷ} (Rix §104).
-Statt Gemination im Inlaut, wie Rix schreibt,
-scheint eine Erhaltung des Silbengewichts wahrscheinlicher
-(also nur nach Kurzvokal im Inlaut).
-Durch Mangel an Beispielen lässt sich aber wohl kaum genaueres sagen.
-
-Wenn die Beseitigung der Geminaten (\ref{gem}) allgemein war,
-muss die Gemination hier später sein.
-Wenn sie hingegen nur überschwere Silben (also Langvokal/Diphthong + Geminate)
-betraf,
-ist die Datierung gänzlich unklar.
-
-\mypara{Assimilation über \bel{s}}
-Eine Tenuis hinter \rek{s} wird an eine vor \rek{s} stehende
-Media oder Tenuis aspirata in ihrer Artikulationsart angeglichen (Rix §105).
-
-Auf jeden Fall vor \ref{okklu-s} wegen πάσχω < \rek{pʰatʰskō},
-λέσχη < \rek{lekʰskā}, μίσγω < \rek{migskō}.
-
-\mypara{CsC > sC}
-Steht \rek{s} zwischen zwei gleichen Okklusiven, schwindet der erste.
-Nasal vor \rek{s} und Konsonant schwindet ebenfalls (Rix §87c).
-
-Datierung etwas unklar, da der Nasalschwund später noch mal stattfindet
-(σύζυγος < \rek{sun-zdugos} < \rek{sun-dzugos}.
-
-\mypara{Cs}
-\label{okklu-s}
-Vor \bel{s} werden Okklusive zu Tenues (Rix §105).
-
-\mypara{\rek{s} > \rek{h}}
-\rek{s} > \rek{h} vor Vokal oder Resonant oder zwischen Vokalen (Rix §86,89).
-Vor \rek{m} ist \rek{s} jedoch (sogar im selben Wort) teilweise erhalten.
-
-Datierung unklar.
-
-\mypara{\rek{s} neben \rek{i̯}}
-Nach Rix §89g ist \rek{s} neben \rek{i̯} über \rek{h} assimilert worden.
-Die Beispiele belegen jedoch nur eine Assimilation bei \rek{si̯}
-und der Weg über \rek{h} scheint nur aus systematischen Gründen gewählt zu sein.
-
-Tatsächlich gibt es nämlich Probleme wenn man die Dat.Pl. Endung -οισι
-lautgesetzlich aus \rek{-oi̯si} erklären möchte.
-Daher wird hier auf die Annahme einer Assimilation bei \rek{i̯s} verzichtet.
-
-Datierung unklar.
-
 \mypara{Palatalisierung}
+\label{pal}
 Die Anfänge der Palatalisierungen liegen wohl in urgr. Zeit
 und die genaue Entwicklung in den Dialekten ist kompliziert.
 Zu diesem Thema siehe Allen 1958, Rix §102,103 und Bartoněk S. 140ff.
@@ -884,12 +924,15 @@ Ob hier Anlaut oder Silbengewicht eine Rolle spielen, ist noch zu überprüfen.
 \mypara{\rek{dl} > \rek{ll}}
 Datierung unklar.
 
-\mypara{Metathese von \rek{t} und (Labio)velaren}
+\mypara{Metathese von \rek{t} neben Okklusiven}
 Nach Rix (§106) werden \rek{tk} und \rek{tp} metathetiert.
 Für \rek{tp} > \rek{pt} gibt er als Beispiel \rek{kʷid-pe} > τίπτε,
 das aber wohl besser als \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε zu erklären ist.
-Daher wird hier zunächst aus Mangel an Beispielen nur eine Metathese von
-\rek{t} und (Labio)velaren angenommen.
+Will man den rätselhaften Anlaut \bel{pt-}
+als Sandhi aus \rek{-t\#\#p-} erklären,
+so wäre auch eine Metathese neben Labialen anzunehmen.
+So kann man die allgemeine Regel aufstellen, dass \bel{t} + Okklusiv
+metathetiert wird.
 
 Datierung unklar.
 

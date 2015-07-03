@@ -5,7 +5,7 @@
 
 (define run-test
   (lambda ()
-    (run-list 'uridg 'ved (list
+    (print (run-list 'uridg 'ved (list
       "-ak̑da-"
       "-ak̑d"
       "-ak̑ta-"
@@ -75,12 +75,13 @@
       "adu̯ei̯st"
       "adu̯ei̯ss"
       "adu̯ei̯sm̥"
+      "du̯isdhu̯ei̯"
       "eHi̯āg̑st"
       "eHi̯ag̑sta"
       "u̯ék̑ti"
       "ug̑ʰtós"
-      ))))
-;(run-test)
+      )))))
+(run-test)
 
 (define run-av
   (lambda ()
@@ -173,4 +174,4 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       ))))
-(run-ved)
+;(run-ved)

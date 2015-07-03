@@ -418,12 +418,15 @@
     ))))
 ;(run-gr)
 
-(define (run-gr-test)
-  (print(run-list 'uridg 'urgr (list
-    "ai̯gkʷolos"
+(define (run-gr-kw dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "ai̯gkʷólos"
     "h₁ék̑u̯os"
-    ))))
-;(run-gr-test)
+    )))
+  (newline))
+(run-gr-kw 'urgr)
+(run-gr-kw 'att)
 
 (define (run-gr-s)
   (print (run-list 'uridg 'att (list

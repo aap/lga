@@ -88,18 +88,19 @@
     (s "(<okklu>)(<tenuis>)([^!])" (->T 1) 2 3)
     (s "(<okklu>)(<tenuisasp>)([^!])" (->TA 1) 2 3)
 
-    ;; Beseitigung von Geminaten (αἰπόλος < *ai̯g-kʷolos) -- nicht Rix
-    ;; TODO: mehr Laute; vermutlich nicht nach Kurzvokal
-    (s "k(k|K)" 1)
-    (s "g(g|G)" 1)
-    (s "pp" "p")
-    (s "bb" "b")
-    (s "tt" "t")
-    (s "dd" "d")
-
     ;; Kw > Kʷ (Beibehaltung des Silbengewichts)
-    (s "(<kurz-vok>)('?)(<velar>)w(<vok>)" 1 2 3 (velar->labiovelar 3) 4)
+    (s "(<vok>)(['~]?)(<velar>)w" 1 2 (velar->labiovelar 3) (velar->labiovelar 3))
     (s "(<velar>)w" (velar->labiovelar 1))
+    (s "(<velar>)(<labiovelar>)" 2 2)
+
+    ;; Beseitigung von Geminaten (αἰπόλος < *ai̯g-kʷolos) -- nicht Rix
+    ;; TODO: mehr Laute; möglicherweise nicht nach Kurzvokal
+    (s "(<kurz-vok>)(['~]?)(<kons>)" 1 2 3 "#")
+    (s "GG" "G") (s "KK" "K") (s "K!K!" "K!")
+    (s "gg" "g") (s "kk" "k") (s "k!k!" "k!")
+    (s "bb" "b") (s "pp" "p") (s "p!p!" "p!")
+    (s "dd" "d") (s "tt" "t") (s "t!t!" "t!")
+    (s "#")
 
     ;;; Assimilation über s -- Rix §105
     (s "(<media>)s(<tenuis>)([^!])" 1 "s" (stimmhaft 2) 3)
