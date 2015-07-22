@@ -254,11 +254,11 @@
     "mḗns"
     )))
   (newline))
-;(run-1ed 'urgr)
-;(run-1ed 'att)
-;(run-1ed 'inseldor)
-;(run-1ed 'kret)
-;(run-1ed 'lesb)
+(run-1ed 'urgr)
+(run-1ed 'att)
+(run-1ed 'inseldor)
+(run-1ed 'kret)
+(run-1ed 'lesb)
 
 (define (run-pala dest)
   (print "  " (symbol->string dest))
@@ -425,8 +425,8 @@
     "h₁ék̑u̯os"
     )))
   (newline))
-(run-gr-kw 'urgr)
-(run-gr-kw 'att)
+;(run-gr-kw 'urgr)
+;(run-gr-kw 'att)
 
 (define (run-gr-s)
   (print (run-list 'uridg 'att (list

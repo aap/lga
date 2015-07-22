@@ -124,6 +124,7 @@
     'urgr1
 
     ;;; s > h
+; TODO: formulierung mit vokalen? o_O
     ; s > h \ ($|V)_(V|RV) -- Rix §88,89
     (s "(^|(<vok>)(['~]?))s((<vok>)|(<res>|w)(<vok>))" 1 "h" 4)
     ;; VRsV > VRhV in unbetonten Silben (Datierung?)
@@ -142,7 +143,7 @@
     ; TODO: beispiele (-oi̯si > myk. -o-i)
     (s "ys(<vok>)" "yy" 1)
 
-    ;;; Osthoff -- Rix §64
+    ;;; Osthoff -- Rix §58,64
     ; Wohl nach *ns > *nh wegen μηνός < *mēnsós und
     ;      vor Verlust von Okklusiven im Auslaut
     ; *nh (und *nm, *u̯i̯?) nicht betroffen
@@ -161,8 +162,8 @@
     ;;;       tw (wohl nicht urgr (Allen 124))
     (s "^(t!|t)y" "s")
     (s "(t!|t)y" "ts")
-    (s "(d|g)y" "dž")
-    (s "(k!|k)y" "tš")
+    (s "(d|g)y" "dž")   ; ǰ
+    (s "(k!|k)y" "tš")  ; č
     (s "(<labial>)y" "pč")
 
     ;;; TODO: Umgebung. nach Langvokal, Diphthong, Konsonant?
@@ -233,8 +234,8 @@
     `(sub (not kret) (,(s "^tw" "s")))
     (s "(.)tw" 1 "tš")
     ;;; tʰw -- unklar, aber vgl. -σθε ai. -dhvam
-    (s "^t!w" "t!")
-    (s "t!w" "st!")
+    ;(s "^t!w" "t!")
+    (s "(.)t!w" 1 "st!")
 
     ;;; ds > sd
     ; vor CsC > ChC wegen ἔρδω < *u̯erzdō < *u̯erg̑i̯e/o-
@@ -255,7 +256,7 @@
     (s "(<tenuisasp>)(<media>)([^!])" (->M 1) 2 3)
     (s "#")
 
-    ;;; u̯i̯ > ẅẅ
+    ;;; u̯i̯ > ẅẅ -- Rix §73
     ; Datierung? nach ChC > CC? das aber später und auch keine gute lösung
     (s "wy" "ẅẅ")
 
@@ -288,23 +289,24 @@
     ;; Gemination und Hauchumsprung
     (s "^(<vok>)(['~]?)h(<vok>)([^'~])" "h" 1 2 3 4)
     (s "^(<vok>)(['~]?)(<res>|w)h" "h" 1 2 3 "h")
-    (s "(<kons>)h(<kons>)" 1 2)
+;    (s "(<kons>)h(<kons>)" 1 2)
     ; TODO: prohorā aspirieren
-    (s "(<vok>)(['~]?)h(<vok>)" 1 2 3)
+;    (s "(<vok>)(['~]?)h(<vok>)" 1 2 3)
     (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
     (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
+    (s "(.)h" 1)
 
     ;;; Cts > Cs (TODO: alle Konsonanten? Halbvokale/Diphthonge?)
+; TODO: schließt noch Diphthonge ein!
     (s "(<kons>)ts" 1 "s")
     ;;; ts > ss/tt -- Rix §102,87
     `(sub (boiot kret) (,(s "ts" "tt")))
     (s "ts" "ss")
-    ; ss > s nach Langvokal oder Diphthong
-    (s "(<vok>)(['~]?)(y|w)ss" 1 2 3 "s")
+    ; ss > s nach Langvokal
     (s "(<lang-vok>)(['~]?)ss" 1 2 "s")
     `(sub (ion-att ark) (,(s "ss" "s")))
 
-    ;;; dz -- Rix §102
+    ;;; ds -- Rix §102
     `(sub (boiot kret lak el) (,(s "sd" "dd")))
     (s "^dd" "d")
 
