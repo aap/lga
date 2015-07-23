@@ -43,7 +43,7 @@
     (s "(<s-res>)'(<lary>)(<kons>)"
        (laryngal->vokal 2) "'" (sonans->consonans 1) (laryngal->vokal 2) 3)
     ; Rix §79bc
-    (s "^(<lary>)(u|<s-res>)" (laryngal->vokal 1) (sonans->consonans 2))
+    (s "^(<lary>)(<s-res>)" (laryngal->vokal 1) (sonans->consonans 2))
     ; kompletter Verlust -- Rix §79a,81a,82d,84
     (s "<lary>")
 
@@ -102,23 +102,19 @@
     (s "dd" "d") (s "tt" "t") (s "t!t!" "t!")
     (s "#")
 
-    ;;; Assimilation über s -- Rix §105
+    ;;; Okklusive neben s -- Rix §105
+    ;; Assimilation über s; Tenuis vor s
     (s "(<media>)s(<tenuis>)([^!])" 1 "s" (stimmhaft 2) 3)
     (s "(<tenuisasp>)s(<tenuis>)([^!])" 1 "s" (->A 2) 3)
+    (s "(<okklu>)s" (->T 1) "s")
 
     ; CsC -- Rix §87c
-    ; s zwischen gleichen Konsonanten -- TODO: unschön; alle Fälle abgedeckt?
-    (s "ksk" "sk") (s "gsg" "sg") (s "k!sk!" "sk!")
-    (s "KsK" "sK") (s "GsG" "sG") (s "K!sK!" "sK!")
-    (s "tst" "st") (s "dsd" "sd") (s "t!st!" "st!")
-    (s "psp" "sp") (s "bsb" "sb") (s "p!sp!" "sp!")
+    ; s zwischen gleichen Konsonanten -- TODO: alle Fälle abgedeckt?
+    (s "ks(<velar>)" "s" 1)
+    (s "Ks(<labiovelar>)" "s" 1)
+    (s "ts(<dental>)" "s" 1)
+    (s "ps(<labial>)" "s" 1)
     (s "rsr" "sr") (s "lsl" "sl")
-
-    ;;; Okklusive vor s -- Rix §105
-    (s "(<labial>)s" "ps")
-    (s "(<dental>)s" "ts")
-    (s "(<velar>)s" "ks")
-    (s "(<labiovelar>)s" "Ks")
 
     ; vor s > h und Palatalisierung
     'urgr1

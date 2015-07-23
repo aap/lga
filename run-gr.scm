@@ -254,11 +254,11 @@
     "mḗns"
     )))
   (newline))
-(run-1ed 'urgr)
-(run-1ed 'att)
-(run-1ed 'inseldor)
-(run-1ed 'kret)
-(run-1ed 'lesb)
+;(run-1ed 'urgr)
+;(run-1ed 'att)
+;(run-1ed 'inseldor)
+;(run-1ed 'kret)
+;(run-1ed 'lesb)
 
 (define (run-pala dest)
   (print "  " (symbol->string dest))
@@ -490,5 +490,5 @@
     "tu̯e-"
     "etu̯e-"
     ))))
-;(run-gr-s)
+(run-gr-s)
 

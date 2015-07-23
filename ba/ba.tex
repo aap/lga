@@ -19,7 +19,9 @@
 
 \newcounter{para}
 \newcommand{\mypara}[1]{\vspace{1em}\par\noindent\refstepcounter{para}%
-\textbf{\textsf{\thepara}}\enspace\textsf{#1}\quad}
+%\textbf{\textsf{\thepara}}\enspace{\large#1}\quad}
+\textbf{\textsf{\thepara}}\enspace\textbf{#1}\quad}
+%\textbf{\textsf{\thepara}}\enspace\textsf{#1}\quad}
 
 \usepackage{enumitem}
 \setlist{parsep=0pt,listparindent=\parindent}
@@ -493,6 +495,7 @@ Zunächst wird die Lautentwicklung bis ins Urgriechische modelliert,
 dann bis und in mykenischer Zeit und schließlich in die Dialekte
 der alphabetischen Zeit.
 Die dazu verwendete Literatur ist im wesentlichen \cite{rix},
+\cite{bart_langvok},
 \cite{bart_frueh},
 \cite{bart_hand},
 \cite{sihler},
@@ -518,11 +521,28 @@ um sie hier angemessen zu modellieren ohne den Rahmen der Arbeit zu sprengen
 Aber auch über sicherere Entwicklungen lässt sich im Detail fast immer streiten.
 Sowohl das Programm \tt{lga} als auch die Formulierung
 der Lautgesetze sind somit als vorläufiges Ergebnis oder Gerüst zu sehen,
-auf dem weitere Arbeiten aufbauen sollen.
+auf dem weitere Arbeiten aufbauen können.
+
+Nach der Beschreibung und Diskussion der Lautgesetze folgt eine
+formelhafte Darstellung,
+ die mehr oder weniger genau den Regeln in \tt{lga} entspricht.
+Zu jeder Regel werden einige Beispiele genannt,
+die hauptsächlich aus Rix stammen,
+allerdings nicht erschöpflich sind.
+Sie dienen mehr zur Veranschaulichung als als Belege.
+In besonders trivialen Fällen gebe ich daher auch weniger oder
+gar keine Beispiele.
+
+Sofern bei Rekonstrukten keine Sprachbezeichnung angegeben ist,
+ist irgendeine nicht weiter spezifizierte Vorform gemeint.
+Die Sternformen sind auch nicht in allen Fällen als
+Rekonstrukte zu verstehen.
+Wenn eine Form als uridg. bezeichnet ist,
+kann sich dies auch nur auf die einzelnen Morphe beziehen,
+ohne dass damit gesagt würde,
+dass schon das Uridg. die Form in dieser Zusammensetzung besessen hat.
 
 \subsection{Das Lautsystem des Urindogermanischen}
-
-%TODO: ausführlicher sein
 
 Das hier angenommene Lautsystem des Uridg. besitzt folgende Laute.
 Umstrittene Laute stehen in Klammern.
@@ -582,9 +602,12 @@ einige Okklusivassimilationen,
 die Entwicklung von \rek{s}
 und die Anfänge diverser Palatalisierungen.
 
+Da in dieser Phase die Lautveränderungen weniger ineinander greifen,
+ist eine relative Chronologie oft nicht aufzustellen.
+
 \mypara{Kentum}
 Das Griechische ist eine Kentumsprache,
-es fallen also die uridg. Palatale mit den Velaren zusammen (Rix §92-94).
+es fallen also die uridg. Velare und Palatale zusammen (Rix §92-94).
 Da das Griechische keinerlei Anhaltspunkte dafür bietet,
 dass es je einen Unterschied zwischen diesen Lauten gab,
 wird der Zusammenfall früh datiert.
@@ -626,26 +649,27 @@ Spätestens im Myk. ist die Stimmlosigkeit belegt.
 
 uridg. \rek{bʰ}: \rek{bʰéronti}: dor. φέροντι vs. ai. \bel{bháranti} `sie tragen'
 
-uridg. \rek{dʰ}: zu \rek{dʰeh₁-}: att. τίθημι vs. ai. \bel{dadhā́mi} `ich setze/stelle/lege'
+uridg. \rek{dʰ}: zu \rek{dʰeh₁-}: gr. τίθημι vs. ai. \bel{dadhā́mi} `ich setze/stelle/lege'
 
 uridg. \rek{g̑ʰ}: zu \rek{stei̯g̑ʰ-}: gr. στείχω vs. got. \bel{steigan} `steigen'
 
-uridg. \rek{gʷʰ}: zu \rek{gʷʰen-}: gr. φόνος `Mord' vs. ai. \bel{gʰnánti} `sie erschlagen' (zu \rek{kʷʰ} > \rek{pʰ} s. TODO)
+uridg. \rek{gʷʰ}: zu \rek{gʷʰen-}: gr. φόνος `Mord' vs. ai. \bel{gʰnánti} `sie erschlagen' (zu \rek{kʷʰ} > \rek{pʰ} s. \ref{labvel})
 
 \mypara{\rek{(H)i̯-}}
 Da es im Gr. scheinbar zwei Reflexe von \rek{i̯-} gibt,
 versucht man mit der Laryngaltheorie die beiden Reflexe als \rek{Hi̯-}
 und \rek{i̯-} zu unterscheiden.
-Welcher Anlaut zu urgr. \rek{dz-} verschärft wurde,
+Welcher Anlaut zu \rek{dz-} verschärft wurde,
 ist unklar -- nach Rix §68,80e ist es \rek{Hi̯-} --
 und nach dem Datenmaterial kann für beides argumentiert werden,
 wenn man aber ὑγιής `gesund' aus \rek{h₂i̯u-gʷih₃-ḗs} `langes Leben habend'
-herleiten will (\rek{h₁su-} würde εὐ- ergeben),
-darf man \rek{Hi̯-} > \rek{i̯-} vermuten.
+herleiten will, darf man \rek{Hi̯-} > \rek{i̯-} vermuten
+(\rek{su-} `gut', das Rix (§97) rekonstruiert und mit ai. \bel{su-} `gut' verbindet,
+ist als \rek{h₁su-} anzusetzen und würde εὐ- ergeben).
 Auch lautlich plausibel ist eine
-frühe Verschärfung von uridg. \rek{i̯-} zu urgr. \rek{dz-}
-(vielleicht über Zusammenfall mit ererbtem \rek{di̯-},
-das ebenfalls zu \rek{dz-} wird),
+frühe Verschärfung von uridg. \rek{i̯-} zu \rek{dz-}
+(womöglich über Zusammenfall mit ererbtem \rek{di̯-},
+das ebenfalls zu \rek{dz-} wird, s. \ref{pal}, \ref{ds}),
 danach Wegfall aller Laryngale (also keine Vokalisierung wie vor \rek{u̯}),
 wodurch \rek{Hi̯-} als \rek{i̯-} stehenbleibt,
 wie es im Frühmyk. belegt ist.
@@ -656,7 +680,8 @@ uridg. \rek{i̯-}: \rek{i̯ugóm}: gr. ζυγόν vs. ai. \bel{yugám} `Joch'
 
 \lex{\rek{Hi̯-}}{\rek{i̯-}}
 
-uridg. \rek{h₂i̯-}: s.o. als \rek{h₂i̯u-} `langes Leben (→ lange Zeit → Zeit)'
+uridg. \rek{h₂i̯-}: ὑγιής ist mit
+\rek{h₂i̯u-} `langes Leben (→ lange Zeit → Zeit)'
 wegen Vollstufe \rek{h₃ei̯u-} in z.B.
 hom. αἰεί `immer' < \rek{h₂ei̯u̯ési} `zu allen Zeiten' zu rekonstruieren.
 
@@ -668,29 +693,87 @@ um eine lautlich plausiblere Entwicklung zu modellieren.
 So wird z.B. intervokalischer Laryngal nach \rek{i} oder \rek{u}
 nicht zum Gleitlaut sondern dieser entsteht erst als Hiattilger
 nach dem Laryngalschwund.
-Der Schwund der Laryngale dürfte auch eher früh passiert sein.
+Gegen Rix glaube ich nicht an Vokalisierung vor im Anlaut vor \rek{u} (§79b),
+da die Beispiele nicht überzeugen und er immerhin selber ὑδέω als Gegenbeispiel nennt.
+Der Schwund der Laryngale dürfte früh passiert sein.
 Der Wandel, der hier als \rek{H} > \rek{V} geschrieben ist,
 ist als \rek{h₁}, \rek{h₂}, \rek{h₃} > \rek{e}, \rek{a}, \rek{o} zu verstehen.
 
-\lex{\rek{H}}{\rek{V}}{C\_\#}
+\lex{\rek{H}}{\rek{V}}{C\_\#} (Rix §85d)
 
-\lex{\rek{(i, u)H}}{\rek{(i, u)V}}{CC\_\#}
+uridg. \rek{-h₁}: gr. -ε N.Du.m. (παῖδε)
 
-\lex{\rek{(i, u)H}}{\rek{(i̯, u̯)V}}{C\_\#}
+uridg. \rek{-h₂}: gr. -α N.Pl.n. (σώματα)
 
-\lex{\rek{VH}}{\rek{V̄}}{\_(C, R̥, \#)}
+\lex{\rek{(i, u)H}}{\rek{(i, u)V}}{CC\_\#} (Rix §85b)
 
-\lex{\rek{H}}{\rek{V}}{(\#, C)\_C}
+uridg. \rek{tri-h₂}: gr. τρία vs. ai. \bel{trī́} `drei'
 
-\lex{\rek{n̥h₂}}{\rek{na}}{\_\#}
+\lex{\rek{(i, u)H}}{\rek{(i̯, u̯)V}}{C\_\#} (Rix §85b)
 
-\lex{\rek{HR̥}}{\rek{VR}}{C\_}
+uridg. \rek{h₃okʷ-ih₁}: hom. ὄσσε (< \rek{okʷi̯e}) `beide Augen'
 
-\lex{\rek{Ŕ̥H}}{RV̄́}{\_C}
+uridg. \rek{doru-h₂}: hom. δοῦρα (< \rek{doru̯a}) `Speere'
 
-\lex{\rek{R̥H}}{V́RV}{\_C}
+\lex{\rek{VH}}{\rek{V̄}}{\_(C, R̥, \#)} (mit \rek{R̥} > \rek{R}) (Rix §82b, 85a)
 
-\lex{\rek{H(u, R̥)}}{\rek{V(u̯, R)}}{\#\_}
+%TODO: VHR bei im osthoff-buch nachgucken
+
+uridg. \rek{eh₁}: zu \rek{dʰeh₁-}: gr. τίθημι `setze/stelle/lege'
+
+uridg. \rek{eh₂}: zu \rek{steh₂-}: dor. ἵστᾱμι `stehe'
+
+uridg. \rek{eh₃}: zu \rek{deh₃-}: gr. δίδωμι `gebe'
+
+urdig. \rek{o/eh₂}: zu \rek{bʰoh₂-}/\rek{bʰeh₂-}: dor. φωνᾱ́ `Stimme' vs. φᾱτί `spricht'
+
+uridg. \rek{-eh₂} (N.Sg. eh₂-St.): ion-att. -η sonst -ᾱ, ai. \bel{-ā}
+
+uridg. \rek{-oh₁} (N.Du. o-St.): -ω, ai. \bel{-ā}
+
+\lex{\rek{H}}{\rek{V}}{(\#, C)\_C} (Rix §80d, 82c)
+
+uridg. \rek{h₂u̯-}: \rek{h₂u̯eh₁ti}: hom. ἄησι vs. ai. vā́ti `weht'
+
+uridg. \rek{h₁r-}: \rek{h₁regʷos}: gr. ἔρεβος `Finsternis' vs. ai. \bel{rájas} `Dunst'
+
+uridg. \rek{dʰh₁-tós}: gr. θετός `gesetzt/-stellt/-legt'
+
+uridg. \rek{ph₂tḗr}: gr. πατήρ, ai. \bel{pitā́} `Vater'
+
+uridg. \rek{dh₃-tós}: gr. δοτός `gegeben'
+
+\lex{\rek{n̥h₂}}{\rek{na}}{\_\#} (Rix §85c)
+
+uridg. \rek{k̑r̥h₂sn̥-h₂} (N.Pl.n.): hom. κάρηνα vs. ai.  \bel{śīrṣā́} `Köpfe'
+
+\lex{\rek{HR̥}}{\rek{VR}}{C\_} (Rix §84γ)
+
+uridg. \rek{h₁n̥}: zu \rek{dʰidʰh₁-n̥t-}: gr. τιθέ-ντ-ος vs. ai. \bel{dádh-at-as}
+
+uridg. \rek{h₃n̥}: zu \rek{didh₃-n̥t-}: gr. διδό-ντ-ος vs. ai. \bel{dád-at-as}
+
+\lex{\rek{R̥H}}{RV̄}{\_C}
+
+uridg. \rek{l̥h₁}: zu \rek{gʷl̥h₁-}: gr. βλητός `geworfen' vs. ai. \bel{ud-gūr-ṇas} `emporgehoben'
+
+uridg. \rek{l̥h₂}: \rek{tl̥h₂tós}: dor. τλᾱτός, lat. lātus `getrageń
+
+uridg. \rek{r̥h₃}: \rek{str̥h₃tós}: gr. στρωτός, lat. strātus `hingebreitet'
+
+\lex{\rek{Ŕ̥H}}{V́RV}{\_C}
+
+uridg. \rek{ń̥h₁}: \rek{g̑ń̥h₁tis}: gr. γένεσις `Erzeugung'
+
+uridg. \rek{ŕ̥h₂}: \rek{k̑ŕ̥h₂sn-}: hom. κάρηνα (< \rek{kárasna}) `Köpfe'
+
+uridg. \rek{ŕ̥h₃}: zu \rek{ste-stŕ̥h₃-}: aiol. ἐ-στόρο-ται
+
+\lex{\rek{HR̥}}{\rek{VR}}{\#\_} (Rix §79c)
+
+uridg. \rek{h₁r̥-}: zu \rek{h₁r̥-sk̑e-}: gr. ἔρχεται, ai. ṛcháti `kommt'
+
+uridg. \rek{h₃n̥-}: zu \rek{h₃n̥bʰl̥-}/\rek{h₃nobʰl̥-}: gr. ὀμφαλός, ahd. \bel{nabulo} `Nabel'
 
 \lex{\rek{H}}{\rek{Ø}}
 
@@ -709,20 +792,54 @@ fallen die Labiovelare mit den Velaren zusammen (Rix §97).
 
 \lex{\rek{kʷ, gʷ, kʷʰ}}{\rek{k, g, kʰ}}{(u, ū, u̯)\_; \_(u, ū, u̯, i̯)}
 
+uridg. \rek{u̯kʷ}: zu \rek{-kʷólos}: gr. βουκόλος `Kuhhirte' vs. αἰπόλος `Ziegenhirte' (zu Labiovelar > Labial s. \ref{labvel})
+
+uridg. \rek{ugʷ}: zu \rek{-gʷih₃-}: gr. ὑγιής `gesund' vs. βίος `Leben'
+
+uridg. \rek{gʷʰu}: zu \rek{h₁ln̥gʷʰ-}: gr. ἐλαχύς vs. ἐλαφρός `schnell'
+
+uridg. \rek{kʷi̯}: zu \rek{h₃okʷ-}: hom. ὄσσε < \rek{okʷ-i̯e} `beide Augen'
+vs. lit. akìs `Auge'
+
 \mypara{Silbische Resonanten}
 Die Entwicklung der silbischen Resonanten folgt Rix §75 und §76.
 Für das Urgr. wird ein Sprossvokal \rek{ə} angesetzt,
-welcher sich dialektal zu \bel{a} oder \bel{o} entwickelt.
+welcher sich dialektal zu \bel{a} oder \bel{o} entwickelt (s. \ref{a-o}).
 
-Genauere Datierung unklar.
+Hierunter fallen auch die Fälle, wo ursprünglich Laryngal zwischen
+Resonant und Vokal stand.
+Diese sind bei Rix gesondert behandelt,
+was aber unnötig ist, wenn man den Laryngalschwund einfach vorher ansetzt.
+
+Genauere Datierung unklar, aber nach Laryngalschwund.
+Eine etwas spätere Datierung wäre auch möglich.
+%TODO: und vor? (palatalisierung)
 
 \lex{\rek{N̥}}{\rek{aN}}{(V, V̯)}
 
+\rek{m̥V}: zu uridg. rek{k̑m̥h₂-}: gr. ἔκαμον `mühte sich'
+
+\rek{n̥i̯}: uridg. \rek{tek̑þn̥ih₂} > \rek{tektani̯a} > gr. τέκταινα
+
 \lex{\rek{N̥}}{\rek{ə}}
+
+\rek{n̥}: uridg. \rek{tn̥tós}: gr. τατός, ai. \bel{tatás}, lat. \bel{tentus} `gespannt'
+
+\rek{m̥}: uridg. \rek{dék̑m̥}: att. δέκα, ark. δέκο, lat. \bel{decem} `zehn'
 
 \lex{\rek{R̥}}{\rek{əR}}{(\#, V, V̯)}
 
+uridg. \rek{Hi̯ḗkʷr̥} > gr. ἧπαρ `Leber'
+
+\rek{ekstr̥-i̯ō} > \rek{ekstari̯ō} > gr. ἐχθαίρω `hasse (den Feind)'
+
+zu uridg. \rek{gʷl̥h₁-}: \rek{egʷalon} > gr. ἔβαλον `sie warfen'
+
 \lex{\rek{R̥}}{\rek{Rə}}
+
+uridg. \rek{str̥tós}: att. στρατός, lesb. boiot. στροτός `Truppe'
+
+uridg. \rek{plth₂ús}: att. πλατύς, ai. \bel{pṛthús} `breit'
 
 \mypara{Nasal vor Okklusiv}
 Vor Okklusiven wird der homorgane Nasal realisiert (Rix §78).
@@ -742,8 +859,11 @@ Rix §77.
 Datierung unklar.
 Vielleicht nach \rek{m̥} > \rek{am}, aber \rek{m̥} > \rek{n̥} \textbackslash\ \rek{i̯}
 ist ebenfalls als zusätzliche Regel denkbar.
+Vielleicht auch im Zuge der Palatalisierung (\ref{pal}).
 
 \lex{\rek{m}}{\rek{n}}{i̯}
+
+zu uridg. \rek{gʷem-}: \rek{gʷm̥-i̯ō} > \rek{gʷami̯ō} > \rek{gʷani̯ō} > gr. βαίνω `ich komme' = lat. \bel{veniō}
 
 \mypara{Benachbarte Vokale nach Laryngalschwund (1. Kontraktion)}
 Kontraktion von \rek{e}, \rek{a}, \rek{o},
@@ -751,18 +871,34 @@ zwischen denen Laryngal geschwunden ist (Rix §81).
 Hier entsteht zuerst der Intonationsunterschied zwischen Akut und Zirkumflex.
 Trägt der erste Vokal den Akzent, ist das Kontraktionsprodukt zirkumflektiert.
 Trägt ihn der zweite, ist es akutiert.
+Kontrahierte \rek{ee}, \rek{oo} fallen mit den alten (offenen) Langvokalen zusammen;
+die geschlossenen Langvokale entstehen erst bei \ref{ED1}.
 Datierung unklar.
 
 \lex{\rek{VV}}{\rek{V̄}} (\rek{V} = \rek{a}, \rek{e}, \rek{o})
 
+uridg. \rek{-eh₂ei̯} D.Sg. eh₂-St. > \rek{-aai̯} > ion-att. -ῃ, sonst -ᾳ
+
+\bigskip\noindent
 Nach Vokal werden \rek{i}, \rek{u} zu Halbvokalen (es entstehen also Diphthonge).
+
 Im umgekehrten Fall entsteht ein Gleitlaut zwischen den beiden Lauten.
+Dieser ist streng genommen nicht gesichert, da er nicht geschrieben wird,
+da aber die Silbengrenze erhalten bleibt,
+ist er phonetisch äußerst wahrscheinlich (und sollte vielleicht vordatiert werden).
 
 \lex{\rek{i, u}}{\rek{i̯, u̯}}{V\_}
 
+uridg. \rek{pléh₁istom} > gr. πλεῖστον `am meisten'
+
 \lex{\rek{i, u}}{\rek{ii̯, uu̯}}{\_V}
 
+uridg. \rek{tri-h₂}: gr. τρία `drei'
+
+zu uridg. \rek{h₃bʰruH-}: gr. ὀφρύος `Braue'
+
 \mypara{Okklusivassimilation}
+\label{okklass}
 Okklusive werden an folgende Okklusive in
 Aspiration und Stimmhafigkeit assimiliert (Rix §106a).
 
@@ -770,9 +906,21 @@ Hier dürfte es sich wohl eigentlich um eine phonologische Regel handeln.
 
 \lex{\rek{\{Okklu.\}}}{\rek{\{Media\}}}{\{Media\}}
 
+gr. ἐμπλέγ-δην zu ἐμπλέκω
+
+gr. κρύβ-δην zu κρύφα
+
 \lex{\rek{\{Okklu.\}}}{\rek{\{Tenuis\}}}{\{Tenuis\}}
 
+gr. ἑκ-τός zu ἔχω
+
+gr. ληπ-τός zu λαμβάνω
+
 \lex{\rek{\{Okklu.\}}}{\rek{\{Aspirata\}}}{\{Aspirata\}}
+
+gr. ἐδιώχ-θην zu διώκω
+
+gr. ἐλήφ-θην zu λαμβάνω
 
 \mypara{\rek{Ku̯} > \rek{(Kʷ)Kʷ}}
 \label{kw}
@@ -781,7 +929,13 @@ um das Silbengewicht zu erhalten (vielleicht nur nach Kurzvokal?).
 
 \lex{\rek{Ku̯}}{\rek{KʷKʷ}}{V\_V}
 
+uridg. \rek{h₁ék̑u̯os} > \rek{ékʷkʷos} >> gr. ἵππος (mit rätselhaftem Anlaut)
+vs. ai. \bel{áśvas} `Pferd'
+
 \lex{\rek{Ku̯}}{\rek{Kʷ}}
+
+uridg. zu \rek{g̑ʰu̯eh₁r-}: hom. θήρ, aiol. φήρ vs. lit. žvėrìs `wildes Tier'
+
 
 \mypara{Beseitigung von Geminaten}
 \label{gem}
@@ -793,38 +947,60 @@ oder nur im Silbenanlaut (also nur nicht nach Kurzvokal)
 wie αἰπόλος < \rek{ai̯kʷolos} < \rek{ai̯g-kʷolos} zeigt.
 Weitere Beispiele könnten die Verhältnisse klarer machen.
 
-Datierung unklar.
-Vermutlich nach \ref{kw} und sicher vor \ref{pal}.
+Datierung unklar,
+vermutlich nach \ref{kw}.
 
 \lex{\rek{C:}}{\rek{C}}{.\_}
 
-\mypara{Assimilation über \bel{s}}
-\label{s-assim}
-Eine Tenuis hinter \rek{s} wird an eine vor \rek{s} stehende
-Media oder Tenuis aspirata in ihrer Artikulationsart angeglichen (Rix §105).
+\rek{ai̯g-kʷólos} > \rek{ai̯kʷkʷólos} > \rek{ai̯kʷólos} > gr. αἰπόλος `Ziegenhirte'
+zu gr. αἴξ, αἰγός `Ziege'
 
-Auf jeden Fall vor \ref{okklu-s} wegen πάσχω < \rek{pʰatʰskō},
-λέσχη < \rek{lekʰskā}, μίσγω < \rek{migskō}.
+
+%\mypara{Assimilation über \bel{s}}
+\mypara{Okklusive neben \rek{s}}
+\label{okklu-s}
+
+Vor \rek{s} werden alle Okklusive zu Tenues,
+wobei gleichzeitig Stimmhaftigkeit und Aspiration auf einen evtl. folgenden
+Okklusiv übertragen werden (Rix §105).
+
+Da die Formulierung etwas komplex ist,
+modelliere ich es in zwei Schritten:
+zuerst Assimilation, dann Tenuiswerdung.
+
+Vor \ref{CsC>sC} zu datieren.
 
 \lex{\rek{\{Tenuis\}}}{\rek{\{Media\}}}{\{Media\}s\_}
 
+\rek{mig-skō} > \rek{migsgō} > \rek{miksgō} > gr. μίσγω `ich vermische'
+
 \lex{\rek{\{Tenuis\}}}{\rek{\{Aspirata\}}}{\{Aspirata\}s\_}
 
+\rek{pʰatʰ-skō} > \rek{pʰatʰskʰō} > \rek{pʰatskʰō} > gr. πάσχω `ich erleide'
+
+\lex{\rek{\{Okklu.\}}}{\rek{\{Tenuis\}}}{\_s}
+
+s.o.
+
+\rek{ai̯g-si} > αἰξί `den Ziegen'
+
+\rek{tʰrikʰ-si} > θριξί `den Haaren'
+
+
 \mypara{CsC > sC}
+\label{CsC>sC}
 Steht \rek{s} zwischen zwei gleichen Konsonanten, schwindet der erste (Rix §104).
-Welche Konsonanten das im einzelnen sind, scheint nicht ganz klar zu sein.
+Dabei werden Stimmhaftigkeit und Aspiration ignoriert,
+da vor \rek{s} nach \ref{okklu-s} nur Tenuis stehen kann.
 
 \lex{\rek{C₁}}{\rek{Ø}}{\_C₂} (C₁ = C₂)
 
-\mypara{Cs}
-\label{okklu-s}
-Vor \bel{s} werden Okklusive zu Tenues (Rix §105).
+s. \ref{okklu-s}
 
-Auf jeden Fall nach \ref{s-assim} wegen μίσγω.
-
-\lex{\rek{\{Okklu.\}}}{\rek{\{Tenuis\}}}{s}
+\rek{dikskos} > δίσκος `Scheibe'
 
 \subsection*{urgr1}
+
 
 \mypara{\rek{s} > \rek{h}}
 \label{sh}
@@ -905,6 +1081,11 @@ Außerdem nach \textsc{Osthoff} (\ref{osthoff}) wie dort gezeigt.
 
 \lex{\rek{\{Okklu.\}+}}{\rek{Ø}}{\_\#}
 
+uridg. \rek{-t}: uridg. \rek{e-bʰeret} > gr. ἔφερε, ai. \bel{abharat} `er trug'
+
+uridg. \rek{-k̑}: \rek{upo-dr̥k̑} > \rek{upodrak} > ὑπόδρα `von unten guckend'
+
+\bigskip\noindent
 Auslautendes \rek{m} erscheint als \bel{n} (Rix §77).
 
 Wann dies passierte, ist vollkommen unklar.
@@ -912,6 +1093,9 @@ Es wird hier nur zusammen mit dem obigen Gesetz gruppiert,
 da beide den Auslaut betreffen.
 
 \lex{\rek{m}}{\rek{n}}{\_\#}
+
+uridg. \rek{-om} A.Sg. o-St: gr. -ον, ai. \bel{-am}, lat. \bel{-om} > \bel{-um}
+
 
 \mypara{Palatalisierung}
 \label{pal}
@@ -1006,24 +1190,35 @@ Ob hier Anlaut oder Silbengewicht eine Rolle spielen, ist noch zu überprüfen.
 
 \lex{\rek{(l, r, n)i̯}}{\rek{(ĺĺ, ŕŕ, ńń)}}
 
+
 \mypara{\rek{dl} > \rek{ll}}
-Datierung unklar.
+Rix §104. Datierung unklar.
 
 \lex{\rek{d}}{\rek{l}}{\_l}
 
+uridg. \rek{sed-leh₂}: lak. ἕλλᾱ, got. \bel{sit-ls} (mit \rek{-los} im Suffix)
+
+
 \mypara{Metathese von \rek{t} neben Okklusiven}
-Nach Rix (§106) werden \rek{tk} und \rek{tp} metathetiert.
+Nach Rix (§106b) werden \rek{tk} und \rek{tp} metathetiert.
 Für \rek{tp} > \rek{pt} gibt er als Beispiel \rek{kʷid-pe} > τίπτε,
 das aber wohl besser als \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε zu erklären ist.
 Will man den rätselhaften Anlaut \bel{pt-} als Variante von \bel{p-}
 als Sandhi aus \rek{-t\#\#p-} erklären,
 so wäre auch eine Metathese neben Labialen anzunehmen.
-So kann man die allgemeine Regel aufstellen, dass \bel{t} + Okklusiv
-metathetiert wird.
+So kann man die allgemeine Regel aufstellen, dass \bel{t} + Tenuis
+metathetiert wird (keine Beispiele für Media und Aspirata).
+
+Datierung unklar.
 
 \lex{\rek{t(k, kʷ, p)}}{\rek{(k, kʷ, p)t}}
 
-Datierung unklar.
+\rek{tk}: \rek{ti-tk-ō} zur Wurzel uridg. \rek{tek̑-} `gebären' > τίκτω `gebiert'
+
+\rek{tkʷ}: \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε `warum denn?' (nach Lillo Glotta 60)
+%TODO: literatur
+
+? \rek{tp}: \rek{-t\#\#pólis} > πτόλις
 
 \subsection*{urgr}
 
@@ -1067,7 +1262,7 @@ sondern als eine Verallgemeinerung von Sandhivarianten zu sehen
 \lex{\rek{t}}{\rek{s}}{\_i} außer nach \rek{s}, \rek{k}
 
 \mypara{\rek{ə} > \rek{a}/\rek{o}}
-
+\label{a-o}
 Der Sprossvokal, der neben/aus Liquida bzw. Nasalis sonans entstanden ist
 wird dialektal zu \rek{a} bzw. \rek{o}.
 Da die genaue Verteilung schwierig ist,
@@ -1156,7 +1351,7 @@ Im Elischen ist \rek{ē} als \bel{ā} wiedergegeben.
 \lex{\rek{ē}}{\bel{ā}} el.
 
 \mypara{Labiovelare}
-
+\label{labvel}
 Die genaue Entwicklung der Labiovelare ist in einigen Dialekten etwas unklar.
 Gemeingriechisch ist der Wandel \{Labiovelar\} > \{Labial\}.
 Darüber hinaus haben die meisten Dialekte einen Wandel
