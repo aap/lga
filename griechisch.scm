@@ -191,6 +191,7 @@
     `(sub (sogr) (,(s "([^sk])ti" 1 "si")))
 
     ; TODO: wann o?
+    `(sub (aiol) (,(s "ə" "o")))
     (s "ə" "a")
 
     (s "pč" "pt")
@@ -209,13 +210,11 @@
 
     (s "dž" "ds")
 
-    `(sub (el) (,(s "ē" "ā")))
-
-    ;;;; ca. 1000
+    `(sub (el) (,(s "ē" "Ā")))
 
     ;;; Labiovelare > T/P -- Rix §96-99
-    `(sub (not ach aiol) (,(s "K(i|ī)" "t" 1)
-                         ,(s "(<labiovelar>)(e|ē)" (labiovelar->dental 1) 2)))
+    `(sub (not aiol) (,(s "K(i|ī)" "t" 1)))
+    `(sub (not kypr aiol) (,(s "(<labiovelar>)(e|ē)" (labiovelar->dental 1) 2)))
     (s "(<labiovelar>)" (labiovelar->labial 1))
     ;; Assimilationen an Labiovelarreflexe
     (s "(<nasal>)(<labial>)" "m" 2)
@@ -225,6 +224,8 @@
     ;; b,g > m,ŋ \ _n -- Rix §105
     (s "bn" "mn")
     (s "gn" "ŋn")
+
+    ;;;; ca. 1000
 
     ;;; tw -- Rix §104
     `(sub (not kret) (,(s "^tw" "s")))
@@ -400,7 +401,7 @@
     'hom
 
     ; TODO: datierung? dialekte?
-    `(sub (not inselion) (,(s "Ā" "ē")))
+    `(sub (not el inselion) (,(s "Ā" "ē")))
 
     ;;; jüngere Kontraktionen; teilweise nach Einsetzen der Überlieferung
     ; o + a > ō (nach w > 0)
