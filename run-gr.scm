@@ -187,8 +187,8 @@
   (print (run-list 'urgr1 dest (list
     "kalu̯ós"
     "ksénu̯os"
-    "kórwā"
-    "néwā"
+    "kóru̯ā"
+    "néu̯ā"
     "kʰṓrā"
     "du̯ei̯nós"
     "dédu̯imen"
@@ -252,13 +252,14 @@
     "gʷolnā́"
     "mēnsós"
     "mḗns"
+    "u̯ésma"
     )))
   (newline))
-;(run-1ed 'urgr)
-;(run-1ed 'att)
-;(run-1ed 'inseldor)
-;(run-1ed 'kret)
-;(run-1ed 'lesb)
+(run-1ed 'urgr)
+(run-1ed 'att)
+(run-1ed 'inseldor)
+(run-1ed 'kret)
+(run-1ed 'lesb)
 
 (define (run-pala dest)
   (print "  " (symbol->string dest))
@@ -436,7 +437,7 @@
     "dikskos"
     "legʰskeh₂"
     "migskoh₂"
-    "u̯oi̯dtʰh₂e"  ; lautgesetzlich?
+    "u̯oi̯dtʰh₂e"
     "u̯iddʰi"
     "parstádes"
     "tʰúrstʰen"
@@ -489,6 +490,8 @@
 
     "tu̯e-"
     "etu̯e-"
+
+    "kenttós"
     ))))
-(run-gr-s)
+;(run-gr-s)
 

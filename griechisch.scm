@@ -238,7 +238,7 @@
     ; vor CsC > ChC wegen ἔρδω < *u̯erzdō < *u̯erg̑i̯e/o-
     (s "ds" "sd")
 
-    ;;; (N|T)sC > sC -- Rix §87c, Lejeune §134
+    ;;; (N|T)sC > sC -- Rix §78, Lejeune §134
     ; vor CsC > ChC wegen ἴσος < u̯idsu̯os und δεσπότης < *demspot-
     ; nach dz > zd wegen σύζυγος < *sun-dzugos
     (s "(<nasal>|<dental>)s(<kons>)" "s" 2)
@@ -265,7 +265,7 @@
     `(sub (thess lesb) (,(s "(ŕŕ|ńń)" (depala 1) (depala 1))))
 
     ;;; 1. Ersatzdehnung/Gemination
-    ;; Palataldehnung
+    ;; Palataldehnung -- Rix §73
     (s "(e|i|u)(['~]?)(ŕŕ|ńń|ẅẅ)" (dehnung2 1) 2 (depala 3))
     ;; Rh/hR-Dehnung
     `(sub (not thess lesb) (,(s "(<vok>)(['~]?)(<res>|w)h(<vok>)"
@@ -291,6 +291,7 @@
 ;    (s "(<vok>)(['~]?)h(<vok>)" 1 2 3)
     (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
     (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
+    ;; h > 0 (nicht im anlaut)
     (s "(.)h" 1)
 
     ;;; Cts > Cs (TODO: alle Konsonanten? Halbvokale/Diphthonge?)
@@ -315,7 +316,7 @@
     ;;;; ca. 800
 
     ;;; 2. Ersatzdehnung/Diphthongierung
-    ;; TODO: bei allen Vokale gleich? (nicht im kyrenischen)
+    ;; TODO: bei allen Vokale gleich? (nicht im Kyrenischen)
     ;; VnsV
     ;; TODO: dialekte? sardor, arg, achaisch?
     `(sub (lesb) (,(s "(<vok>)(['~]?)ns(<vok>)" 1 2 "ys" 3)))
@@ -333,32 +334,32 @@
 
     ;;; ältere Kontraktionen, TODO: datieren
     ; a,ā + e
-    `(sub (ion-att) (,(s "(a|ā)'e" "ā~")
-                     ,(s "(a|ā)e" "ā")))
-    (s "(a|ā)'e" "ē~")
-    (s "(a|ā)e" "ē")
-    ; a+O
-    (s "a'(o|ō|Ō)" "ō~")
-    (s "a(o|ō|Ō)" "ō")
-    ; att. a+e
-    `(sub (att) (,(s "e'a" "ē~")
-                 ,(s "ea" "ē")))
-    ; att. e+o,ō
-    `(sub (att) (,(s "e'o" "Ō~")
-                 ,(s "e'ō" "ō~")
-                 ,(s "eo([^'])" "Ō" 1)
-                 ,(s "eō([^'])" "ō" 1)))
-    ; e + ē
-    (s "e'ē" "ē~")
-    (s "eē" "ē")
+;    `(sub (ion-att) (,(s "(a|ā)'e" "ā~")
+;                     ,(s "(a|ā)e" "ā")))
+;    (s "(a|ā)'e" "ē~")
+;    (s "(a|ā)e" "ē")
+;    ; a+O
+;    (s "a'(o|ō|Ō)" "ō~")
+;    (s "a(o|ō|Ō)" "ō")
+;    ; att. a+e
+;    `(sub (att) (,(s "e'a" "ē~")
+;                 ,(s "ea" "ē")))
+;    ; att. e+o,ō
+;    `(sub (att) (,(s "e'o" "Ō~")
+;                 ,(s "e'ō" "ō~")
+;                 ,(s "eo([^'])" "Ō" 1)
+;                 ,(s "eō([^'])" "ō" 1)))
+;    ; e + ē
+;    (s "e'ē" "ē~")
+;    (s "eē" "ē")
 
     ;;; w > 0
     ; TODO: dialekte. vieles unklar
     ; V_V früh -- Buck §53
     `(sub (ion-att inseldor lesb kret ark) (,(s "(<vok>)(['~]?)w(<vok>)" 1 2 3)))
     ; _V später (TODO: wann > h?)
-    `(sub (ion-att inseldor lesb) (,(s "^w(<vok>)(['~]?)s" "h" 1 2 "s")
-                                   ,(s "^w(<vok>)" 1)
+    `(sub (att) (,(s "^w(<vok>)(['~]?)s(<kons>)" "h" 1 2 "s" 3)))
+    `(sub (ion-att inseldor lesb) (,(s "^w(<vok>)" 1)
                                    ,(s "(<vok>)(['~]?)yw(<vok>)" 1 2 "yy" 3)
                                    ,(s "^hw" "h")))
     `(sub (ion-att inseldor) (,(s "^wr" "hr")))
@@ -404,21 +405,21 @@
     `(sub (not el inselion) (,(s "Ā" "ē")))
 
     ;;; jüngere Kontraktionen; teilweise nach Einsetzen der Überlieferung
-    ; o + a > ō (nach w > 0)
-    (s "o'a" "ō~")
-    (s "oa" "ō")
-    ; ē + o,ō; TODO: genauere Bedinungen
-    `(sub (att) (,(s "ē'ō" "ō~")))
-    (s "ē(['~]?)(o|ō)" "e" (->acute 1) "ō")
-    ; e + ē (nach ion. ā > ē)
-    (s "e'ē" "ē~")
-    (s "eē" "ē")
-    ; ā + o,ō; TODO: datierung? dialekte (aiol, hom)?
-    `(sub (dor) (,(s "ā(['~])ō" "ā~")
-                 ,(s "āō" "ā")))
-    `(sub (dor) (,(s "ā(['~])o" "ā~")
-                 ,(s "(['~])(.*)āo" 1 2 "ā")
-                 ,(s "āo([^'])" "ā" 1)))
+;    ; o + a > ō (nach w > 0)
+;    (s "o'a" "ō~")
+;    (s "oa" "ō")
+;    ; ē + o,ō; TODO: genauere Bedinungen
+;    `(sub (att) (,(s "ē'ō" "ō~")))
+;    (s "ē(['~]?)(o|ō)" "e" (->acute 1) "ō")
+;    ; e + ē (nach ion. ā > ē)
+;    (s "e'ē" "ē~")
+;    (s "eē" "ē")
+;    ; ā + o,ō; TODO: datierung? dialekte (aiol, hom)?
+;    `(sub (dor) (,(s "ā(['~])ō" "ā~")
+;                 ,(s "āō" "ā")))
+;    `(sub (dor) (,(s "ā(['~])o" "ā~")
+;                 ,(s "(['~])(.*)āo" 1 2 "ā")
+;                 ,(s "āo([^'])" "ā" 1)))
 
     ))
 
