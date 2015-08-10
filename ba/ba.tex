@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,normalheadings]{scrartcl}
+\documentclass[12pt,a4paper,normalheadings,bibliography=totoc]{scrartcl}
 \usepackage[a4paper,top=3cm, bottom=3cm, left=4cm, right=3cm]{geometry}
 
 \usepackage{polyglossia}
@@ -50,12 +50,187 @@
 \newcommand{\ur}[1]{\up{\ref{#1}}}
 \def\rek#1{\mbox{*\textit{#1}}}
 \def\bel#1{\mbox{\textit{#1}}}
+\def\i#1{\mbox{\textit{#1}}}
 \def\tt#1{\texttt{#1}}
 \def\rx#1{\texttt{/#1/}}
 \def\str#1{\texttt{"#1"}}
 
 \begin{document}
+\begin{titlepage}
+{
+\begin{center}
+\huge Computersimulierter Lautwandel:\\
+\Large ~\\Vom Urindogermanischen in die altgriechischen Dialekte
+\vfill
+
+\noindent
+\large
+Bachelorarbeit\\
+zur Erlangung des akademischen Grades\\
+Bachelor of Arts (B.A.)\\
+im Fach Historische Linguistik
+\end{center}
+\vfill
+
+\normalsize
+\noindent
+\begin{tabular}{l}
+Humboldt-Universität zu Berlin\\
+Philosophische Fakultät II\\
+Institut für deutsche Sprache und Linguistik
+\end{tabular}
+\vspace{3em}
+
+\noindent
+\begin{tabular}{l l}
+eingereicht von & Angelo Papenhoff\\
+& geb. am 24.7.1992\\
+& in Berlin
+\end{tabular}
+\vspace{3em}
+
+\noindent
+\begin{tabular}{l l}
+1. Gutachter: & Herr Prof. Dr. Wolfgang Hock\\
+2. Gutachterin: & Frau Prof. Dr. Anke Lüdeling
+\end{tabular}
+\vspace{3em}
+
+\noindent
+\begin{tabular}{l l}
+Berlin, den 10.8.2015
+\end{tabular}
+}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
 \onehalfspacing
+
+
+\section{Abkürzungen und Konventionen}
+
+Reguläre Ausdrücke werden in Schreibmaschinenschrift und zwischen
+Schrägstriche gesetzt (\rx{regex}).
+Strings werden in Schreibmaschinenschrift und Anführungszeichen gesetzt
+(\str{string}).
+Scheme-Code wird in Schreibmaschinenschrift gesetzt.
+Bedeutungen werden in einfache Anführungszeichen gesetzt (`foo')
+Phoneme werden kursiv zwischen Schrägstriche gesetzt (/\i{a}/).
+Phone bzw. Phonemkandidaten werden kursiv gesetzt;
+wird die Phonetik explizit betont, stehen Phone in eckigen Klammern ([\i{a}]).
+Grapheme werden in spitzen Klammern gesetzt (<\i{a}>).
+Rekonstrukte werden mit Sternchen markiert (\rek{a}).
+In den formulaischen Lautgesetzen werden rekonstruierte
+und belegte Laute nicht unterschieden.
+Die Lautschrift ist an das IPA angelehnt,
+folgt ihm aber nicht völlig
+(teilweise um eine Festlegung der exakten Lautung zu vermeiden).
+Lautgesetzliche Entwicklung wird mit > bzw. < bezeichnet.
+
+\subsection*{Sprachen}
+\begin{tabular}{l l}
+\begin{tabular}{l l}
+ach.	& achaisch\\
+ahd.	& althochdeutsch\\
+ai.	& altindisch\\
+aiol.	& aiolisch\\
+aitol.	& aitolisch\\
+ark.	& arkadisch\\
+att.	& attisch\\
+av.	& avestisch\\
+boiot.	& boiotisch\\
+dor.	& dorisch\\
+el.	& elisch\\
+euboi.	& euboiisch\\
+got.	& gotisch\\
+gr.	& griechisch\\
+hom.	& homerisch\\
+idg.	& indogermanisch\\
+inseldor.	& inseldorisch\\
+inselion.	& inselionisch\\
+ion.	& ionisch\\
+kor.	& korinthisch\\
+kret.	& kretisch\\
+\end{tabular}
+&
+\begin{tabular}{l l}
+kypr.	& kyprisch\\
+lak.	& lakonisch\\
+lat.	& lateinisch\\
+lesb.	& lesbisch\\
+lit.	& litauisch\\
+lokr.	& lokrisch\\
+meg.	& megarisch\\
+myk.	& mykenisch\\
+nwdor.	& nordwestdorisch\\
+nwgr.	& nordwestgriechisch\\
+oarg.	& ostargolisch\\
+ostion.	& ostionisch\\
+othess.	& ostthessalisch\\
+pamph.	& pamphylisch\\
+phok.	& phokisch\\
+sardor. & saronisches dorisch\\
+sdor.	& süddorisch\\
+sogr.	& südostgriechisch\\
+thess.	& thessalisch\\
+warg.	& westargolisch\\
+wthess.	& westthessalisch\\
+\end{tabular}
+\\
+\end{tabular}
+
+\subsection*{Grammatisch Abkürzungen}
+\begin{tabular}{l l}
+\begin{tabular}{l l}
+A.	& Akkusativ\\
+m.	& maskulinum\\
+Aor.	& Aorist\\
+D.	& Dativ\\
+Du.	& Dual\\
+f.	& femininum\\
+G.	& Genitiv\\
+I.	& Instrumental\\
+\end{tabular}
+&
+\begin{tabular}{l l}
+Imp.	& Imperativ\\
+L.	& Lokativ\\
+n.	& neutrum\\
+N.	& Nominativ\\
+Pass.	& Passiv\\
+Pl.	& Plural\\
+Sg.	& Singular\\
+St.	& Stamm\\
+\end{tabular}
+\\
+\end{tabular}
+
+\subsection*{Coversymbole}
+\begin{tabular}{l l}
+\begin{tabular}{l l}
+C	& Konsonant\\
+D	& Media\\
+H	& Laryngal\\
+K	& Velar\\
+Kʷ	& Labiovelar\\
+L	& Liquida\\
+\end{tabular}
+&
+\begin{tabular}{l l}
+N	& Nasal\\
+R	& Resonant\\
+T	& Tenuis\\
+Tʰ	& Tenuis aspirata\\
+V	& Vokal\\
+V̯	& Halbvokal\\
+\end{tabular}
+\\
+\end{tabular}
+
+\newpage
 
 \section{Einleitung}
 
@@ -63,13 +238,18 @@ Ziel dieser Arbeit ist es,
 den Lautwandel vom Urindogermanischen in die altgriechischen Dialekte
 am Computer zu simulieren.
 Seit den Junggrammatikern im 19. Jh. spricht man
-in der historisch-vergleichenden Sprachwissenschaft von `Lautgesetzen',
-was einen ähnlichen Status wie den der Naturgesetze in der Physik
-suggerieren soll.
+in der historisch-vergleichenden Sprachwissenschaft von ``Lautgesetzen''.
+Dieser Begriff entsprang dem Bestreben,
+die Linguistik von der Geisteswissenschaft zur Naturwissenschaft zu machen
+und suggeriert, dass der Lautwandel
+einen ähnlichen Status habe wie die Naturgesetze in der Physik:
+wann immer ein Gesetz wirken kann, wirkt es ohne Ausnahme.
 Diese Lautgesetze müssen für eine der historischen Entwicklung möglichst
 nahekommende Simulation präzise und in korrekter Chronologie formuliert werden,
-was allein schon ein großer Nutzen ist.
-Dies wird gegenüber der traditionellen Arbeit dadurch erleichtert,
+was allein schon ein großer Nutzen wäre,
+da alle Beschreibungen der Lautwandel in der Literatur
+immer nach Lauten, nie zeitlich sortiert sind.
+Dies wird gegenüber der traditionellen Arbeit noch dadurch erleichtert,
 dass sich die Richtigkeit der Lautwandelmodellierung
 an sicheren Beispielwörtern ohne großen Aufwand überprüfen lässt
 und umgekehrt sich bei einer gegebenen Modellierung
@@ -86,8 +266,8 @@ dass sich die Arbeit an einem besseren Programm lohnen würde.
 Ebenso ist allerdings \tt{lga} nur als Prototyp
 für ein elaborierteres Programm zu verstehen.
 Im Laufe der Arbeit wird sich herausstellen,
-welche Probleme, Mängel und weiteren Anforderungen es gibt,
-die man in einer nächsten Version angehen müsste.
+welche Probleme, Mängel und weitere Anforderungen es gibt,
+die in einer nächsten Version angegangen werden müsste.
 
 Nach einigen methodisch-theoretischen Überlegungen zum Lautwandel
 werde ich im ersten Teil dieser Arbeit \tt{lga}
@@ -96,7 +276,7 @@ Im zweiten Teil stelle ich eine vorläufige Formulierung und relative
 (teilweise absolute) Chronologie der Lautgesetze dar,
 die die Entwicklung vom Urindogermanischen in die altgriechischen Dialekte
 beschreiben.
-Hierbei wäre \tt{lga} natürlich prinzipiell nicht nötig gewesen
+Hierfür wäre \tt{lga} natürlich prinzipiell nicht nötig gewesen
 und wird auch im Text nicht weiter erwähnt.
 Ohne dieses nützliche Werkzeug hätte jedoch
 die Aufstellung einige Fehler gehabt,
@@ -105,7 +285,7 @@ die man so schnell nicht gefunden hätte.
 \section{Zum Lautwandel allgemein}
 
 Die wahrscheinlich bedeutendste Entdeckung
-in der historisch-vergleichende Sprachwissenschaft ist
+in der historisch-vergleichenden Sprachwissenschaft ist
 das junggrammatische Postulat der \emph{Ausnahmslosigkeit der Lautgesetze}.
 Im Vorwort zu den \textit{Morphologischen Untersuchungen}
 schreiben \textcite[XIII]{brugmann_osthoff}:
@@ -118,7 +298,7 @@ richtung sind folgende.
 vollzieht sich nach \emph{ausnahmslosen gesetzen},
 d. h. die richtung der lautbewegung ist bei allen angehörigen
 einer sprachgenossenschaft, ausser dem fall, dass dialektspaltung
-eintritt, stats dieselbe, und alle wörter, in denen der der
+eintritt, stets dieselbe, und alle wörter, in denen der der
 lautbewegung unterworfene laut unter gleichen verhältnissen erscheint,
 werden ohne ausnahme von der änderung ergriffen.
 
@@ -139,7 +319,7 @@ uns entgegentretet wie in den jüngeren und jüngsten.
 
 Im darauf folgenden Absatz erklären sie,
 dass durch die Ausnahmslosigkeit der Lautgesetze man überhaupt
-erst ``\emph{festen boden unter den füssen}'' bekommt.
+erst ``\emph{festen boden unter den füssen}'' bekomme.
 Dass Sprachwandel nicht allein aus ausnahmslosem Lautwandel besteht,
 liegt auf der Hand.
 Die Junggrammatiker stellen ihm die Formassoziation d.h. Analogie entgegen,
@@ -153,18 +333,18 @@ können dem regulären Lautwandel entgegenwirken.
 
 Im Kapitel ``The regularity of sound change'' deduziert \textcite{katicic}
 auf Basis theoretischer Annahmen,
-dass Lautwandel ausnahmslos sein muss
+dass regulärer Lautwandel ausnahmslos sein muss
 und alle scheinbaren Ausnahmen durch andere Sprachveränderungen
 erklärt werden müssen.
 Katičić unterscheidet externen und internen Sprachwandel.
 Beim externen Sprachwandel haben die Sprecher einer Sprache den Anreiz,
-eine neue Sprache zu lernen (z.B. die Sprache von Eroberern).
+eine neue Sprache zu lernen (z.B. die Sprache ihrer Eroberer).
 Beim internen Sprachwandel
 ist die neue Sprache innerhalb der Sprachgemeinschaft entstanden und
 die Sprecher haben prinzipiell keinen Anreiz,
 die Sprache der Innovatoren zu lernen.
 Wenn sich daher die neue Sprache durchsetzen will,
-muss sie mühelos von den Sprechern der alten Sprache gelernt werden,
+muss sie mühelos von den Sprechern der alten Sprache gelernt werden können,
 was impliziert,
 dass die neue Sprache möglichst einfach aus der alten abgeleitet werden können muss.
 Dies ist (auf die Lautebene bezogen) dann der Fall,
@@ -182,13 +362,13 @@ der von \tt{lga} simuliert wird.
 \subsection{Vorüberlegungen}
 
 Wenn ein Lautgesetzt wirkt,
-wird ein Laut oder eine Lautgruppe durch eine andere oder nichts ersetzt.
+wird ein Laut oder eine Lautgruppe durch eine andere oder durch nichts ersetzt.
 Da man Laute phonetisch notieren kann,
 kann man auch ein Lautgesetz durch Ersetzung
 von Zeichen durch andere Zeichen beschreiben.
 
 Da Lautwandel meist durch die Lautumgebung bedingt ist
-und sich oft nicht nur ein Laut sondern Lautklassen verändern
+und sich oft nicht nur ein Laut, sondern Lautklassen verändern
 (bspw. Stimmloswerdung von stimmhaften Lauten),
 ist es sinnvoll,
 eine Sprache zu entwicklen,
@@ -197,15 +377,15 @@ und von einem Computerprogramm verstanden werden kann.
 Eine naheliegende Wahl ist daher eine Form von \emph{regulären Ausdrücken},
 die in vielen Programmen implementiert und weithin bekannt sind.
 Reguläre Ausdrücke sind zwar für diesen Zweck nicht perfekt geeignet,
-aber für einen Prototyp ausreichend.
+aber für einen Prototypen ausreichend.
 Wenn sich gezeigt hat,
 welche Defizite reguläre Ausdrücke für diesen Anwendungsfall haben,
 wird man eine besser geeignete Sprache entwickeln und implementieren können.
 
 Als Programmiersprache habe ich die Scheme-Implementation CHICKEN
-\footnote{\tt{http://www.call-cc.org/}}
+\footnote{\tt{http://www.call-cc.org/}, abgerufen am 10.8.2015}
 und die \tt{irregex}-Engine für reguläre Ausdrücke
-\footnote{\tt{http://wiki.call-cc.org/man/4/Unit\%20irregex}}
+\footnote{\tt{http://wiki.call-cc.org/man/4/Unit\%20irregex}, abgerufen am 10.8.2015}
 gewählt.
 
 \subsection{Reguläre Ausdrücke}
@@ -218,9 +398,7 @@ CHICKEN findet sich unter dem oben genannten Link.
 Die grundlegende Funktion von regulären Ausdrücken ist das
 Finden (engl. \bel{match}) von Zeichenketten (String) anhand eines Musters.
 Der gematchte Text kann dann durch einen anderen ersetzt werden,
-der Teile des Matches wieder aufnehmen kann.
-Im Folgenden werden reguläre zwischen Schrägstriche (\rx{regex})
-und Strings in Anführungszeichen gestellt (\str{string}).
+wobei Teile des Matches wieder aufgenommen werden können.
 
 Ein regulärer Ausdruck matcht einen String aus einem Alphabet.
 Dies ist hier die Menge der Unicode \emph{Codepoints}, nicht die
@@ -238,7 +416,7 @@ Der Punkt . matcht ein beliebiges Zeichen.
 Der Ausdruck \rx{...} matcht also alle Strings mit drei Zeichen,
 \rx{\textbackslash.\textbackslash.\textbackslash.} matcht drei Punkte.
 
-Eine in eckigen Klammern stehende Menge an Zeichen matcht eins dieser Zeichen,
+Eine in eckigen Klammern stehende Menge an Zeichen matcht eines dieser Zeichen,
 oder alle außer dieser Zeichen,
 wenn das erste Zeichen ein Zirkumflex \tt{\textasciicircum} ist.
 Dabei können auch Zeichenbereiche mit Bindestrich angegeben werden.
@@ -299,10 +477,13 @@ zugehörigen Sprachstammbaum generiert.
 
 Die Liste der Wörter wird vorher durch eine weitere Liste von Regeln,
 die von der Ausgangssprache abhängt,
-von einer graphematisch/morphonologischen
+von einer zugrundeliegenden
+graphematisch/phono\-logischen
 Form in eine interne phonetische gebracht
-(was natürlich eine eindeutige Graphie voraussetzt)
-und am Ende durch noch eine Liste von Regeln,
+(was natürlich eine eindeutige Graphie voraussetzt).
+Die Phoneme dieser Form sind als zugrundeliegende Segmente im
+Sinne der generativen, nicht der strukturalistischen Phonologie zu verstehen.
+Am Ende wird die phonetische Form durch eine Liste von Regeln,
 die von der Zielsprache abhängig ist,
 wieder in eine graphematische Darstellung gebracht.
 
@@ -318,7 +499,7 @@ Zunächst wird mit der Funktion \tt{(make-path tree start end)} anhand
 eines Sprachstammbaums \tt{tree}
 eine Liste aller Sprachen von der Ausgangs- zur Zielsprache generiert.
 Der Aufruf \tt{(make-path lang-tree 'uridg 'lesb)} würde bspw.
-die Liste \tt{(uridg urgr nwgr aiol lesb)} erzeugen.
+mit dem Beispielbaum unten die Liste \tt{(uridg urgr nwgr aiol lesb)} erzeugen.
 
 Der Sprachstammbaum (gespeichert in der globalen Variable \tt{lang-tree})
 definiert das Verwandtschaftsverhältnis von Sprachen.
@@ -326,7 +507,7 @@ Wenn eine Sprache keine Untersprachen hat,
 ist sie (in Scheme-Terminologie) ein Symbol
 (also hat z.B. \tt{myk} keine Abkömmlinge).
 Hat eine Sprache Untersprachen,
-ist sie eine Liste, dessen erstes Element ein Symbol für die Sprache selber ist;
+ist sie eine Liste, dessen erstes Element ein Symbol für die Sprache selbst ist;
 die weiteren Elemente sind Untersprachen (wiederum Symbole oder Listen).
 Ein vereinfachter Stammbaum könnte also bspw. folgendermaßen aussehen:
 \begin{verbatim}
@@ -337,21 +518,24 @@ Ein vereinfachter Stammbaum könnte also bspw. folgendermaßen aussehen:
 \end{verbatim}
 Es sei angemerkt,
 dass die so beschriebenen Verhältnisse nicht streng als genetische
-Verwandtschaft interpretiert oder zumindest verwendet werden sollten.
-%
-%TODO: besser schreiben
-%
-Att. und ion. mögen zwar auf ein Urion. zurückgeführt werden,
-aber auch nach ihrer Aufspaltung teilen sie noch gewisse Entwicklungen.
-Ebenso gibt es gemeingriechische Entwicklung die nach-urgriechisch sind.
-Eine präzisere Trennung von Verwandtschaft und ``Sprachgruppen''
-würde aber das Modell möglicherweise zu sehr verkomplizieren.
-Die beste Möglichkeit ist es womöglich,
-auf die Vorsilbe \textit{ur-} zu verzichten und bspw. \tt{gr}
-gleichermaßen für urgriechisch und gemeingriechisch zu verwenden
-(ebenso wäre statt \tt{urion} besser \tt{ion-att} zu verwenden).
-%
-%
+Verwandtschaft interpretiert
+oder zumindest so verwendet werden müssen.
+Auch nach einer Aufspaltung können nah verwandte Dialekte
+noch gemeinsame Entwicklungen haben.
+So passieren viele Lautveränderungen in allen griechischen Dialekten,
+sind aber dennoch nicht urgriechisch.
+Passiert also ein Lautwandel bspw. nach der Aufspaltung
+von urion. in ion. und att.
+trotzdem noch in beiden Dialekten
+(dafür gibt es genug Beispiele),
+kann man ihn nicht als urion. bezeichnen.
+Für diese Fälle mag es sinnvoll sein, auf die Vorsilbe \textit{ur-}
+zu verzichten oder z.B. statt von urion. von ion-att.
+zu sprechen (wie im Beispielbaum oben).
+Eine bessere Trennung von genetischer Verwandtschaft und ``Sprachgruppen''
+wäre methodisch vielleicht angebracht.
+Die Praxis wird zeigen,
+ob hier noch Verbesserungsbedarf besteht.
 
 Der Lautgesetzbaum ist eine Liste von vier möglichen Elementen, nämlich
 Funktionen, die einen String als Argument nehmen und einen String zurückgeben
@@ -368,15 +552,15 @@ der durch \tt{rule-tree} definiert ist
 macht aber nach Abarbeitung von \tt{rule-tree}
 nach der Regel weiter.
 Dies impliziert,
-dass es sich hier bei \tt{rule-tree} nicht um einen echten Baum handelt.
+dass es sich bei \tt{rule-tree} nicht um einen echten Baum handelt.
 \tt{sub} ist nur dazu gedacht eine Liste von Lautgesetzen bedingt anzuwenden.
-Im Griechischen ist dies besonders nützlich,
+Im Griechischen ist dies wie gerade erwähnt besonders nützlich,
 da zwar alle Dialekte ähnliche Entwicklungen machen,
 diese sich aber im einzelnen unterscheiden.
 Mit \tt{sub} kann man einfach Regeln für bestimme Dialekte oder
-Dialektgruppen definieren ohne für jeden Dialekt einen eigenen Sprachzweig
-haben zu müssen.
-% TODO: problem von oben wieder aufgreifen
+Dialektgruppen definieren, ohne für jeden Dialekt einen eigenen Sprachzweig
+haben zu müssen,
+und so Sprachkontaktphänomene recht gut beschreiben.
 
 Die Funktion \tt{(make-rules tree path)}
 gibt anhand des Lautgesetz\emph{baums} \tt{tree} eine \emph{Liste}
@@ -408,13 +592,13 @@ gibt es eindeutig Probleme, mit Lautklassen umzugehen,
 und noch allgemeiner, Laute durch Zeichen zu kodieren.
 
 Wenn jeder Laut durch genau ein Zeichen bzw. einen Unicode Codepoint kodiert wird,
-gibt es der Lautkodierung keine Probleme.
+gibt es bei der Lautkodierung keine Probleme.
 Da es allerdings sinnvoll ist,
 einige Laute mit mehreren Codepoints zu kodieren,
 kann es zu Problemen kommen.
 Will man bspw. ein Lautgesetz \tt{(s "b" "p")} formulieren,
 so hätte dies die Nebenwirkung,
-dass auch \tt{bʰ} zu \tt{pʰ} würde,
+dass auch \str{bʰ} zu \str{pʰ} würde,
 was im allgemeinen Fall unerwünscht ist.
 Wenn man Laute wie \bel{bʰ} oder \bel{gʷ} mit einem einzigen Codepoint
 repräsentieren würde,
@@ -429,9 +613,9 @@ die Lautgesetze beschreibenden regulären Ausdrücken durch
 beliebige unbenutzte Codepoints zu ersetzen
 und am Ende die umgekehrte Ersetzung durchzuführen,
 so dass die nur intern verwendeten Codepoints nirgendwo graphisch auftauchen.
-Tatsächlich wird auch in den regulären Ausdrücken
-in einigen Fällen eine einfachere Kodierung benutzt
-(wenn eine gute Alternative vorhanden war, z.B. \tt{w} statt \tt{u̯}) wie in
+Tatsächlich benutze ich auch in den regulären Ausdrücken
+in einigen Fällen eine einfachere Kodierung
+(wenn eine gute Alternative vorhanden war, z.B. \str{w} statt \str{u̯}) wie in
 \ref{sec:vorbemerkungen} beschrieben
 (die Ersetzung der komplexen durch eine einfachere Kodierung in den Wörtern
 findet in der Liste der phonologischen Regeln statt,
@@ -443,20 +627,14 @@ aber eine automatische Ersetzung könnte in \tt{(make-regex s)}
 leicht implementiert werden.
 Der Einfachheit halber und aus Effizienzgründen habe ich jedoch zunächst
 darauf verzichtet,
-da ich problematischen Fälle wenige sind und vorläufig durch vorsichtige
+da die problematischen Fälle wenige sind und vorläufig durch vorsichtige
 Formulierung umgangen werden können
 (der obere Fall also als \tt{(s "b([\textasciicircum{}ʰ])" "p" 1)}).
 
-%In der hier entwickelten Version von \tt{lga} wird das Problem
-%aus Effizienzgründen jedoch noch nicht gelöst.
-%Stattdessen müssen die Lautgesetze vorläufig
-%besonders vorsichtig formuliert werden,
-%der obere Fall also als \tt{(s "b([\textasciicircum{}ʰ])" "p" 1)}.
-
 Bei der Formulierung von Lautgesetzen ist es ferner sinnvoll,
-Laute in Lautklassen zusammenzufassen um eine konzise
-und leicht abstrahierende Darstellung zu haben.
-Der POSIX Standard definiert zwar Zeichenklassen wie \tt{[:digit:]}
+Laute in Lautklassen zusammenzufassen,
+um eine konzise und leicht abstrahierende Darstellung zu haben.
+Der POSIX-Standard definiert zwar Zeichenklassen wie \tt{[:digit:]}
 für Ziffern oder \tt{[:lower:]} für Kleinbuchstaben,
 aber die Bedürfnisse, die man als Linguist hat,
 sind damit nicht abgedeckt,
@@ -485,9 +663,10 @@ aller Vokale
 (\tt{s+} ist eine Abkürzung für \tt{string-append} zum Verketten von Strings)
 und diese in einem Lautgesetz wie \tt{(s "<vok>" "a")} verwenden.
 
-Die Lautklassen sind jedoch zur Laufzeit nicht vernünftig veränderbar,
+Die Lautklassen sind jedoch im Laufe der Sprachentwicklung
+nicht vernünftig veränderbar,
 da sie zur Zeit der Auswertung von \tt{s} in den regulären Ausdruck
-eingefügt werden,
+eingefügt werden (also wenn die Quelltextdatei gelesen wird),
 man die Definition aber wohl am ehesten aus dem Lautgesetzbaum heraus
 verändern wollen würde
 (Lautklassen sollten also dynamisch statt lexikalisch gebunden sein).
@@ -501,15 +680,15 @@ Pendant ersetzen.
 Beispiele für solche Vorgänge gibt es genug und es ist eine Methode notwendig,
 mit der man diese Fälle unkompliziert ausdrücken kann.
 In einer späteren Version wäre vielleicht eine Ersetzung wie
-\tt{(s "<lang-vok>" "<kurz-vok>")} wünschenswert,
-in der aktuellen Version können jedoch auch Funktionen,
+\tt{(s "<lang-vok>" "<kurz-vok>")} wünschenswert.
+In der aktuellen Version können jedoch auch Funktionen,
 die auf Submatches angewandt werden, denselben Effekt erzielen.
 Als Ersetzungsargumente kann man an \tt{irregex-replace/all}
 neben Strings und Zahlen, die das entsprechende Submatch bezeichnen,
 auch Funktionen übergeben,
 die auf das aktuelle Match angewandt werden und einen String zurückgeben.
 Um also z.B. einen Langvokal in ein Kurzvokal zu verwandeln,
-braucht es nur eine Funktion,
+braucht man nur eine Funktion,
 die auf ein Submatch eine Reihe von regulären Ausdrücken anwendet
 und das Ergebnis zurückgibt.
 Eine Funktion, die reguläre Ausdrücke auf einen String anwendet,
@@ -531,16 +710,16 @@ Die Vokalkürzung könnte somit folgendermaßen definiert werden:
           (s "ū" "u"))))
 \end{verbatim}
 Ein Lautgesetz, das alle Langvokale kürzt,
-könnte dann als \tt{(s "(<lang-vok>)" (kuerzung 1))} formuliert werden.
+kann dann als \tt{(s "(<lang-vok>)" (kuerzung 1))} formuliert werden.
 
-Die eingangs erwähnten Regellisten zur Umwandlung von einer
-graphematisch oder morphonologischen in eine phonetische und von
-einer phonetischen in eine graphematisch/phonologische Darstellung
+Die schon erwähnten Regeln zur Umwandlung von einer
+graphematisch/phono\-logischen in eine phonetische und von
+einer phonetischen in eine graphematisch/phono\-logische Darstellung
 sind unter ihrem Sprachnamen ebenfalls in
 assoziativen Listen abgelegt.
 
 Hiermit ist die Funktionalität von \tt{lga} weitestgehend erläutert.
-Eine exakte Beschreibung kann natürlich nur der Quelltext selber liefern.
+Eine exakte Beschreibung kann natürlich nur der Quelltext selbst liefern.
 
 \section{Modellierung der Lautentwicklung des Altgriechischen}
 \subsection{Vorbemerkungen}
@@ -568,13 +747,7 @@ Akzente werden in der graphematischen Schreibweise
 als combining diacritics geschrieben und intern mit \tt{'} und \tt{\textasciitilde}
 kodiert.
 
-% TODO
-Die Umwandlung dieser graphematischen Schreibungen in die interne
-(mehr oder weniger phonetische) Darstellung geschieht wie schon
-gesagt in der Liste der
-phonologischen Regeln für \tt{uridg} (in \tt{rules.scm}).
-
-Als weitere phonologische Regeln für das Uridg.
+Als phonologische Regeln für das Uridg.
 sind Laryngalumfärbung (\rek{e} neben \rek{h₃} jedoch noch von \rek{o}
 verschieden, was allerdings für das Gr. belanglos ist)
 und Stimmhaftwerdung von \rek{s} neben stimmhaften Konsonanten beschrieben.
@@ -584,14 +757,14 @@ die vor dem Erreichen des Sprachzustandes, der mit \tt{uridg} bezeichnet wird,
 durchlaufen wurden,
 wurden nicht berücksichtigt und die Rekonstrukte bzw. Transponate,
 die als Eingabe dienen, sollten einen entsprechenden Lautstand vorweisen
-(um bei \textsc{Stang}s Gesetz zu beleiben wäre also \rek{di̯ēm} nicht \rek{di̯eu̯m} \tt{uridg}).
+(um bei \textsc{Stang}s Gesetz zu bleiben wäre also \rek{di̯ēm} nicht \rek{di̯eu̯m} \tt{uridg}).
 Insbesondere enthält \tt{uridg} den \textit{þ}-Laut,
 dessen Herkunft und Phonetik hier ebenfalls nicht weiter hinterfragt wird.
 
 Im Folgenden werden die Lautgesetze vom Urindogermanischen ins Griechische
 in drei Etappen aufgestellt.
 Zunächst wird die Lautentwicklung bis ins Urgriechische modelliert,
-dann bis und in mykenischer Zeit und schließlich in die Dialekte
+dann bis in mykenischer Zeit und schließlich in die Dialekte
 der alphabetischen Zeit.
 Die dazu verwendete Literatur ist im wesentlichen
 \cite{bart_langvok},
@@ -614,7 +787,7 @@ anderen Gesetzen oder nach Gefühl einsortiert.
 
 Auch ist die Aufstellung hier keinesfalls als endgültig anzusehen.
 Besonders Entwicklungen, die in die spätere dialektale Zeit fallen
-wie Digammaschwund und Kontraktionen
+wie Digammaschwund und Kontraktionen,
 die zum Teil nach Einsetzen der Überlieferung stattfinden,
 sind zu unübersichtlich und unklar,
 um sie hier angemessen zu modellieren ohne den Rahmen der Arbeit zu sprengen
@@ -623,14 +796,15 @@ Aber auch über sicherere Entwicklungen lässt sich im Detail fast immer streite
 Sowohl das Programm \tt{lga} als auch die Formulierung
 der Lautgesetze sind somit als vorläufiges Ergebnis oder Gerüst zu sehen,
 auf dem weitere Arbeiten aufbauen können.
+Insbesondere sind Akzententwicklungen noch völlig unbeachtet geblieben.
 
 Nach der Beschreibung und Diskussion der Lautgesetze folgt eine
 formelhafte Darstellung,
  die mehr oder weniger genau den Regeln in \tt{lga} entspricht.
 Zu jeder Regel werden einige Beispiele genannt,
-die zum Großteil von Rix übernommen
+die zum Großteil von Rix übernommen,
 allerdings nicht erschöpflich sind.
-Sie dienen mehr zur Veranschaulichung als als Belege.
+Sie dienen mehr zur Veranschaulichung denn als Belege.
 In besonders trivialen Fällen gebe ich daher auch weniger oder
 gar keine Beispiele.
 Auch in sehr unübersichtlichen Fällen bilden die Beispiele nicht
@@ -682,7 +856,9 @@ Frikative und sonstige: \rek{s}, \rek{z}, \rek{h₁}, \rek{h₂}, \rek{h₃}, (\
 
 \bigskip
 \rek{z} ist Allophon von \rek{s} vor stimmhaften Konsonanten.
-Beide werden aber der Einfachheit halber in \tt{lga} als \rek{s} repräsentiert.
+Die beiden Laute werden der Einfachheit halber
+jedoch in den Regeln und in \tt{lga}
+unterschiedslos mit \rek{s} bezeichnet.
 
 Die genaue Artikulation der Laryngale \rek{h₁}, \rek{h₂}, \rek{h₃}
 ist nicht klar. Meist werden Frikative vermutet,
@@ -697,8 +873,8 @@ sowohl seine Existenz als auch seine Artikulation
 Die Lautveränderung,
 die ins Urgr. führen, sind grob gesprochen
 die Kentumvertretung der Tektale,
-die Stimmloswerdung der Mediae aspiratae,
 die Entwicklung von \rek{þ},
+die Stimmloswerdung der Mediae aspiratae,
 jegliche Laryngalentwicklungen,
 die Entwicklung der silbischen Resonanten (teilweise aber auch erst dialektal),
 einige Okklusivassimilationen,
@@ -715,79 +891,81 @@ Da das Griechische keinerlei Anhaltspunkte dafür bietet,
 dass es je einen Unterschied zwischen diesen Lauten gab,
 wird der Zusammenfall früh datiert.
 
-\lex{\rek{k̑}, \rek{g̑}, \rek{g̑ʰ}, (\rek{k̑ʰ})}{\rek{k}, \rek{g}, \rek{gʰ}, (\rek{kʰ})}
+\lex{\i{k̑}, \i{g̑}, \i{g̑ʰ}, (\i{k̑ʰ})}{\i{k}, \i{g}, \i{gʰ}, (\i{kʰ})}
 
-uridg. \rek{k̑}: \rek{k̑m̥tóm}: gr. ἑκατόν vs. ai. \bel{śatáṃ} `hundert'
+uridg. \rek{k̑}: \rek{k̑m̥tóm} > gr. ἑκατόν; ai. \bel{śatáṃ} `hundert'
 
-uridg. \rek{k}: \rek{leu̯kós}: gr. λευκός vs. ai. \bel{rocás} `leuchtend'
+uridg. \rek{k}: \rek{leu̯kós} > gr. λευκός; ai. \bel{rocás} `leuchtend'
 
-uridg. \rek{g̑}: \rek{h₂ég̑onti}: att. ἄγουσι vs. av. \bel{azənti} `sie führen'
+uridg. \rek{g̑}: \rek{h₂ég̑onti} > att. ἄγουσι; av. \bel{azənti} `sie führen'
 
-uridg. \rek{g}: \rek{gerh₂nós}: gr. γερανός vs. lit. \bel{gervė} `Kranich'
+uridg. \rek{g}: \rek{gerh₂nós} > gr. γερανός; cf. lit. \bel{gervė} `Kranich'
 
-uridg. \rek{g̑ʰ}: \rek{u̯eg̑ʰ-/u̯ogʰ-}: att. ὄχος `Wagen' vs. av. \bel{vazāmi} `ich fahre'
+uridg. \rek{g̑ʰ}: zu \rek{u̯eg̑ʰ-/u̯og̑ʰ-}: att. ὄχος `Wagen'; av. \bel{vazāmi} `ich fahre'
 
-uridg. \rek{gʰ}: \rek{h₃migʰ-/h₃moi̯gʰ-}: gr. ὀμίχλη `Nebel' vs. ai. \bel{meghás} `Wolke'
+uridg. \rek{gʰ}: \rek{h₃migʰ-/h₃moi̯gʰ-}: gr. ὀμίχλη `Nebel'; ai. \bel{meghás} `Wolke'
 
 \mypara{Thorn}
 \rek{þ} (genauer Lautwert unklar) tritt nach Velaren und Labiovelaren auf.
 Nach Tenues entsprich \rek{t}, nach Media aspirata \rek{dʰ} (Rix §81).
 
-\lex{\rek{þ}}{\rek{t}}{\{Tenuis\}\_}
+\lex{\i{þ}}{\i{t}}{\{Tenuis\}\_}
 
-uridg. \rek{k̑þ}: \rek{tek̑þō(n)}: gr. τέκτων vs. ai. \bel{tákṣā} `Zimmermann'
+uridg. \rek{k̑þ}: \rek{ték̑þō(n)} > gr. τέκτων; ai. \bel{tákṣā} `Zimmermann'
 
-\lex{\rek{þ}}{\rek{dʰ}}{\{Media asp.\}\_}
+\lex{\i{þ}}{\i{dʰ}}{\{Media asp.\}\_}
 
-uridg. \rek{gʷʰþ}: \rek{ń̥gʷʰþitom}: gr. ἄφθιτον vs. ai. \bel{ákṣitam} `unvergänglich'
+uridg. \rek{gʷʰþ}: \rek{ń̥gʷʰþitom} > gr. ἄφθιτον; ai. \bel{ákṣitam} `unvergänglich'
 
-\mypara{*MA > TA}
+\mypara{Media aspirata > Tenuis aspirata}
 Mediae aspiratae werden zu Tenues aspiratae (Rix §94).
 Aufgrund der Nähe zum Makedonischen und Phrygischen,
 in denen der Reflex vermutlich Media ist,
 ist dieser Wandel vielleicht später anzusetzen.
 Spätestens im Myk. ist die Stimmlosigkeit belegt.
 
-\lex{\rek{bʰ}, \rek{dʰ}, \rek{gʰ}, \rek{gʷʰ}}{\rek{pʰ}, \rek{tʰ}, \rek{kʰ}, \rek{kʰʷ}}
+\lex{\i{bʰ}, \i{dʰ}, \i{gʰ}, \i{gʷʰ}}{\i{pʰ}, \i{tʰ}, \i{kʰ}, \i{kʰʷ}}
 
-uridg. \rek{bʰ}: \rek{bʰéronti}: dor. φέροντι vs. ai. \bel{bháranti} `sie tragen'
+uridg. \rek{bʰ}: \rek{bʰéronti} > dor. φέροντι; ai. \bel{bháranti} `sie tragen'
 
-uridg. \rek{dʰ}: zu \rek{dʰeh₁-}: gr. τίθημι vs. ai. \bel{dadhā́mi} `ich setze/stelle/lege'
+uridg. \rek{dʰ}: zu \rek{dʰeh₁-}: gr. τίθημι; ai. \bel{dadhā́mi} `ich setze/stelle/lege'
 
-uridg. \rek{g̑ʰ}: zu \rek{stei̯g̑ʰ-}: gr. στείχω vs. got. \bel{steigan} `steigen'
+uridg. \rek{g̑ʰ}: zu \rek{stei̯g̑ʰ-}: gr. στείχω; got. \bel{steigan} `steigen'
 
-uridg. \rek{gʷʰ}: zu \rek{gʷʰen-}: gr. φόνος `Mord' vs. ai. \bel{gʰnánti} `sie erschlagen' (zu \rek{kʷʰ} > \rek{pʰ} s. \ref{labvel})
+uridg. \rek{gʷʰ}: zu \rek{gʷʰen-}: gr. φόνος `Mord'; ai. \bel{gʰnánti} `sie erschlagen'
 
 \mypara{\rek{(H)i̯-}}
 \label{Hy}
-Da es im Gr. scheinbar zwei Reflexe von \rek{i̯-} gibt,
-versucht man mit der Laryngaltheorie die beiden Reflexe als \rek{Hi̯-}
+Im Gr. hat \rek{i̯-} scheinbar zwei Reflexe,
+nämlich Verschärfung zu einem Laut, der mit \rek{di̯-} und \rek{gi̯-}
+zusammenfällt und einfaches \rek{i̯-}, das im Myk. noch belegt ist.
+Mit der Laryngaltheorie versucht man die beiden Reflexe als \rek{Hi̯-}
 und \rek{i̯-} zu unterscheiden.
-Welcher Anlaut zu \rek{dz-} verschärft wurde,
-ist unklar -- nach Rix §68,80e ist es \rek{Hi̯-} --
+Welcher Anlaut verschärft wurde,
+ist unklar -- nach Rix §68, 80e ist es \rek{Hi̯-} --
 und nach dem Datenmaterial kann für beides argumentiert werden,
 wenn man aber ὑγιής `gesund' aus \rek{h₂i̯u-gʷih₃-ḗs} `langes Leben habend'
 herleiten will, darf man \rek{Hi̯-} > \rek{i̯-} vermuten
 (\rek{su-} `gut', das Rix (§97) rekonstruiert und mit ai. \bel{su-} `gut' verbindet,
 ist als \rek{h₁su-} anzusetzen und würde εὐ- ergeben).
-Auch lautlich plausibel ist eine
-frühe Verschärfung von uridg. \rek{i̯-} zu \rek{dz-}
-(womöglich über Zusammenfall mit ererbtem \rek{di̯-},
-das ebenfalls zu \rek{dz-} wird, s. \ref{pal}, \ref{ds}),
+Auch lautlich plausibel ist ein
+früher Zusammenfall von uridg. \rek{i̯-} und \rek{di̯-}
+(cf. lat. \bel{Iūlius} > ital. \bel{Giulio} und \bel{diūrnus} > \bel{giorno} `Tag'),
 danach Wegfall aller Laryngale (also keine Vokalisierung wie vor \rek{u̯}),
 wodurch \rek{Hi̯-} als \rek{i̯-} stehenbleibt,
 wie es im Frühmyk. belegt ist.
 
-\lex{\rek{i̯-}}{\rek{di̯-}}
+\lex{\i{i̯-}}{\i{di̯-}}
 
-uridg. \rek{i̯-}: \rek{i̯ugóm}: gr. ζυγόν vs. ai. \bel{yugám} `Joch'
+uridg. \rek{i̯-}: \rek{i̯ugóm} > gr. ζυγόν; ai. \bel{yugám} `Joch'
 
-\lex{\rek{Hi̯-}}{\rek{i̯-}}
+\newpage
+\lex{\i{Hi̯-}}{\i{i̯-}}
 
 uridg. \rek{h₂i̯-}: ὑγιής ist mit
 \rek{h₂i̯u-} `langes Leben (→ lange Zeit → Zeit)'
-wegen Vollstufe \rek{h₃ei̯u-} in z.B.
-hom. αἰεί `immer' < \rek{h₂ei̯u̯ési} `zu allen Zeiten' zu rekonstruieren.
+wegen Vollstufe \rek{h₂ei̯u-} in z.B.
+hom. αἰεί `immer' < \rek{h₂ei̯u̯esi} `zu allen Zeiten' zu rekonstruieren.
 
 \mypara{Laryngale}
 \label{laryngale}
@@ -797,31 +975,29 @@ um eine lautlich plausiblere Entwicklung zu modellieren.
 So wird z.B. intervokalischer Laryngal nach \rek{i} oder \rek{u}
 nicht zum Gleitlaut sondern dieser entsteht erst als Hiattilger
 nach dem Laryngalschwund.
-Gegen Rix glaube ich nicht an Vokalisierung vor im Anlaut vor \rek{u} (§79b),
+Entgegen Rix glaube ich nicht an Vokalisierung im Anlaut vor \rek{u} (§79b),
 da die Beispiele nicht überzeugen und er immerhin selber ὑδέω als Gegenbeispiel nennt.
 Der Schwund der Laryngale dürfte früh passiert sein.
-Der Wandel, der hier als \rek{H} > \rek{V} geschrieben ist,
-ist als \rek{h₁}, \rek{h₂}, \rek{h₃} > \rek{e}, \rek{a}, \rek{o} zu verstehen.
+Der Wandel, der hier als \i{H} > \i{V} geschrieben ist,
+ist als \i{h₁}, \i{h₂}, \i{h₃} > \i{e}, \i{a}, \i{o} zu verstehen.
 
-\lex{\rek{H}}{\rek{V}}{C\_\#} (Rix §85d)
+\lex{\i{H}}{\i{V}}{\i{C}\_\#} (Rix §85d)
 
-uridg. \rek{-h₁}: gr. -ε N.Du.m. (παῖδε)
+uridg. \rek{-h₁} > gr. -ε N.Du.m.
 
-uridg. \rek{-h₂}: gr. -α N.Pl.n. (σώματα)
+uridg. \rek{-h₂} > gr. -α N.Pl.n.
 
-\lex{\rek{(i, u)H}}{\rek{(i, u)V}}{CC\_\#} (Rix §85b)
+\lex{\i{(i, u)H}}{\i{(i, u)V}}{\i{CC}\_\#} (Rix §85b)
 
-uridg. \rek{tri-h₂}: gr. τρία vs. ai. \bel{trī́} `drei'
+uridg. \rek{trí-h₂} > gr. τρία; ai. \bel{trī́} `drei'
 
-\lex{\rek{(i, u)H}}{\rek{(i̯, u̯)V}}{C\_\#} (Rix §85b)
+\lex{\i{(i, u)H}}{\i{(i̯, u̯)V}}{\i{C}\_\#} (Rix §85b)
 
-uridg. \rek{h₃okʷ-ih₁}: hom. ὄσσε (< \rek{okʷi̯e}) `beide Augen'
+uridg. \rek{h₃ókʷ-ih₁} > \rek{okʷi̯e} > hom. ὄσσε `beide Augen'
 
-uridg. \rek{doru-h₂}: hom. δοῦρα (< \rek{doru̯a}) `Speere'
+uridg. \rek{dóru-h₂} > \rek{dóru̯a} > hom. δοῦρα `Speere'
 
-\lex{\rek{VH}}{\rek{V̄}}{\_(C, R̥, \#)} (mit \rek{R̥} > \rek{R}) (Rix §82b, 85a)
-
-%TODO: VHR bei im osthoff-buch nachgucken
+\lex{\i{VH}}{\i{V̄}}{\_(\i{C}, \i{R̥}, \#)} (mit \i{R̥} > \i{R}) (Rix §82b, 85a)
 
 uridg. \rek{eh₁}: zu \rek{dʰeh₁-}: gr. τίθημι `setze/stelle/lege'
 
@@ -829,57 +1005,58 @@ uridg. \rek{eh₂}: zu \rek{steh₂-}: dor. ἵστᾱμι `stehe'
 
 uridg. \rek{eh₃}: zu \rek{deh₃-}: gr. δίδωμι `gebe'
 
-urdig. \rek{o/eh₂}: zu \rek{bʰoh₂-}/\rek{bʰeh₂-}: dor. φωνᾱ́ `Stimme' vs. φᾱτί `spricht'
+uridg. \rek{o/eh₂}: zu \rek{bʰoh₂-}/\rek{bʰeh₂-}: dor. φωνᾱ́ `Stimme' bzw. φᾱτί `spricht'
 
-uridg. \rek{-eh₂} (N.Sg. eh₂-St.): ion-att. -η sonst -ᾱ, ai. \bel{-ā}
+uridg. \rek{-eh₂} (N.Sg. eh₂-St.) > ion-att. -η, sonst -ᾱ; ai. \bel{-ā}
 
-uridg. \rek{-oh₁} (N.Du. o-St.): -ω, ai. \bel{-ā}
+uridg. \rek{-oh₁} (N.Du. o-St.) > -ω; ai. \bel{-ā}
 
-\lex{\rek{H}}{\rek{V}}{(\#, C)\_C} (Rix §80d, 82c)
+\lex{\i{H}}{\i{V}}{(\#, \i{C})\_\i{C}} (Rix §80d, 82c)
 
-uridg. \rek{h₂u̯-}: \rek{h₂u̯eh₁ti}: hom. ἄησι vs. ai. vā́ti `weht'
+uridg. \rek{h₂u̯-}: \rek{h₂u̯eh₁ti} > hom. ἄησι; ai. vā́ti `weht'
 
-uridg. \rek{h₁r-}: \rek{h₁regʷos}: gr. ἔρεβος `Finsternis' vs. ai. \bel{rájas} `Dunst'
+uridg. \rek{h₁r-}: \rek{h₁regʷos} > gr. ἔρεβος `Finsternis'; ai. \bel{rájas} `Dunst'
 
-uridg. \rek{dʰh₁-tós}: gr. θετός `gesetzt/-stellt/-legt'
+uridg. \rek{dʰh₁-tós} > gr. θετός `gesetzt/-stellt/-legt'
 
-uridg. \rek{ph₂tḗr}: gr. πατήρ, ai. \bel{pitā́} `Vater'
+uridg. \rek{ph₂tḗr} > gr. πατήρ; ai. \bel{pitā́} `Vater'
 
-uridg. \rek{dh₃-tós}: gr. δοτός `gegeben'
+uridg. \rek{dh₃-tós} > gr. δοτός `gegeben'
 
-\lex{\rek{n̥h₂}}{\rek{na}}{\_\#} (Rix §85c)
+\lex{\i{n̥h₂}}{\i{na}}{\_\#} (Rix §85c)
 
-uridg. \rek{k̑r̥h₂sn̥-h₂} (N.Pl.n.): hom. κάρηνα vs. ai.  \bel{śīrṣā́} `Köpfe'
+uridg. \rek{k̑r̥h₂sn̥-h₂} (N.Pl.n.) > hom. κάρηνα; ai.  \bel{śīrṣā́} `Köpfe'
 
-\lex{\rek{HR̥}}{\rek{VR}}{C\_} (Rix §84γ)
+\newpage
+\lex{\i{HR̥}}{\i{VR}}{\i{C}\_} (Rix §84γ)
 
-uridg. \rek{h₁n̥}: zu \rek{dʰidʰh₁-n̥t-}: gr. τιθέ-ντ-ος vs. ai. \bel{dádh-at-as}
+uridg. \rek{h₁n̥}: zu \rek{dʰidʰh₁-n̥t-}: gr. τιθέ-ντ-ος; ai. \bel{dádh-at-as}
 
-uridg. \rek{h₃n̥}: zu \rek{didh₃-n̥t-}: gr. διδό-ντ-ος vs. ai. \bel{dád-at-as}
+uridg. \rek{h₃n̥}: zu \rek{didh₃-n̥t-}: gr. διδό-ντ-ος; ai. \bel{dád-at-as}
 
-\lex{\rek{R̥H}}{RV̄}{\_C}
+\lex{\i{R̥H}}{\i{RV̄}}{\_\i{C}}
 
-uridg. \rek{l̥h₁}: zu \rek{gʷl̥h₁-}: gr. βλητός `geworfen' vs. ai. \bel{ud-gūr-ṇas} `emporgehoben'
+uridg. \rek{l̥h₁}: zu \rek{gʷl̥h₁-}: gr. βλητός `geworfen'; ai. \bel{ud-gūr-ṇas} `emporgehoben'
 
-uridg. \rek{l̥h₂}: \rek{tl̥h₂tós}: dor. τλᾱτός, lat. lātus `getrageń
+uridg. \rek{l̥h₂}: \rek{tl̥h₂tós} > dor. τλᾱτός; lat. lātus `getrageń
 
-uridg. \rek{r̥h₃}: \rek{str̥h₃tós}: gr. στρωτός, lat. strātus `hingebreitet'
+uridg. \rek{r̥h₃}: \rek{str̥h₃tós} > gr. στρωτός; lat. strātus `hingebreitet'
 
-\lex{\rek{Ŕ̥H}}{V́RV}{\_C}
+\lex{\i{Ŕ̥H}}{\i{V́RV}}{\_\i{C}}
 
-uridg. \rek{ń̥h₁}: \rek{g̑ń̥h₁tis}: gr. γένεσις `Erzeugung'
+uridg. \rek{ń̥h₁}: \rek{g̑ń̥h₁tis} > gr. γένεσις `Erzeugung'
 
-uridg. \rek{ŕ̥h₂}: \rek{k̑ŕ̥h₂sn-}: hom. κάρηνα (< \rek{kárasna}) `Köpfe'
+uridg. \rek{ŕ̥h₂}: \rek{k̑ŕ̥h₂sn̥h₂} > \rek{kárasna} > hom. κάρηνα `Köpfe'
 
 uridg. \rek{ŕ̥h₃}: zu \rek{ste-stŕ̥h₃-}: aiol. ἐ-στόρο-ται
 
-\lex{\rek{HR̥}}{\rek{VR}}{\#\_} (Rix §79c)
+\lex{\i{HR̥}}{\i{VR}}{\#\_} (Rix §79c)
 
-uridg. \rek{h₁r̥-}: zu \rek{h₁r̥-sk̑e-}: gr. ἔρχεται, ai. ṛcháti `kommt'
+uridg. \rek{h₁r̥-}: zu \rek{h₁r̥-sk̑e-}: gr. ἔρχεται; ai. ṛcháti `kommt'
 
 uridg. \rek{h₃n̥-}: zu \rek{h₃n̥bʰl̥-}/\rek{h₃nobʰl̥-}: gr. ὀμφαλός, ahd. \bel{nabulo} `Nabel'
 
-\lex{\rek{H}}{\rek{Ø}}
+\lex{\i{H}}{\i{Ø}}
 
 \mypara{\rek{u̯eu̯} > \bel{u̯ei̯}}
 \rek{u̯eu̯} wird zu \rek{u̯ei̯} dissimiliert,
@@ -887,14 +1064,14 @@ wie εἶπον < \rek{e-u̯e-u̯kʷ-om} (vgl. ai. \bel{avocam}) lehrt.
 Dies muss ferner vor \ref{labvel-vel} passieren,
 wie εἶπον ebenfalls zeigt.
 
-\lex{\rek{u̯}}{\rek{i̯}}{u̯e\_}
+\lex{\i{u̯}}{\i{i̯}}{\i{u̯e}\_}
 
 \mypara{Labiovelar > Velar}
 \label{labvel-vel}
 Neben \rek{ū̆}, \rek{u̯} und vor \rek{i̯}
 fallen die Labiovelare mit den Velaren zusammen (Rix §97).
 
-\lex{\rek{kʷ, gʷ, kʷʰ}}{\rek{k, g, kʰ}}{(u, ū, u̯)\_; \_(u, ū, u̯, i̯)}
+\lex{\i{kʷ}, \i{gʷ}, \i{kʷʰ}}{\i{k}, \i{g}, \i{kʰ}}{(\i{u}, \i{ū}, \i{u̯})\_; \_(\i{u}, \i{ū}, \i{}u̯, \i{i̯})}
 
 uridg. \rek{u̯kʷ}: zu \rek{-kʷólos}: gr. βουκόλος `Kuhhirte' vs. αἰπόλος `Ziegenhirte' (zu Labiovelar > Labial s. \ref{labvel})
 
@@ -902,8 +1079,8 @@ uridg. \rek{ugʷ}: zu \rek{-gʷih₃-}: gr. ὑγιής `gesund' vs. βίος `L
 
 uridg. \rek{gʷʰu}: zu \rek{h₁ln̥gʷʰ-}: gr. ἐλαχύς vs. ἐλαφρός `schnell'
 
-uridg. \rek{kʷi̯}: zu \rek{h₃okʷ-}: hom. ὄσσε < \rek{okʷ-i̯e} `beide Augen'
-vs. lit. akìs `Auge'
+uridg. \rek{kʷi̯}: zu \rek{h₃okʷ-}: hom. ὄσσε < \rek{okʷ-i̯e} `beide Augen';
+lit. akis `Auge'
 
 \mypara{Silbische Resonanten}
 Die Entwicklung der silbischen Resonanten folgt Rix §75 und §76.
@@ -915,23 +1092,23 @@ Resonant und Vokal stand.
 Diese sind bei Rix gesondert behandelt,
 was aber unnötig ist, wenn man den Laryngalschwund einfach vorher ansetzt.
 
-Genauere Datierung unklar, aber nach Laryngalschwund.
-Eine etwas spätere Datierung wäre auch möglich.
-%TODO: und vor? (palatalisierung)
+Genauere Datierung unklar. Nach Laryngalschwund.
+Eine etwas spätere Datierung wäre auch möglich,
+aber vor \ref{pal} wegen z.B. \rek{gʷami̯ō} > βαίνω.
 
-\lex{\rek{N̥}}{\rek{aN}}{(V, V̯)}
+\lex{\i{N̥}}{\i{aN}}{(\i{V}, \i{V̯})}
 
-\rek{m̥V}: zu uridg. rek{k̑m̥h₂-}: gr. ἔκαμον `mühte sich'
+\rek{m̥V}: zu uridg. \rek{k̑m̥h₂-}: gr. ἔκαμον `mühte sich'
 
-\rek{n̥i̯}: uridg. \rek{tek̑þn̥ih₂} > \rek{tektani̯a} > gr. τέκταινα
+\rek{n̥i̯}: uridg. \rek{tek̑þn̥ih₂} > \rek{tektani̯a} > gr. τέκταινα `Erbauerin'
 
-\lex{\rek{N̥}}{\rek{ə}}
+\lex{\i{N̥}}{\i{ə}}
 
-\rek{n̥}: uridg. \rek{tn̥tós}: gr. τατός, ai. \bel{tatás}, lat. \bel{tentus} `gespannt'
+\rek{n̥}: uridg. \rek{tn̥tós} > gr. τατός; ai. \bel{tatás}, lat. \bel{tentus} `gespannt'
 
-\rek{m̥}: uridg. \rek{dék̑m̥}: att. δέκα, ark. δέκο, lat. \bel{decem} `zehn'
+\rek{m̥}: uridg. \rek{dék̑m̥} > att. δέκα, ark. δέκο; lat. \bel{decem} `zehn'
 
-\lex{\rek{R̥}}{\rek{əR}}{(\#, V, V̯)}
+\lex{\i{L̥}}{\i{əL̥}}{(\#, \i{V}, \i{V̯})}
 
 uridg. \rek{Hi̯ḗkʷr̥} > gr. ἧπαρ `Leber'
 
@@ -939,11 +1116,11 @@ uridg. \rek{Hi̯ḗkʷr̥} > gr. ἧπαρ `Leber'
 
 zu uridg. \rek{gʷl̥h₁-}: \rek{egʷalon} > gr. ἔβαλον `sie warfen'
 
-\lex{\rek{R̥}}{\rek{Rə}}
+\lex{\i{L̥}}{\i{Lə}}
 
-uridg. \rek{str̥tós}: att. στρατός, lesb. boiot. στροτός `Truppe, Heer'
+uridg. \rek{str̥tós} > att. στρατός, lesb. boiot. στροτός `Truppe, Heer'
 
-uridg. \rek{plth₂ús}: att. πλατύς, ai. \bel{pṛthús} `breit'
+uridg. \rek{plth₂ús} > att. πλατύς; ai. \bel{pṛthús} `breit'
 
 \mypara{Nasal vor Okklusiv}
 Vor Okklusiven wird der homorgane Nasal realisiert (Rix §78).
@@ -954,22 +1131,22 @@ aber ohne ein Beispiel, das bei Rix fehlt, ist die Regel zunächst unnötig.
 Die Nasalassimilation passiert auch später noch und
 dürfte tatsächlich wohl über lange Zeit eine synchrone phonologische Regel sein.
 
-\lex{\rek{N}}{\rek{m}}{\{Labial\}}
+\lex{\i{N}}{\i{m}}{\{Labial\}}
 
-\lex{\rek{N}}{\rek{n}}{\{Dental, Velar, Labiovelar\}}
+\lex{\i{N}}{\i{n}}{\{Dental, Velar, Labiovelar\}}
 
 \mypara{\rek{mi̯} > \rek{ni̯}}
 Rix §77.
 Datierung unklar.
 Vielleicht nach \rek{m̥} > \rek{am}, aber \rek{m̥} > \rek{n̥} \textbackslash\ \rek{i̯}
 ist ebenfalls als zusätzliche Regel denkbar.
-Vielleicht auch im Zuge der Palatalisierung (\ref{pal}).
+Vielleicht auch im Zuge der Palatalisierung (s. \ref{pal}).
 
-\lex{\rek{m}}{\rek{n}}{i̯}
+\lex{\i{m}}{\i{n}}{\i{i̯}}
 
-zu uridg. \rek{gʷem-}: \rek{gʷm̥-i̯ō} > \rek{gʷami̯ō} > \rek{gʷani̯ō} > gr. βαίνω `ich komme' = lat. \bel{veniō}
+zu uridg. \rek{gʷem-}: \rek{gʷm̥-i̯ō} > \rek{gʷami̯ō} > \rek{gʷani̯ō} > gr. βαίνω `ich komme'; lat. \bel{veniō}
 
-\mypara{Benachbarte Vokale nach Laryngalschwund (1. Kontraktion)}
+\mypara{Benachbarte Vokale nach Laryngalschwund}
 Kontraktion von \rek{e}, \rek{a}, \rek{o},
 zwischen denen Laryngal geschwunden ist (Rix §81).
 Hier entsteht zuerst der Intonationsunterschied zwischen Akut und Zirkumflex.
@@ -979,7 +1156,7 @@ Kontrahierte \rek{ee}, \rek{oo} fallen mit den alten (offenen) Langvokalen zusam
 die geschlossenen Langvokale entstehen erst bei \ref{ED1}.
 Datierung unklar.
 
-\lex{\rek{VV}}{\rek{V̄}} (\rek{V} = \rek{a}, \rek{e}, \rek{o})
+\lex{\i{VV}}{\i{V̄}} (\i{V} = \i{a}, \i{e}, \i{o})
 
 uridg. \rek{-eh₂ei̯} D.Sg. eh₂-St. > \rek{-aai̯} > ion-att. -ῃ, sonst -ᾳ
 
@@ -991,13 +1168,13 @@ Dieser ist streng genommen nicht gesichert, da er nicht geschrieben wird,
 da aber die Silbengrenze erhalten bleibt,
 ist er phonetisch äußerst wahrscheinlich (und sollte vielleicht vordatiert werden).
 
-\lex{\rek{i, u}}{\rek{i̯, u̯}}{V\_}
+\lex{\i{i}, \i{u}}{\i{i̯}, \i{u̯}}{\i{V}\_}
 
 uridg. \rek{pléh₁istom} > gr. πλεῖστον `am meisten'
 
-\lex{\rek{i, u}}{\rek{ii̯, uu̯}}{\_V}
+\lex{\i{i}, \i{u}}{\i{ii̯}, \i{uu̯}}{\_\i{V}}
 
-uridg. \rek{tri-h₂}: gr. τρία `drei'
+uridg. \rek{tri-h₂} > gr. τρία `drei'
 
 zu uridg. \rek{h₃bʰruH-}: gr. ὀφρύος `Braue'
 
@@ -1008,37 +1185,37 @@ Aspiration und Stimmhafigkeit assimiliert (Rix §106a).
 
 Hier dürfte es sich wohl eigentlich um eine phonologische Regel handeln.
 
-\lex{\rek{\{Okklu.\}}}{\rek{\{Media\}}}{\{Media\}}
+\lex{\{Okklusiv\}}{\{Media\}}{\{Media\}}
 
 gr. ἐμπλέγ-δην zu ἐμπλέκω
 
 gr. κρύβ-δην zu κρύφα
 
-\lex{\rek{\{Okklu.\}}}{\rek{\{Tenuis\}}}{\{Tenuis\}}
+\lex{\{Okklusiv\}}{\{Tenuis\}}{\{Tenuis\}}
 
 gr. ἑκ-τός zu ἔχω
 
 gr. ληπ-τός zu λαμβάνω
 
-\lex{\rek{\{Okklu.\}}}{\rek{\{Aspirata\}}}{\{Aspirata\}}
+\lex{\{Okklusiv\}}{\{Aspirata\}}{\{Aspirata\}}
 
 gr. ἐδιώχ-θην zu διώκω
 
 gr. ἐλήφ-θην zu λαμβάνω
 
-\mypara{\rek{Ku̯} > \rek{(Kʷ)Kʷ}}
+\mypara{\rek{Ku̯} > \rek{Kʷ(:)}}
 \label{kw}
 Velar + \rek{u̯} wird zum Labiovelar, zwischen Vokalen als Geminate (Rix §104),
 um das Silbengewicht zu erhalten (vielleicht nur nach Kurzvokal?).
 
-\lex{\rek{Ku̯}}{\rek{KʷKʷ}}{V\_V}
+\lex{\i{Ku̯}}{\i{Kʷ:}}{\i{V}\_\i{V}}
 
-uridg. \rek{h₁ék̑u̯os} > \rek{ékʷkʷos} >> gr. ἵππος (mit rätselhaftem Anlaut)
-vs. ai. \bel{áśvas} `Pferd'
+uridg. \rek{h₁ék̑u̯os} > \rek{ékʷkʷos} >> gr. ἵππος (mit rätselhaftem Anlaut);
+ai. \bel{áśvas} `Pferd'
 
-\lex{\rek{Ku̯}}{\rek{Kʷ}}
+\lex{\i{Ku̯}}{\i{Kʷ}}
 
-uridg. zu \rek{g̑ʰu̯eh₁r-}: hom. θήρ, aiol. φήρ vs. lit. žvėrìs `wildes Tier'
+uridg. zu \rek{g̑ʰu̯eh₁r-}: hom. θήρ, aiol. φήρ; lit. žvėris `wildes Tier'
 
 
 \mypara{Beseitigung von Geminaten}
@@ -1053,13 +1230,12 @@ Weitere Beispiele könnten die Verhältnisse klarer machen.
 Datierung unklar,
 vermutlich nach \ref{kw}.
 
-\lex{\rek{C:}}{\rek{C}}{.\_}
+\lex{\i{C:}}{\i{C}}{.\_}
 
 \rek{ai̯g-kʷólos} > \rek{ai̯kʷkʷólos} > \rek{ai̯kʷólos} > gr. αἰπόλος `Ziegenhirte'
 zu gr. αἴξ, αἰγός `Ziege'
 
 
-%\mypara{Assimilation über \bel{s}}
 \mypara{Okklusive neben \rek{s}}
 \label{okklu-s}
 
@@ -1073,15 +1249,15 @@ zuerst Assimilation, dann Tenuiswerdung.
 
 Vor \ref{CsC>sC} zu datieren.
 
-\lex{\rek{\{Tenuis\}}}{\rek{\{Media\}}}{\{Media\}s\_}
+\lex{\{Tenuis\}}{\{Media\}}{\{Media\}s\_}
 
 \rek{mig-skō} > \rek{migsgō} > \rek{miksgō} > gr. μίσγω `ich vermische'
 
-\lex{\rek{\{Tenuis\}}}{\rek{\{Aspirata\}}}{\{Aspirata\}s\_}
+\lex{\{Tenuis\}}{\{Aspirata\}}{\{Aspirata\}\i{s}\_}
 
 \rek{pʰatʰ-skō} > \rek{pʰatʰskʰō} > \rek{pʰatskʰō} > gr. πάσχω `ich erleide'
 
-\lex{\rek{\{Okklu.\}}}{\rek{\{Tenuis\}}}{\_s}
+\lex{\{Okklusiv\}}{\{Tenuis\}}{\_\i{s}}
 
 s.o.
 
@@ -1096,20 +1272,26 @@ Steht \rek{s} zwischen zwei gleichen Konsonanten, schwindet der erste (Rix §104
 Dabei werden Stimmhaftigkeit und Aspiration ignoriert,
 da vor \rek{s} nach \ref{okklu-s} nur Tenuis stehen kann.
 
-\lex{\rek{C₁}}{\rek{Ø}}{\_C₂} (C₁ = C₂)
+\lex{\i{C₁}}{\i{Ø}}{\_\i{C₂}} (\i{C₁} = \i{C₂})
 
 s. \ref{okklu-s}
 
 \rek{dikskos} > δίσκος `Scheibe'
 
-\subsection*{urgr1}
-
+\subsection*{Urgriechisch I}
+Das hier erreichte Sprachstadium ist eine Vorstufe des Urgriechischen,
+das als Ausgangssprache bei der Lautwandelsimulation sehr nützlich ist,
+da man nicht alle Vorformen auf das Urindogermanische zurückführen will,
+das Urgriechische andererseits in der Entwicklung oftmals
+schon zu weit fortgeschritten ist.
+Was Rix als urgr. bezeichnet, entspricht oftmals eher meinem urgr. I,
+manchmal sogar noch früheren Sprachstufen.
 
 \mypara{\rek{s} > \rek{h}}
 \label{sh}
 \rek{s} wird nach Vokal oder im Anlaut und vor Vokal, Resonant oder \rek{u̯},
 nach unbetonter Silbe zwischen Resonant oder \rek{u̯} und Vokal
-und zwischen Nasal und Vokal zu \rek{h} verhaucht (Rix §86,89).
+und zwischen Nasal und Vokal zu \rek{h} verhaucht (Rix §86, 89).
 Dieses \rek{h} schwindet in fast allen Fällen später ganz
 (teilweise mit Ersatzdehung oder Gemination, s. \ref{ED1}, \ref{gem}).
 
@@ -1119,17 +1301,17 @@ teilweise beim selben Wort:
 
 Der Wandel ist vor \textsc{Osthoff} (\ref{osthoff}) zu datieren.
 
-\lex{\rek{s}}{\rek{h}}{(\#, V)\_(V, R, u̯)}
+\lex{\i{s}}{\i{h}}{(\#, \i{V})\_(\i{V}, \i{R}, \i{u̯}}
 
-\rek{\#sV}: uridg. \rek{septḿ̥}: gr. ἑπτά, ai. \bel{saptá} `sieben'
+\rek{\#sV}: uridg. \rek{septḿ̥} > gr. ἑπτά; ai. \bel{saptá} `sieben'
 
-\rek{\#sr}: zu uridg. \rek{sreu̯-}: gr. ῥέω, ai. \bel{srávati} `fließt'
+\rek{\#sr}: zu uridg. \rek{sreu̯-}: gr. ῥέω; ai. \bel{srávati} `es fließt'
 
-\rek{\#sn}: zu uridg. \rek{snei̯gʷʰ-}: gr. νείφει, ahd. \bel{snīwit} `schneit'
+\rek{\#sn}: zu uridg. \rek{snei̯gʷʰ-}: gr. νείφει; ahd. \bel{snīwit} `es schneit'
 
-\rek{\#su̯}: uridg. \rek{su̯ekurós}: gr. ἑκυρός, ai. \bel{svaśurás} `Schwiegervater'
+\rek{\#su̯}: uridg. \rek{su̯ekurós} > gr. ἑκυρός; ai. \bel{svaśurás} `Schwiegervater'
 
-\rek{VsV}: uridg. \rek{g̑enh₁esos}: hom. γένεος, ai. \bel{janasas} G.Sg. `Geburt/Erzeugung'
+\rek{VsV}: uridg. \rek{g̑enh₁esos} > hom. γένεος; ai. \bel{janasas} G.Sg. `Geburt/Erzeugung'
 
 \rek{Vsr}: \rek{kʰésras} > ion-att. χεῖρας, lesb. χέρρας A.Pl. `Hand'
 
@@ -1137,13 +1319,13 @@ Der Wandel ist vor \textsc{Osthoff} (\ref{osthoff}) zu datieren.
 
 \rek{Vsu̯}: \rek{nasu̯ós} > lak. νᾱϜός, lesb. ναῦος `Tempel, Gotteshaus'
 
-\lex{\rek{s}}{\rek{h}}{(R, u̯)\_V} (nach unbetonter Silbe)
+\lex{\i{s}}{\i{h}}{(\i{R}, \i{u̯})\_\i{V}} (nach unbetonter Silbe)
 
 \rek{au̯sṓs} > hom. ἠώς, dor. ἀϜώς, lesb. αὔως `Morgenröte'
 
 \rek{korsā́} > att. κουρᾱ́ `das Abschneiden'
 
-\lex{\rek{s}}{\rek{h}}{N\_V}
+\lex{\i{s}}{\i{h}}{\i{N}\_\i{V}}
 
 \rek{kʰánsas} > att. χῆνας, boiot. χᾶνας A.Pl. `Gans'
 
@@ -1156,23 +1338,23 @@ und der Weg über \rek{h} scheint nur aus systematischen Gründen gewählt zu se
 und anlautend möglicherweise zu \rek{i̯}.
 Für den Anlaut is gr. ὑμήν `dünne Haut, Membran' das einzige Beipiel,
 das mit ai. \bel{syū́man} `Band, Zügel' zusammengestell wird.
-Da aber sowohl \rek{s} als auch \rek{i} auch alleine im Anlaut zu \bel{h} werden,
+Da aber sowohl \rek{s} als auch \rek{i} auch alleine im Anlaut zu \bel{h} werden und anlautendes \rek{u} ohnehin immer aspiriert ist (s. \ref{hu}),
 ist die Zwischenstufe \rek{i̯} zwischen \rek{si̯-} und \rek{h-} hypothetisch.
 
-\rek{i̯s} kommt intervokalisch im I.Pl. \rek{-oi̯si} vor,
+\rek{i̯s} kommt intervokalisch im L.Pl. \rek{-oi̯si} vor,
 der myk. <-o-i> geschrieben wird.
 Die Lautung ist unklar -- vielleicht \rek{-oi̯i̯i} oder \rek{-oi̯hi} --
 da später das \rek{s} analogisch restituiert wurde.
 
-\lex{\rek{si̯}}{\rek{i̯i̯}}{V\_V}
+\lex{\i{si̯}}{\i{i̯i̯}}{\i{V}\_\i{V}}
 
 \rek{gelós-i̯os} > gr. γελοῖος `lustig, lächerlich'
 
-\lex{\rek{si̯}}{\rek{i̯}}{\#\_V}
+\lex{\i{si̯}}{\i{i̯}}{\#\_\i{V}}
 
 s.o.
 
-\lex{\rek{i̯s}}{\rek{i̯i̯}}{V\_V} (?)
+\lex{? \i{i̯s}}{\i{i̯i̯}}{\i{V}\_\i{V}}
 
 s.o.
 
@@ -1184,7 +1366,7 @@ Kürzung von Langvokalen vor Resonant oder Halbvokal und Konsonant
 \textsc{Osthoff}s Gesetz ist jedoch umstritten und es gibt mindestens
 ein sicheres Gegenbeispiel,
 das vermutlich auf eine andere Syllabifizierung deutet.
-Dann wäre die Vormulierung aber einfach die,
+Dann wäre die Formulierung aber einfach die,
 dass Langvokal vor tautosyllabischem Resonanten oder Halbvokal gekürzt wird
 (im Auslaut ist die antevokalische Sandhivariante verallgemeinert,
 so dass Langvokale erhalten bleiben).
@@ -1199,15 +1381,14 @@ bei der das Gesetz nicht gilt.
 In welchen Fällen genau eine andere Syllabifizierung angenommen werden sollte,
 werde ich hier nicht detailliert behandeln.
 Simkin nimmt neben \rek{nh} auch noch \rek{nm} und \rek{u̯i̯} an,
-%TODO: literatur
 aber ich werde mich vorerst auf \rek{nh} beschränken.
 
 Das Lautgesetz muss vor \ref{konsausl} datiert werden
 wie z.B. hom. ἔσταν < \rek{estānt} < \rek{e-steh₂-n̥t} zeigt.
 
-\lex{\rek{V̄}}{\rek{V}}{\_(R, V̯).} (außer im Auslaut)
+\lex{\i{V̄}}{\i{V}}{\_(\i{R}, \i{}V̯).} (außer im Auslaut)
 
-uridg. \rek{-ōi̯s} I.Pl. o-St. > gr. -οις, ai. \bel{-āis}
+uridg. \rek{-ōi̯s} I.Pl. o-St. > gr. -οις; ai. \bel{-āis}
 
 gr. -θεντ-, Stamm des Partizips Aor.Pass. auf -θη-. 
 
@@ -1222,9 +1403,9 @@ da ὑπόδρα < \rek{upodrak} < \rek{upodr̥k̑} den auslautenden Konsonanten
 voraussetzt.
 Außerdem nach \textsc{Osthoff} (\ref{osthoff}) wie dort gezeigt.
 
-\lex{\rek{\{Okklu.\}+}}{\rek{Ø}}{\_\#}
+\lex{\{Okklusiv\+\}}{\i{Ø}}{\_\#}
 
-uridg. \rek{-t}: uridg. \rek{e-bʰeret} > gr. ἔφερε, ai. \bel{abharat} `er trug'
+uridg. \rek{-t}: uridg. \rek{e-bʰeret} > gr. ἔφερε; ai. \bel{abharat} `er trug'
 
 uridg. \rek{-k̑}: \rek{upo-dr̥k̑} > \rek{upodrak} > ὑπόδρα `von unten guckend'
 
@@ -1235,7 +1416,7 @@ Wann dies passierte, ist vollkommen unklar.
 Es wird hier nur zusammen mit dem obigen Gesetz gruppiert,
 da beide den Auslaut betreffen.
 
-\lex{\rek{m}}{\rek{n}}{\_\#}
+\lex{\i{m}}{\i{n}}{\_\#}
 
 uridg. \rek{-om} A.Sg. o-St: gr. -ον, ai. \bel{-am}, lat. \bel{-om} > \bel{-um}
 
@@ -1245,41 +1426,43 @@ uridg. \rek{-om} A.Sg. o-St: gr. -ον, ai. \bel{-am}, lat. \bel{-om} > \bel{-um
 \label{pal}
 Die Anfänge der Palatalisierungen liegen wohl in urgr. Zeit
 und die genaue Entwicklung in den Dialekten ist kompliziert.
-Zu diesem Thema siehe Allen 1958, Rix §102,103 und Bartoněk S. 140ff.
+Zu diesem Thema siehe \cite{Allen}, \cite[140ff.]{bart_hand} und Rix §102, 103.
 
 Linear B hat zwei Reihen für die Schreibung der späteren Zischlaute,
 deren Konsonanten mit <z> und <s> transliteriert werden.
 Welche Laute mit diesen Zeichen bezeichnet wurden, ist unklar.
-Oft wird <s> als einfacher Sibilant und <z> als Affrikate verstanden,
+Oft wird <s> als einfacher Sibilant und <z> als dentale Affrikate verstanden,
 jedoch ist es sehr gut möglich,
 dass es sich tatsächlich um einen Unterschied der Palatalität handelt
 und beide Zeichenreihen sowohl Sibilanten als auch Affrikaten bezeichnen können.
-die Z-Reihe würde dann einen palataleren Laut als die S-Reihe bezeichnen.
+Die Z-Reihe würde dann einen palataleren Laut als die S-Reihe bezeichnen
+(<z> also [\bel{tš}] und [\bel{dž}], <s> [\bel{s}], [\bel{z}] und [\bel{ts}]).
 Mit dieser Annahme lassen sich die mykenischen Schreibungen
 und die Lautentwicklung fast zufriedenstellend erklären.
 Noch besser ist vielleicht die Annahme,
 dass es sich bei der Z-Reihe um eine Art präpalatalen Plosiv
-und bei der S-Reihe um einen Sibilanten oder eine Affrikate handelt.
+und bei der S-Reihe um einen Sibilanten oder eine Affrikate handelt
+(<z> also [\bel{č}], [\bel{ǰ}], <s> [\bel{s}], [\bel{z}], [\bel{ts}], [\bel{tš}]).
 
 Dentale Tenuis (aspirata) + \rek{i̯} im Anlaut ergibt in allen Dialekten \bel{s},
 das urgr. sein könnte oder erst mit \ref{ts} im Silbenanlaut zu \bel{s} wird.
 Im Inlaut wird hier \rek{ts} angesetzt, das mit altem \rek{ts} zusammenfällt
-und sich dann dialektal unterschiedlich entwickelt (s. \rek{ts}).
+und sich dann dialektal unterschiedlich entwickelt (s. \ref{ts}).
 In Linear B wird für diesen Laut die S-Reihe benutzt,
 weswegen eine palatale Qualität sehr unwahrscheinlich ist.
 
-\lex{\rek{(t, tʰ)i̯}}{\rek{s}}{\#\_}
+\lex{(\i{t}, \i{tʰ})\i{i̯}}{\i{s}}{\#\_}
 
-zu uridg. \rek{ti̯egʷ-}: gr. σέβονται `sie sind erfürchtig', ai. \bel{tyajante} `sie verlassen'
+zu uridg. \rek{ti̯egʷ-}: gr. σέβονται `sie sind erfürchtig'; ai. \bel{tyajante} `sie verlassen'
 
-\lex{\rek{(t, tʰ)i̯}}{\rek{ts}}{\_}
+\lex{(\i{t}, \i{tʰ})\i{i̯}}{\i{ts}}{\_}
 
-\rek{toti̯os}: ion-att. τόσος, lesb. τόσσος `so groß' (cf. boiot. ὁπόττος, kret. ὀπόττος `so groß wie')
+\rek{toti̯os}: ion-att. τόσος, lesb. τόσσος `so groß'; cf. boiot. ὁπόττος, kret. ὀπόττος `so groß wie'
 
 \rek{panti̯a} > \rek{pantsa} > \rek{pansa} (s. \ref{ts}) >
 ark. πάνσα, ion-att. πᾶσα, lesb. παῖσα `jede'
 
-urdig. \rek{médʰi̯os} > ion-att. μέσος, lesb. μέσσος, boiot. kret. μέττος `in der Mitte'
+uridg. \rek{médʰi̯os} > ion-att. μέσος, lesb. μέσσος, boiot. kret. μέττος `in der Mitte'
 
 %TODO: klären
 \bigskip\noindent
@@ -1296,23 +1479,23 @@ den ich unten für die Substratwörter ansetze,
 da Schreibung und Entwicklung mit diesem völlig übereinstimmen.
 
 Stimmhafte Dentale und Velare fallen vor \rek{i̯} in einem Laut zusammen,
-der in Linear B mit der Z-Reihe und im Alphabetgriechischen mit ζ
+der in Linear B mit der Z-Reihe und im Alphabetgriechischen mit <ζ>
 geschrieben wird.
 Der Laut dürfte im Urgr. entweder eine stimmhafte Affrikate oder ein
 (vermutlich geminierter) stimmhafter präpalataler Plosiv gewesen sein
 (dafür schreibe ich hier abstrahierend <ǰǰ>).
 Dass hier Dentale und Velare zusammenfallen ist eigenartig.
-Später wird der Laut zu \rek{dz} (s. \ref{ds}).
+Später wird der Laut zu \rek{dz} (s. \ref{dz}).
 
-\lex{\rek{(d, g)i̯}}{\rek{ǰǰ}}
+\lex{(\i{d}, \i{g})\i{i̯}}{\i{ǰǰ}}
 
-uridg. \rek{di̯ḗu̯s} > gr. ζεύς, ai. \bel{dyáus} `Himmel(sgott)'
+uridg. \rek{di̯ḗu̯s} > gr. ζεύς; ai. \bel{dyáus} `Himmel(sgott)'
 
 zu ion-att. ἁρπαγή `Raub': ἁρπάζω `ich raube'
 
-zu uridg. \rek{gʷieh₃-}: hom. ζωή `Leben' (s. \ref{labvel-vel})
+zu uridg. \rek{gʷieh₃-}: hom. ζωή `Leben'
 
-uridg. \rek{i̯ugóm}: gr. ζυγόν, ai. \bel{yugám} `Joch' (s. \ref{Hy})
+uridg. \rek{i̯ugóm}: gr. ζυγόν; ai. \bel{yugám} `Joch' (s. \ref{Hy})
 
 \bigskip\noindent
 Velare Tenuis (aspirata) + \rek{i̯} scheint eine spätere Palatalisierung
@@ -1323,7 +1506,7 @@ den ich mit <čč> bezeichne.
 Später wird dieser Laut (vermutlich über so etwas wie \rek{tš})
 zu \bel{ss} bzw. \bel{tt} (s. \ref{tš})
 
-\lex{\rek{(k, kʰ)i̯}}{\rek{čč}}
+\lex{(\i{k}, \i{kʰ})\i{i̯}}{\i{čč}}
 
 \rek{ki̯-ā́meron} > att. τήμερον, ion. σήμερον, dor. σᾱ́μερον `heute'
 
@@ -1333,28 +1516,28 @@ zu \bel{ss} bzw. \bel{tt} (s. \ref{tš})
 Ein anderer Laut, der in Substratwörtern vorkommt,
 fällt im Alphabetgriechischen völlig mit diesem \rek{čč} zusammen,
 wird aber im Linear B mit der S-Reihe geschrieben.
-Da zwischen \rek{ts} und dem zuerst vorgeschlagenen \rek{tš} als Ergebnis
+Da zwischen \rek{ts} und dem zuerst vorgeschlagenen \rek{tš} (statt \rek{čč})
+als Ergebnis
 der Velarpalatalisation jedoch wenig Spielraum für eine weitere Affrikate bleibt,
 die zwar später mit \rek{tš} zusammenfiele, aber dental genug wäre,
 um in Linear B mit der S-Reihe geschrieben zu werden,
 ist die Bestimmung der Laute der Z-Reihe als irgendwie palatale Plosive
 vielleicht die beste Lösung.
-Dann könnte man den Substratlaut als \rek{tš} verstehen
+Dann könnte man den Substratlaut als \rek{tš} ansetzen
 und eine spätere Entwicklung \rek{ǰǰ}, \rek{čč} > \rek{dž}, \rek{tš} annehmen.
 Heteromorphemisches \rek{ti̯} könnte sich ebenfalls zu \rek{tš} entwickelt
-und somit die diese Möglichkeit der Einordnung des Substratlautes in das
+und somit die Möglichkeit der Einordnung des Substratlautes in das
 Lautsystem überhaupt erst ermöglicht haben.
 
 Labial + \rek{i̯} ergibt \bel{pt} in allen Dialekten,
 muss jedoch eine Vorstufe urgr. \rek{pč}
 (ohne eine genaue phonetische Interpretation nahelegen zu wollen) gehabt haben,
 da das Myk. ein eigenes Zeichen für diesen Laut kennt,
-der erst später auch für ererbtes \bel{pt} verwendet wird.
-%TODO: artikel dazu
+der erst später auch für ererbtes \bel{pt} verwendet wird (s. \ref{pt}).
 
-\lex{\rek{\{Labial\}i̯}}{\rek{pč}}
+\lex{\{Labial\}\i{i̯}}{\i{pč}}
 
-\rek{klepi̯ō} > gr. κλέπτω (cf. lat. \rek{clepō}) `ich stehle'
+\rek{klepi̯ō} > gr. κλέπτω (cf. lat. \bel{clepō}) `ich stehle'
 
 \rek{tʰapʰi̯ō} > gr. θάπτω `ich begrabe' (cf. τάφος `Grab')
 
@@ -1366,7 +1549,7 @@ Ob hier Anlaut oder Silbengewicht eine Rolle spielen, ist noch zu überprüfen.
 Später werden die vorangehenden Vokale diphthongiert bzw. gelängt oder
 die Geminaten entpalatalisiert (s. \ref{palgem}).
 
-\lex{\rek{(l, r, n)i̯}}{\rek{(ĺĺ, ŕŕ, ńń)}}
+\lex{(\i{l}, \i{r}, \i{n})\i{i̯}}{(\i{ĺĺ}, \i{ŕŕ}, \i{ńń})}
 
 \rek{katʰariō} > ion-att. καθαίρω `ich reinige'
 
@@ -1376,12 +1559,12 @@ die Geminaten entpalatalisiert (s. \ref{palgem}).
 
 \rek{pʰtʰeri̯ō} > ion-att. φθείρω, lesb. φθέρρω `ich zerstöre'
 
-\rek{kríni̯ō} > ion-att. κρῑ́νω, lesb. κρίννω `ich entscheide'
+\rek{krini̯ō} > ion-att. κρῑ́νω, lesb. κρίννω `ich entscheide'
 
 \mypara{\rek{dl} > \rek{ll}}
 Rix §104. Datierung unklar.
 
-\lex{\rek{d}}{\rek{l}}{\_l}
+\lex{\i{d}}{\i{l}}{\_\i{l}}
 
 uridg. \rek{sed-leh₂}: lak. ἕλλᾱ (cf. got. \bel{sit-ls} mit \rek{-los} im Suffix)
 
@@ -1389,8 +1572,10 @@ uridg. \rek{sed-leh₂}: lak. ἕλλᾱ (cf. got. \bel{sit-ls} mit \rek{-los} 
 \mypara{Metathese von \rek{t} neben Okklusiven}
 Nach Rix (§106b) werden \rek{tk} und \rek{tp} metathetiert.
 Für \rek{tp} > \rek{pt} gibt er als Beispiel \rek{kʷid-pe} > τίπτε,
-das aber wohl besser als \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε zu erklären ist.
-Will man den rätselhaften Anlaut \bel{pt-} als Variante von \bel{p-}
+das aber wohl besser als \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε zu erklären ist
+(\cite{lillo}).
+Will man den in einigen Wörtern rätselhaften Anlaut
+\bel{pt-} neben \bel{p-}
 als Sandhi aus \rek{-t\#\#p-} erklären,
 so wäre auch eine Metathese neben Labialen anzunehmen.
 So kann man die allgemeine Regel aufstellen, dass \bel{t} + Tenuis
@@ -1398,16 +1583,48 @@ metathetiert wird (keine Beispiele für Media und Aspirata).
 
 Datierung unklar.
 
-\lex{\rek{t(k, kʷ, p)}}{\rek{(k, kʷ, p)t}}
+\lex{\i{t}(\i{k}, \i{kʷ}, \i{p})}{(\i{k}, \i{kʷ}, \i{p})\i{t}}
 
 \rek{tk}: \rek{ti-tk-ō} zur Wurzel uridg. \rek{tek̑-} `gebären' > τίκτω `gebiert'
 
-\rek{tkʷ}: \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε `warum denn?' (nach Lillo Glotta 60)
-%TODO: literatur
+\rek{tkʷ}: \rek{kʷid-kʷe} > \rek{kʷikʷte} > τίπτε `warum denn?'
 
 ? \rek{tp}: \rek{-t\#\#pólis} > πτόλις
 
-\subsection*{urgr}
+\mypara{Nasal vor Liquida}
+Zwischen Nasal und Liquida wird die homorgane Media eingeschoben.
+Im Anlaut ist solch eine Lautverbindung unmöglich
+und der Nasal wird stattdessen schlicht zur Media (Rix §78).
+
+Die Datierung hier ist noch unsicher.
+Sogar die Einordnung als urgr. ist nur vorläufig.
+
+\lex{\i{NR}}{\i{DR}}{\#\_}
+
+uridg. \rek{mr̥tós} > aiol. βροτός `Sterblicher'; ai. \bel{mṛtás} `tod'
+
+\rek{ml̥h₃sk̑oh₂} > βλώσκω `ich komme' zu μολεῖν `kommen'
+
+\lex{\i{NR}}{\i{NDR}}
+
+uridg. \rek{h₂n̥rós} > \rek{anrós} > ἀνδρός G.Sg. zu ἀνήρ `Mann'
+
+hom. μέ-μβλεται `er ist besorgt' zu μέλω `ich sorge mich'
+
+\mypara{\rek{u-} > \bel{hu-}}
+\label{hu}
+Im Anlaut ist \rek{u} immer behaucht.
+Da alle (nicht psilotischen, s. \ref{psilose}) Dialekte,
+dieses Phänomen zeigen, setze ich es als urgr. an.
+Dass es nach \textsc{Graßmann} (s. \ref{grassmann}) zu datieren ist,
+wie Lejeune (§320) wegen ὑφαίνω (cf. ai. \bel{ubhnā́ti}) behauptet,
+ist nicht zwingend,
+da bei \textsc{Graßmann} der erste Laut deaspiriert wird
+und ein bloßes \rek{u} im Anlaut im Gr. nicht vorkommt.
+
+\lex{\i{u}}{\i{hu}}{\#\_}
+
+uridg. \rek{upo} > gr. ὑπό; ai. \bel{úpa} `unter'
 
 \subsection*{Das Lautsystem des Urgriechischen}
 Das urgr. Lautsystem stellt sich nach den obigen Lautgesetzen nun wie folgt dar:
@@ -1415,7 +1632,7 @@ Das urgr. Lautsystem stellt sich nach den obigen Lautgesetzen nun wie folgt dar:
 \bigskip
 \noindent
 Vokale: \rek{a}, \rek{ā}, \rek{e}, \rek{ē}, \rek{o}, \rek{ō},
-\rek{i}, \rek{ī}, \rek{u}, \rek{ū}
+\rek{i}, \rek{ī}, \rek{u}, \rek{ū}, \rek{ə}
 
 \noindent
 Resonanten und Halbvokale: \rek{r}, \rek{ŕŕ}, \rek{l}, \rek{ĺĺ},
@@ -1434,7 +1651,7 @@ Labiale & \rek{p} & \rek{b} & \rek{pʰ}\\
 Palatale: \rek{ǰǰ}, \rek{čč}, \rek{pč}
 
 \noindent
-Frikative und Affrikaten: \rek{h}, \rek{s}, (\rek{z},) \rek{ts}, \rek{tš}
+Frikative und Affrikaten: \rek{h}, \rek{s}, \rek{z}, \rek{ts}, \rek{tš}
 
 \subsection{Urgriechisch bis mykenische Zeit}
 
@@ -1448,7 +1665,8 @@ wird der Lautstand des Myk.
 als repräsentativ für das gesamte gr. Sprachgebiet gesehen.
 
 Die dialektale Gliederung ist im wesentlichen aus \cite{bart_frueh}
-Tab. B genommen und sieht in Scheme wie folgt aus:
+Tab. B genommen und sieht in Scheme wie folgt aus
+(es wird jedoch nicht auf alle Sprachen auch eingegangen):
 \begin{verbatim}
 (urgr1 (urgr (nwgr (dor (nwdor phok lokr aitol)
                         (sardor kor meg oarg)
@@ -1460,9 +1678,9 @@ Tab. B genommen und sieht in Scheme wie folgt aus:
 
 \mypara{\rek{ti} > \bel{si}}
 Dieser Lautwandel wird als grundlegende Unterscheidung zwischen Südost-
-und Nordwestgriechisch gesehen,
-ist aber weniger Lautgesetz als einem lieb wäre (Rix §101).
-Auch westgr. Dialekte haben \bel{si} in \emph{ti}-Abstrakta (z.B. βάσις vs. ai. \bel{gátis} `Gang')
+und Nordwestgriechisch gesehen (Rix §101),
+ist aber weniger Lautgesetz als einem lieb wäre.
+Auch nwgr. Dialekte haben \bel{si} in \emph{ti}-Abstrakta (z.B. βάσις vs. ai. \bel{gátis} `Gang')
 und das Myk. geht in z.B. \bel{ko-ri-si-o} weiter als andere Dialekte,
 die alle Κορίνθιοι zeigen (\cite[144]{bart_hand}).
 In dieser Darstellung wird der Lautwandel wegen z.B. ἔστι, κτίσις
@@ -1470,10 +1688,10 @@ nach \rek{s} und \rek{k} ausgesetzt.
 Eine genauere Lautumgebung -- falls man sie überhaupt angeben kann --
 ist unsicher.
 Vermutlich ist der Wandel schlicht nicht lautgesetzlich
-sondern als eine dialektal unterschiedlihe
+sondern als eine dialektal unterschiedliche
 Verallgemeinerung von Sandhivarianten zu sehen.
 
-\lex{\rek{t}}{\rek{s}}{\_i} außer nach \rek{s}, \rek{k}
+\lex{\i{t}}{\i{s}}{\_\i{i}} außer nach \i{s}, \i{k} (nwgr.)
 
 uridg. \rek{bʰéronti} > ion-att. φέρουσι, dor. φέροντι `sie tragen'
 
@@ -1483,15 +1701,16 @@ s.o.
 
 \mypara{\rek{ə} > \rek{a}/\rek{o}}
 \label{a-o}
-Der Sprossvokal, der neben/aus Liquida bzw. Nasalis sonans entstanden ist
-wird dialektal zu \rek{a} bzw. \rek{o}.
+Der Sprossvokal, der neben/aus Liquida bzw. Nasalis sonans entstanden ist,
+wird dialektal zu \bel{a} bzw. \bel{o}.
 Da die genaue dialektale Verteilung schwierig ist
-(im Ark.-Kypr. und Myk. finden sich beide Vokalisationen),
-nehme ich hier als ungefähre Annäherung für Äolisch \rek{o} ansonsten \rek{a} an.
+(im Ark.-kypr. und Myk. finden sich beide Vokalisationen),
+nehme ich hier als ungefähre Annäherung für aiolisch \bel{o},
+ansonsten \bel{a} an.
 
-\lex{\rek{ə}}{\rek{o}} (aiol.)
+\lex{\i{ə}}{\i{o}} (aiol.)
 
-\lex{\rek{ə}}{\rek{a}}
+\lex{\i{ə}}{\i{a}}
 
 lesb. boiot. στροτός vs. att. στρατός `Truppe, Heer'
 
@@ -1502,6 +1721,7 @@ myk. \bel{a-mo-ta} vs. att. ἅρματα `Wagen'
 lesb. ark. δέκοτον myk. \bel{de-ko-to} vs. att. δέκατον `das zehnte'
 
 \mypara{\rek{pč} > \bel{pt}}
+\label{pt}
 Nach \textcite[106]{bart_hand} waren die Laute im Myk. schon zusammengefallen,
 da das PTE-Zeichen oft mit <pe-te> alterniert.
 Dies kann man jedoch auch so deuten,
@@ -1514,21 +1734,21 @@ lange vor myk. Zeit kann sie nicht sein,
 da die Palatalisierungen eher spät in urgr. Zeit sein dürften und ein
 allzu plötzlicher Wandel \rek{pi̯} > \bel{pt} unwahrscheinlich scheint.
 
-\lex{\rek{pč}}{\rek{pt}}
+\lex{\i{pč}}{\i{pt}}
+
+s. Beispiele bei \ref{pal}
 
 \mypara{\rek{i̯} > \rek{h}}
-
+\label{yV-}
 Anlautendes und intervokalisches \rek{i̯} wird im Myk. teilweise mit der J-Reihe,
 teilweise (wenn vorhanden) mit einem H-Zeichen,
 und teilweise gar nicht geschrieben.
 Daraus ist zu schließen,
-dass die Verhauchung im Laufe der Mykenischen Überlieferung passierte.
+dass die Verhauchung im Laufe der mykenischen Überlieferung passierte.
 
-\lex{\rek{i̯}}{\rek{h}}{(\#, V)\_V}
+\lex{\i{i̯}}{\i{h}}{(\#, \i{V})\_\i{V}}
 
 myk. \bel{jo} und \bel{o} = att. ὡς `wie'
-
-\subsection*{myk}
 
 \subsection{Nachmykenische/alphabetische Zeit}
 In dieser Zeit bilden sich die meisten Unterschiede der Dialekte heraus.
@@ -1539,21 +1759,21 @@ entsprechend mit mehr oder weniger großer Unsicherheit behaftet.
 In fast jedem Fall müsste man sich eingehend mit den Dialektinschriften
 auseinandersetzen, um das Phänomen so gut es geht beschreiben zu können.
 In vielen Fällen sind die Lautwandel zwar recht klar,
-aber wie sie dialektal verstreut sind und wann sie zu datieren sind,
+aber wie sie dialektal gestreut sind und wann sie zu datieren sind,
 ist oft sehr unsicher.
 
 Ein Hauptproblem bei der Überlieferung ist,
 dass viele Dialekte erst in späterer Zeit überliefert sind,
-in denen man schon von Beeinflussung durch die ion-att. Koiné rechnen muss.
+in der man schon mit Beeinflussung durch die ion-att. Koiné rechnen muss.
 Daher weiß man oft nicht,
 ob ein Merkmal in einem Dialekt ererbt oder entlehnt ist.
 
 Letztendlich ist es nicht mein Ziel,
-die Lautung jedes belegten Dialektes so gut es geht aus dem Urgr. herzuleiten,
+die exakte Lautung jedes belegten Dialektes aus dem Urgr. herzuleiten,
 da diese Aufgabe wegen des zeitlich und räumlich gesäten Variantenreichtums
 in dieser Arbeit nicht zu schaffen ist.
-Stattdessen werde ich versuchen den Lautstand der etwas größeren Dialektgebiete
-zur Zeit des Einsetzens ihrer Überlieferung zu generieren
+Stattdessen werde ich mich auf den Lautstand der etwas größeren Dialektgebiete
+zur Zeit des Einsetzens ihrer Überlieferung konzentrieren
 (auch wenn sich dieser Zeitpunkt von Dialekt zu Dialekt recht stark unterscheiden kann).
 
 Die eingeschobenen ungefähren Jahreszahlen habe ich anhand einiger Termini
@@ -1561,37 +1781,45 @@ post quos für die Dialektaufspaltung,
 die ich aus den von den Lautwandeln betroffenen Dialekten geschlossen habe,
 aus dem Dialektstammbaum von \textcite{bart_frueh} eingefügt.
 Einige Zeiträume scheinen merkwürdig ereignislos, andere wiederum sehr bewegt.
-Auch hier ist wohl also noch keine Wahrheit gefunden und
+Auch hier ist also wohl noch keine Wahrheit gefunden und
 an Datierung sowohl der dialektalen Aufspaltung als auch der Lautgesetze
 sollte noch gearbeitet werden.
 
-\mypara{\rek{ǰǰ} > \rek{ds}}
-\rek{ǰǰ} wird zur dentalen Affrikate, die,
-da wir bei \bel{s} in den Regeln stimmhaftigkeit ignorieren,
-mit \rek{ds} bezeichnet wird.
-Phonetisch ist von [\bel{dz}] auszugehen.
+\mypara{\rek{čč}, \rek{ǰǰ}}
+\label{dz}
+\rek{čč} fällt mit \rek{tš} zusammen,
+die im Myk. (unter der Annahme, dass meine Deutung der Schreibungen korrekt ist) noch getrennt sind.
+Da es außerhalb des Myk. keinen Hinweis auf ursprünglich zwei verschiedene
+Laute gibt,
+setze ich dieses und das nächste Lautgesetz so früh wie möglich an.
+
+\lex{\i{čč}}{\i{tš}}
+
+\bigskip\noindent
+\rek{ǰǰ} wird (vielleicht über \rek{dž}) zur dentalen Affrikata \rek{dz},
+die in den Regeln, da wir bei \bel{s} die Stimmhaftigkeit ignorieren,
+mit \bel{ds} bezeichnet ist.
 Die genaue spätere Lautung ist umstritten.
-Geschrieben wird der Laut mit ζ,
-das aber auf jeden Fall auch [\bel{zd}] bezeichnen konnte,
-was Wörter zeigen, bei denen \rek{sd} ursprünglich ist
+Geschrieben wird der Laut mit <ζ>,
+das auf jeden Fall [\bel{zd}] bezeichnen konnte,
+was Wörter zeigen, bei denen \rek{zd} ursprünglich ist
 (z.B. ὄζος = got. \bel{asts} `Ast').
 Eine Metathese \rek{zd} > \rek{dz} ist unwahrscheinlich
 und einer Erhaltung von \rek{dz} < \rek{(d, g)i̯} widerspricht
-ἔρδω `machen' < \rek{u̯erzdō} < \rek{u̯erdzō} < \rek{u̯erǰō} < \rek{u̯ergi̯ō}.
+ἔρδω `machen' < \rek{u̯erzdō} < \rek{u̯erdzō} < \rek{u̯erǰǰō} < \rek{u̯ergi̯ō}.
 \rek{dz} wird also nur als Zwischenstufe zwischen \rek{ǰǰ} und \rek{zd}
 angenommen.
 
-\lex{\rek{ǰǰ}}{\rek{ds}}
-\label{ds}
+\lex{\i{ǰǰ}}{\i{ds}}
 
-\mypara{el. \rek{ē} > \rek{ǣ}}
+\mypara{el. \bel{ē} > \bel{ǣ}}
 
-Im Elischen ist \rek{ē} mit <ε> aber auch oft mit <α> wiedergegeben,
+Im Elischen ist \bel{ē} mit <ε> aber auch oft mit <α> wiedergegeben,
 was eine sehr offene Aussprache nahelegt.
 Für \textcite[89ff.]{bart_langvok} ist dieser Lautwandel sehr alt und er
 setzt ihn vor dem 1. Jt. an.
 
-\lex{\rek{ē}}{\bel{ǣ}} el.
+\lex{\i{ē}}{\i{ǣ}} (el.)
 
 zu uridg. \rek{di̯ḗm} A.Sg. `Himmel(sgott)':
 el. Ζᾶνες N.Pl. `Zeusstatuen' vs. hom. Ζῆνα A.Sg. `Zeus'
@@ -1607,36 +1835,33 @@ Gemeingriechisch ist der Wandel \{Labiovelar\} > \{Labial\}.
 Darüber hinaus haben die meisten Dialekte einen Wandel
 \{Labiovelar\} > \{Dental\} in bestimmten Umgebungen.
 
-Das Äolische hat nur ausnahms- und unerklärterweise dentalen Reflex.
+Das Aiolische hat nur ausnahms- und unerklärterweise dentalen Reflex.
 Das Ark. und Kypr. haben von den restlichen Dialekten etwas andere bzw.
 weitergehende Entwicklungen,
 auf die ich allerdings in dieser vereinfachten Darstellung
 nicht detailliert eingehen werde. Rix §96-99.
-%TODO: literatur woodard
 
-Da sich alle äol. Dialekte gleich verhalten,
+Da sich alle aiol. Dialekte gleich verhalten,
 ist der Terminus ante quem für die Entwicklung zu Dentalen
-wohl vor der Aufspaltung des Uräol. zu sehen,
-den \textcite{bart_hand} auf etwa 1100 datiert.
+wohl vor der Aufspaltung des Uraiol. zu sehen,
+den \textcite{bart_frueh} auf etwa 1100 datiert.
 Da sich das Ark. und Kypr. vor \bel{e} anders verhalten,
 dürfte der Wandel nach Aufspaltung dieser beiden Dialekte
-passiert sein, die \textcite{bart_hand} auf etwa 1300 datiert.
+passiert sein, den \textcite{bart_frueh} auf etwa 1300 datiert.
 Die Entwicklung zu Labialen muss etwas später sein,
-erfasst aber den gesamten Sprachraum
-undzwar vor Beginn der alphabetischen Überlieferung.
+erfasst aber den gesamten Sprachraum,
+und zwar vor Beginn der alphabetischen Überlieferung.
 Damit ist hierfür der Terminus ante quem in etwa das 9. Jh.
 
-%TODO: literatur, bessere formulierung
+\lex{\i{kʷ}}{\i{t}}{\_\i{i}} (nicht aiol.)
 
-\lex{\rek{kʷ}}{\bel{t}}{\_i} (nicht aiol.)
-
-uridg. \rek{kʷis} > gr. τίς (auch aiol.!),  lat. \bel{quis} `wer?'
+uridg. \rek{kʷis} > gr. τίς (auch aiol.!);  lat. \bel{quis} `wer?'
 
 ion-att. τίσις `Vergeltung' neben ποινή `Buße'
 
-\lex{\rek{\{Labiovelar\}}}{\bel{\{Dental\}}}{\_e} (nicht aiol. kypr.)
+\lex{\{Labiovelar\}}{\{Dental\}}{\_\i{e}} (nicht aiol. kypr.)
 
-uridg. \rek{-kʷe} > gr. -τε (auch aiol.!), lat. \bel{-que} `und'
+uridg. \rek{-kʷe} > gr. -τε (auch aiol.!); lat. \bel{-que} `und'
 
 uridg. \rek{pénkʷe} > aiol. πέμπε, sonst πέντε `fünf'
 
@@ -1645,11 +1870,11 @@ uridg. \rek{gʷelbʰús} > gr. δελφύς `Mutterleib';
 
 zu uridg. \rek{gʷʰen-/gʷʰon-}: gr. θείνω `schlagen' neben φόνος `Mord'
 
-\lex{\rek{\{Labiovelar\}}}{\bel{\{Labial\}}}
+\lex{\{Labiovelar\}}{\{Labial\}}
 
 uridg. \rek{pénkʷtos} > gr. πέμπτος `der fünfte'
 
-\rek{gʷḿ̥i̯ō} > \rek{gʷámi̯ō} > gr. βαίνω, lat. \bel{veniō} `ich komme'
+\rek{gʷḿ̥i̯ō} > \rek{gʷámi̯ō} > gr. βαίνω; lat. \bel{veniō} `ich komme'
 
 s.o. φόνος
 
@@ -1669,13 +1894,13 @@ dass der velare Nasal von der velaren Media graphisch nicht unterschieden ist
 Dies muss, wenn man keinen labiovelaren Nasal annehmen will,
 nach der Beseitigung der Labiovelare passiert sein.
 
-\lex{\rek{b}, \rek{g}}{\bel{m}, \bel{ŋ}}{\_n}
+\lex{\i{b}, \i{g}}{\i{m}, \i{ŋ}}{\_\i{n}}
 
 \rek{ti̯egʷnós} > \rek{sebnós} > σεμνός `ehrfürchtig'
 
 \subsection*{ca. 1000}
 
-\mypara{\rek{Tu̯}}
+\mypara{\rek{\{Dental\}u̯}}
 \rek{tu̯} verhält sich im Anlaut wie \rek{ti̯}, sonst wie \rek{ki̯} (Rix §104).
 Eine Hesychglosse erweist unverändertes \bel{tu̯e} (<τρε>) fürs Kretische.
 Dass \rek{tu̯} nicht komplett mit einer der beiden Lautgruppen zusammenfällt,
@@ -1686,42 +1911,42 @@ Da Beispiele fehlen,
 könnte man aber auch (zumindest im Inlaut) als Ergebnis \bel{stʰ} annehmen,
 wodurch man die Endung der 2.Pl. -σθε mit ai. \bel{-dhvam} verbinden kann.
 
-Eine genauere Datierung ist unklar.
+Eine genaue Datierung ist unklar.
 
-\lex{\rek{tu̯}}{\bel{s}}{\#\_} (nicht kret.?)
+\lex{\i{tu̯}}{\i{s}}{\#\_} (nicht kret.?)
 
-uridg. \rek{tu̯e}: ion-att. σε, ai. \bel{tvām} `dich'
+uridg. \rek{tu̯e} > ion-att. σε; cf. ai. \bel{tvām} `dich'
 
 \rek{tu̯ei̯sō} > gr. σείω `erschüttern'
 
-\lex{\rek{tu̯}}{\rek{tš}}
+\lex{\i{tu̯}}{\i{tš}}
 
 hom. ἐσσείοντο zu σείω, cf. ai. \bel{atviṣanta} `sie gerieten in Erregung'.
 
 \rek{kʷetu̯r̥es} > ion. τέσσαρες, att. τέτταρες, boiot. πέτταρες `vier'
 
-\lex{?\rek{tʰu̯}}{\bel{sth}}
+\lex{? \i{tʰu̯}}{\i{sth}}
 
 s.o.
 
-\mypara{\rek{ds} > \bel{sd}}
-\label{sd}
-Wie schon bei \ref{ds} erklärt, wird \rek{ds} > \bel{sd} <ζ>.
+\mypara{\rek{dz} > \bel{zd}}
+\label{zd}
+Wie schon bei \ref{dz} erklärt, wird \rek{dz} zu \bel{zd} <ζ>.
 
 Dies muss wegen ἔρδω vor \ref{CsC} passieren.
 
-\lex{\rek{ds}}{\bel{sd}}
+\lex{\i{ds}}{\i{sd}}
 
-\mypara{\rek{(N, T)sC}}
+\mypara{\rek{(N, \{Dental\})sC}}
 \label{NTsC}
 Nasal und Dental schwinden vor \rek{sC}.
 Dies muss vor \ref{CsC},
-wie att. ἴσος < \rek{u̯itsu̯os} `vielleicht' und δεσπότης < \rek{dems-pot-} `Hausherr' zeigen,
-und nach \ref{sd} passieren, wie
-σύζυγος < \rek{sun-sdugos} < \rek{sun-dsugos} `zusammengespannt' zeigt.
+wie att. ἴσος < \rek{u̯itsu̯os} `vielleicht' und δεσπότης < \rek{dems-pótās} `Hausherr' zeigen,
+und nach \ref{zd} passieren, wie
+σύζυγος < \rek{sun-zdugos} < \rek{sun-dzugos} `zusammengespannt' zeigt.
 Rix §78.
 
-\lex{\rek{(N, T)}}{Ø}{\_sC}
+\lex{(\i{N}, \{Dental\})}{\i{Ø}}{\_\i{sC}}
 
 \rek{kent-tós} > \rek{kenstós} > gr. κεστός `bestickt'
 
@@ -1730,7 +1955,7 @@ s.o.
 \mypara{\rek{CsC}}
 \label{CsC}
 Zwischen Konsonanten wird \rek{s} in der Regel zu \rek{h} verhaucht und
-schwindet dann ggf. mit Hauchumsprung (s. \ref{hauchumsprung}) (Rix §87c, Lejeune §132-133).
+schwindet dann ggf. mit Hauchumsprung (s. \ref{hauchumsprung}) (Rix §87c, Lejeune §132, 133).
 Die genaue Entwicklung ist nicht völlig klar,
 aber zwischen Resonant oder Halbvokal und stimmlosem Okklusiv
 scheint \rek{s} erhalten zu sein.
@@ -1739,30 +1964,32 @@ Eine Tenuis vor dem \rek{s} wurde aspiriert,
 woran sich eine folgende Tenuis assimilierte.
 Eine folgende Media hatte Assimilation der Aspirata an die Media als Folge.
 
-Dies muss -- wie schon gesagt -- nach \ref{sd} und \ref{NTsC} passieren.
+Dies muss -- wie schon gesagt -- nach \ref{zd} und \ref{NTsC} passieren.
 Im Myk. ist die Lautverbindung noch intakt.
 
-\lex{\rek{s}}{\rek{h}}{C\_C} (außer in (R, V̯)\_(T, Tʰ))
+\lex{\i{s}}{\i{h}}{\i{C}\_\i{C}} (außer in (\i{R}, \i{V̯})\_(\i{T}, \i{Tʰ}))
 
-uridg. \rek{pérsneh₂}: ion-att. πτέρνη, got. \bel{faírzna} `Ferse'
+uridg. \rek{pérsneh₂}: ion-att. πτέρνη; got. \bel{faírzna} `Ferse'
 
 \rek{orsmā́} > ion-att. ὁρμή `Ansturm, sich in Bewegung setzen'
 
-\rek{u̯ói̯d-tʰa} > \rek{u̯ói̯stʰa} > att. οἶσθα
+aber:
+
+\rek{u̯oi̯d-tʰa} > \rek{u̯oi̯stʰa} > att. οἶσθα
 
 \rek{par-stádes} > παστάδες neben παρτάδες `Vorhallen'
 
 \rek{tʰurstʰen} > θύρθεν neben θύσθεν `draußen (vor der Tür)'
 
-\lex{\rek{Th}}{\bel{Tʰ}}
+\lex{\i{Th}}{\i{Tʰ}}
 
 myk. \bel{ai-ka-sa-ma} \bel{/ai̯ksmā́/} = hom. αἰχμή `Speer'
 
-\lex{\rek{T}}{\bel{Tʰ}}{Tʰ\_}
+\lex{\i{T}}{\i{Tʰ}}{\i{Tʰ}\_}
 
 \rek{eks-trós} > gr. ἐχθρός `Fremder, Feind'
 
-\lex{\rek{Tʰ}}{\bel{D}}{\_D}
+\lex{\i{Tʰ}}{\i{D}}{\_\i{D}}
 
 zu uridg. \rek{pesd-/psd-}: gr. βδέω `furzen'
 
@@ -1772,7 +1999,7 @@ Damit gliedert sie sich in die Reihe der palatalen \rek{ĺĺ}, \rek{ŕŕ}, \rek{
 ein, mit denen sie sich weitgehend parallel entwickelt (s. \ref{palgem}, \ref{ED1}).
 Rix §73.
 
-\lex{\rek{u̯i̯}}{\rek{ẅẅ}}
+\lex{\i{u̯i̯}}{\i{ẅẅ}}
 
 \rek{kau̯-i̯ō} > hom. καίω, att. κᾱ́ω `ich entzünde'; cf. καῦμα `brennende Hitze'
 
@@ -1789,23 +2016,23 @@ Im Kypr. ist das auch bei \rek{ĺĺ} der Fall (zumindest nach \bel{a}).
 Ansonsten wird \rek{ĺĺ} entpalatalisiert und bleibt Geminate (Rix §70c).
 Im Thess. und Lesb. werden \rek{ŕŕ}, \rek{ńń} in allen anderen Fällen entpalatalisiert (in den anderen Dialekten Ersatzdehnung, s. \ref{ED1}) (Rix §70b).
 
-\lex{\rek{ŕŕ, ńń, ẅẅ}}{\bel{i̯r, i̯n, i̯u̯}}{(a, o)\_}
+\lex{\i{ŕŕ}, \i{ńń}, \i{ẅẅ}}{\i{i̯r}, \i{i̯n}, \i{i̯u̯}}{(\i{a}, \i{o})\_}
 
 \rek{katʰari̯ō} > καθαίρω `ich reinige'
 
 \rek{gʷm̥i̯ō} > \rek{gʷani̯ō} > βαίνω `ich komme'
 
-\rek{au̯i̯etós} > αἰϜετός (Hesychglosse), hom. αἰετός `Adler'
+\rek{au̯i̯etós} > αἰβετός (Hesychglosse), hom. αἰετός `Adler'
 
 \rek{kom-i̯ós} (cf. lat. \bel{cum} `mit') > κοινός `gemein(sam)'
 
-\lex{\rek{ĺĺ}}{\bel{i̯l}}{(a, o)\_} (kypr.)
+\lex{\i{ĺĺ}}{\i{i̯l}}{(\i{a}, \i{o})\_} (kypr.)
 
-\lex{\rek{ĺĺ}}{\bel{ll}}
+\lex{\i{ĺĺ}}{\i{ll}}
 
-uridg. \rek{áli̯os} > kypr. αἶλος, sonst ἄλλος; cf. lat. \bel{alius} `ein anderer'
+uridg. \rek{áli̯os} > kypr. αἶλος, sonst ἄλλος; lat. \bel{alius} `ein anderer'
 
-\lex{\rek{ŕŕ, ńń}}{\bel{rr, nn}} (thess., lesb.)
+\lex{\i{ŕŕ}, \i{ńń}}{\i{rr}, \i{nn}} (thess. lesb.)
 
 \rek{pʰtʰeri̯ō} > lesb. φθέρρω, ion-att. φθείρω `ich zerstöre'
 
@@ -1817,18 +2044,19 @@ uridg. \rek{áli̯os} > kypr. αἶλος, sonst ἄλλος; cf. lat. \bel{ali
 
 \mypara{Erste Ersatzdehnung}
 \label{ED1}
-Die erste Ersatzdehnung dehnt grob gesprochen Vokale vor palatalen Geminaten (Rix §70b,73),
+Die erste Ersatzdehnung dehnt grob gesprochen Vokale vor palatalen Geminaten (Rix §70b, 73),
 \rek{h} + Resonant (Rix §88d) und \rek{ln} (Rix §77) außer im Thess. und Lesb.,
 wo es zur Gemination kommt (s. \ref{gem}).
-Gedehnte \rek{e}, \rek{o} fallen dabei nur in einigen Dialekten
-mit alten \rek{ē}, \rek{ō} zusammen.
-Im Ion-att., Nordwestdor. und Saronisch-dor. (TODO: quelle bartonek)
-entstehen dabei neue geschlossene Langvokale \rek{ẹ̄}, \rek{ọ̄}.
+Gedehnte \bel{e}, \bel{o} fallen dabei nur in einigen Dialekten
+mit alten \bel{ē}, \bel{ō} zusammen.
+Im Ion-att., Nwdor. und Sardor.
+entstehen dabei neue geschlossene Langvokale \rek{ẹ̄}, \rek{ọ̄}
+(\cite{bart_langvok}).
 
 Datiert werden muss der Wandel vor der Hebung von \rek{ā} (\ref{a>e})
 im Ion-att.
 
-\lex{\rek{(e, i, u)ŔŔ}}{\bel{(ẹ̄, ī, ū)R}} (mit Ŕ = ŕ, ń, ẅ)
+\lex{(\i{e}, \i{i}, \i{u})\i{ŔŔ}}{(\i{ẹ̄}, \i{ī}, \i{ū})\i{R}} (mit \i{Ŕ} = \i{ŕ}, \i{ń}, \i{ẅ})
 
 s.o. \ref{palgem}
 
@@ -1838,13 +2066,13 @@ s.o. \ref{palgem}
 
 zu εὐρύς: \rek{eu̯réu̯-i̯a} > hom. att. εὐρεῖα (wohl \bel{/ẹ̄/}, nicht \bel{/ei̯/}), lesb. εὔρηα `breit'
 
-\lex{\rek{VRh}, \rek{VhR}}{\rek{V̄R}}{\_V} (mit R = Resonant oder u̯; nicht thess., lesb.)
+\lex{\i{VRh}, \i{VhR}}{\i{V̄R}}{\_\i{V}} (mit \i{R} = Resonant oder \i{u̯}; nicht thess. lesb.)
 
 s. die Beispiele bei \ref{sh}
 
-\lex{\rek{Vln}}{\bel{V̄l}}{\_n} (nicht thess., lesb.)
+\lex{\i{Vln}}{\i{V̄l}}{\_\i{n}} (nicht thess. lesb.)
 
-\lex{\rek{Vln}}{\bel{Vll}}
+\lex{\i{Vln}}{\i{Vll}}
 
 \rek{gʷolnā́} > ion-att. βουλή, ark. βωλᾱ́, lesb. βόλλᾱ `Wille, Rat'
 
@@ -1857,14 +2085,14 @@ und \rek{h₁éu̯soh₂} `ich senge' haben trotz ihrer fast gleichen Lautung
 die sehr unterschiedlichen Reflexe att. ἕως, hom. ἠώς, dor. ἀϜώς, lesb. αὔως
 und att. εὕω.
 die Morgenröte hat außer in att. ἕως keine Behauchung
+und ist für \textcite[12]{sommer} von ἑσπέρᾱ `Abend' übernommen
 (wobei das Lesb. und ursprünglich wohl auch das Hom. psilotisch sind --
-s. \ref{psilose} -- und daher keine sehr zuverlässige Aussage machen)
-und ist für Sommer (TODO: literatur) von ἕσπερος `Abend' übernommen.
+s. \ref{psilose} -- und daher keine sehr zuverlässige Aussage machen).
 Ansonsten ist Ersatzdehnung (außer im Lesb., wo immer geminiert wird) zu beobachten.
 Att. εὕω hingegen hat keine Ersatzdehnung sondern Gemination
 und auch die Behauchung kann kaum von einem anderen Wort kommend erklärt werden.
 Die einzig plausible Lösung scheint, den Unterschied im Akzent zu sehen,
-was Wackernagel zuerst (TODO: literatur) schon bei \bel{rs} beobachtete
+was \textcite{wackernagel} zuerst schon bei \bel{rs} beobachtete
 (vgl. κόρση (att. κόρρη) `Tempel, Teil der Stirn' vs. κουρᾱ́ `Schnitt').
 Dass in der Stellung nach Akzent das \rek{s} stabiler ist als vor Akzent,
 zeigt bei \bel{r} das Beispiel oben.
@@ -1873,26 +2101,26 @@ dass in \rek{u̯s} das \rek{s} nach unbetonter Silbe
 schon früh verhaucht wurde (s. \ref{sh}),
 dann der Ersatzdehnung (bzw. Gemination) unterliegt (s. \ref{ED1}),
 nach betonter Silbe aber zunächst erhalten bleibt.
-Später wird erhaltenes \rek{u̯s} zu \rek{u̯u̯} geminiert (s. \ref{gem}),
+Später wird erhaltenes \rek{u̯s} zu \bel{u̯u̯} geminiert (s. \ref{gem}),
 wie att. εὕω zeigt.
 Da hier offenbar aber zusätzlich (!) der Hauchumsprung (s. \ref{hauchumsprung})
 stattfindet,
 ist eine vorherige Verhauchung des \rek{s} anzunehmen.
 
-Eine hübsche Bestätigung dieses Ergebnisses sind die
+Eine nette Bestätigung dieses Ergebnisses sind die
 Wörter ion-att. ἀκούω \bel{/akóu̯u̯ō/} < \rek{akóu̯sō} `ich höre'
 und hom. ἀκουή \bel{/akọ̄ε̄́/}, att. ἀκοή \bel{/akoε̄́/} < \rek{akou̯sā́} `Gehör'.
 
-\lex{\rek{s}}{\rek{h}}{u̯\_}
+\lex{\i{s}}{\i{h}}{\i{u̯}\_}
 
 \mypara{Hauchumsprung}
 \label{hauchumsprung}
 Die genauen Bedingungen für den Hauchumsprung sind etwas unklar.
-Grob gesagt springt ein \rek{h} direkt nach der ersten Silbe
+Grob gesagt springt ein \bel{h} direkt nach der ersten Silbe
 in den Anlaut derselben.
-Wenn das \rek{h} intervokalisch ist,
-geschieht dies nur, wenn die zweite Silbe unbetont ist (TODO: literatur sommer).
-Zwischen Resonant oder \bel{u̯} und Vokal scheint \rek{h}
+Wenn das \bel{h} intervokalisch ist,
+geschieht dies nur, wenn die zweite Silbe unbetont ist (\cite[10]{sommer}).
+Zwischen Resonant oder \bel{u̯} und Vokal scheint \bel{h}
 nicht nur in den Anlaut der ersten Silbe zu springen,
 sondern auch am urpsprünglichen Ort zu bleiben,
 anders ist att. εὕω < \rek{éu̯sō} nicht verständlich.
@@ -1900,7 +2128,7 @@ anders ist att. εὕω < \rek{éu̯sō} nicht verständlich.
 Die Formulierung klingt  nicht besonders überzeugend und
 möglicherweise sind die Regeln dialektal auch unterschiedlich.
 
-\lex{\rek{V₁hV₂}}{\rek{hV₁V₂}} (wenn V₂ unbetont)
+\lex{\i{V₁hV₂}}{\i{hV₁V₂}} (wenn \i{V₂} unbetont)
 
 \rek{é-serpont} > εἷρπον `sie schlichen'
 
@@ -1908,7 +2136,7 @@ möglicherweise sind die Regeln dialektal auch unterschiedlich.
 
 aber: \rek{īháomai̯} > att. ἰάομαι `ich heile'
 
-\lex{\rek{V(R, u̯)hV}}{\rek{hV(R, u̯)hV}}
+\lex{\i{V}(\i{R}, \i{u̯})\i{hV}}{\rek{hV}(\i{R}, \i{u̯})\i{hV}}
 
 \rek{orsmā́} > ion-att. ὁρμή `Ansturm, in Bewegung setzen'
 
@@ -1923,7 +2151,7 @@ da diese Dialekte nicht von der 1. Ersatzdehnung (\ref{ED1}) betroffen waren,
 aber da \rek{u̯h} < \rek{u̯s} auch in anderen Dialekten wirkt,
 scheint es sinnvoll, das Gesetz für alle Dialekte zu formulieren.
 
-\lex{\rek{(R, u̯)h}}{\bel{(RR, u̯u̯)}}{V\_V}
+\lex{(\i{R}, \i{u̯})\i{h}}{(\i{RR}, \i{u̯u̯})}{\i{V}\_\i{V}}
 
 s. die Beispiele bei \ref{sh}
 
@@ -1932,49 +2160,49 @@ s. \ref{uh} zu \rek{éu̯sō} > att. εὕω `ich senge'
 \mypara{\rek{h} > \bel{Ø}}
 \rek{h} schwindet außer im Anlaut.
 
-\lex{\rek{h}}{\bel{Ø}} (außer \#\_)
+\lex{\i{h}}{\i{Ø}} (außer \#\_)
 
 \mypara{\rek{ts}}
 \label{ts}
 \rek{ts} wird nach Konsonant (also auch nach Diphthong) zu \bel{s} vereinfacht.
 Vor Konsonant ist dies schon bei \ref{NTsC} passiert.
 
-Nach Vokal wird es Im Böot. und Kret. zu \bel{tt},
+Nach Vokal wird es Im Boiot. und Kret. zu \bel{tt},
 sonst überall zunächst zu \bel{ss},
 das dann in allen Dialekten nach Langvokal,
-im Ion-att. und Ark. überall vereinfacht wird (bei Homer aber oft nicht). Rix §102, Sihler 196.
+im Ion-att. und Ark. überall vereinfacht wird (bei Homer als Archaismus oder Aiolismus aber oft nicht). Rix §102, Sihler 196.
 
-\lex{\rek{ts}}{\bel{s}}{C\_}
+\lex{\i{ts}}{\i{s}}{\i{C}\_}
 
 \rek{pánti̯a} > \rek{pántsa} > \rek{pánsa} >
 thess. kret. ark. πάνσα, lesb. παῖσα, ion-att. πᾶσα (s. \ref{ED2}) `jede'
 
-\lex{\rek{ts}}{\bel{tt}} (boiot. kret.)
+\lex{\i{ts}}{\i{tt}} (boiot. kret.)
 
-\lex{\rek{ts}}{\bel{ss}}
+\lex{\i{ts}}{\i{ss}}
 
 boiot. ὁπόττος, kret. ὀπόττος `so groß wie';
 ion-att. τόσος, lesb. τόσσος `so groß'
 
-urdig. \rek{médʰi̯os} > ion-att. μέσος, lesb. μέσσος, boiot. kret. μέττος `in der Mitte'
+uridg. \rek{médʰi̯os} > ion-att. μέσος, lesb. μέσσος, boiot. kret. μέττος `in der Mitte'
 
-\lex{\rek{ss}}{\bel{s}}{V̄\_}
+\lex{\i{ss}}{\i{s}}{\i{V̄}\_}
 
 hom. τάπησι (ταπητ- + -σι) `auf den Teppichen' vs. hom. ποσσί/ποσί (ποδ- + -σι) `an den Füßen'
 
-\lex{\rek{ss}}{\bel{s}}	(ion-att. ark.)
+\lex{\i{ss}}{\i{s}} (ion-att. ark.)
 
 s.o. μέσος \&c.
 
-\mypara{\bel{sd} > \bel{d(d)}}
+\mypara{\bel{zd} > \bel{d(d)}}
 In einigen Dialekten
-wird \bel{sd} zu \bel{dd}, im Anlaut zu \bel{d} (Rix §102, 103).
+wird \bel{zd} zu \bel{dd}, im Anlaut zu \bel{d} (Rix §102, 103).
 
-\lex{\bel{sd}}{\bel{dd}} (boiot. kret. lak. el.)
+\lex{\i{zd}}{\i{dd}} (boiot. kret. lak. el.)
 
 Präsentien in -άδδω, -ίδδω vs. -άζω, -ίζω
 
-\lex{\bel{dd}}{\bel{d}}{\#\_}
+\lex{\i{dd}}{\i{d}}{\#\_}
 
 boiot. Δεύς = ion-att. Ζεύς; kret. Δῆνα = hom. Ζῆνα
 
@@ -1990,7 +2218,7 @@ Der Lautwandel ist zwischen der ersten und zweiten Ersatzdehnung anzusetzen,
 da durch die erste Ersatzdehnung entstandenes \bel{ā} den Lautwandel mitmacht
 und bei der zweiten ein neues \bel{ā} entsteht.
 
-\lex{\bel{ā}}{\bel{ǣ}} (ion-att.)
+\lex{\i{ā}}{\i{ǣ}} (ion-att.)
 
 ion-att. μήτηρ, sonst μᾱ́τηρ `Mutter'
 
@@ -2020,7 +2248,7 @@ so dass einige Dialekte zur Zeit der zweiten Ersatzdehnung \bel{-Vns}
 schon ganz aufgegeben hatten.
 
 Die Ergebnisse von gedehnten \bel{e}, \bel{o} sind
-im Ion-att., Norwestdor. und Inseldor. die geschlossenen Langvokale
+im Ion-att., Nwdor. und Inseldor. die geschlossenen Langvokale
 \bel{ẹ̄}, \bel{ọ̄}, ansonsten fallen sie mit den alten offenen zusammen.
 
 Die genauen Regeln sind also nicht ganz einfach zu formulieren.
@@ -2029,16 +2257,16 @@ die bei \textcite{bart_frueh}
 abgedruckt ist
 (ursprünglich von Hainsworth, \textit{Cambridge Ancient History} III 1, 863).
 
-\lex{\bel{Vns}}{\bel{Vi̯s}}{\_V} (lesb.)
+\lex{\i{Vns}}{\i{Vi̯s}}{\_\i{V}} (lesb.)
 
-\lex{\bel{Vns}}{\bel{V̄s}}{\_V} (ion-att. boiot. el. lak. inseldor. kypr.)
+\lex{\i{Vns}}{\i{V̄s}}{\_\i{V}} (ion-att. boiot. el. lak. inseldor. kypr.)
 
 \rek{-onti̯a} (Partizip N.Sg.f.) > \rek{-onsa} >
 kret. -ονσα; lesb. -οισα; ion-att. -ουσα, lak. -ωσα
 
-\lex{\bel{Vns}}{\bel{Vi̯s}}{\_\#} (lesb. el.)
+\lex{\i{Vns}}{\i{Vi̯s}}{\_\#} (lesb. el.)
 
-\lex{\bel{Vns}}{\bel{V̄s}}{\_\#} (ion-att. boiot. lak. inseldor.)
+\lex{\i{Vns}}{\i{V̄s}}{\_\#} (ion-att. boiot. lak. inseldor.)
 
 uridg. \rek{tóns} (Artikel A.Pl.) >
 kret. arg. τόνς; lesb. τοίς; ion-att. τούς, lak. τώς
@@ -2046,9 +2274,8 @@ kret. arg. τόνς; lesb. τοίς; ion-att. τούς, lak. τώς
 \mypara{Kontraktionen}
 \label{kontr1}
 Einige Kontraktionen passieren vor dem Digammaschwund,
-sind aber teilweise unklar und schwer zu formulieren.
-Da keine Ergebnisse besser als schlechte sind,
-werden diese hier übersprungen.
+sind aber teilweise unklar und schwer zu formulieren
+und werden daher hier übersprungen.
 
 \mypara{Digamma}
 \label{digamma}
@@ -2057,10 +2284,10 @@ Teilweise geht es vor der Überlieferung verloren (z.B. ion-att.),
 teilweise ist es bis heute im Tsakonischen bewahrt.
 Grundsätzlich schwindet \bel{u̯} in vielen Dialekten
 zwischen Vokalen (dort besonders oft), im Anlaut (vor Vokalen und Konsonanten)
-und nach Konsonanten (unter \ref{ED3} behandelt).
-(Rix §71,72,73)
+und nach Konsonanten (unter \ref{ED3} behandelt)
+(Rix §71, 72, 73).
 Nur bei den Dialekten,
-in denen seit der Beginn der Überlieferung \bel{u̯} fehlt,
+in denen seit dem Beginn der Überlieferung \bel{u̯} fehlt,
 wird hier der Schwund angesetzt.
 Die hier formulierten Regeln beruhen hauptsächlich auf
 \textcite{buck} und \textcite{lejeune}
@@ -2068,27 +2295,27 @@ und ihre Vorläufigkeit und Unvollständigkeit kann nicht genug betont werden.
 Ehrlicherweise müsste man diesen Abschnitt zunächst überspringen,
 jedoch ist er zu wichtig um völlig ignoriert zu werden.
 Eine genaue Untersuchung wäre gerade zu diesem Thema sehr wünschenswert.
-Der (intervokalische) Digammaschwund hängt eng mit der Kontraktion zusammen;
+Der (intervokalische) Digammaschwund hängt eng mit den Kontraktionen zusammen;
 eine genauere Untersuchung muss also beide Phänomene betrachten.
 
 Manchmal wird \bel{u̯} im Anlaut zu \bel{h} statt ganz zu schwinden,
 ohne dass die Bedingungen genau bekannt wären.
 
-\lex{\bel{u̯}}{\bel{Ø}}{V\_V} (ion-att. inseldor. lesb. kret. ark.)
+\lex{\i{u̯}}{\i{Ø}}{\i{V}\_\i{V}} (ion-att. inseldor. lesb. kret. ark.)
 
 uridg. \rek{néu̯os}: myk. \bel{ne-wo}, kypr. νεϜοσ-, sonst νέος `jung, neu'
 
-\lex{\bel{u̯}}{\bel{h}}{\#\_VsC} (att.)
+\lex{\i{u̯}}{\i{h}}{\#\_\i{VsC}} (att.)
 
-\rek{u̯ésperos} > att. ἕσπερος, lat. \bel{vesper} `Abend'
+\rek{u̯εspérā} > att. ἑσπέρᾱ `Abend'; cf. lat. \bel{vesper}
 
-\lex{\bel{u̯}}{\bel{Ø}}{\#\_V} (ion-att. inseldor. lesb.)
+\lex{\i{u̯}}{\i{Ø}}{\#\_\i{V}} (ion-att. inseldor. lesb.)
 
 \rek{u̯óikos} > οἶκος, sonst Ϝοῖκος `Haus' (cf. lat. \bel{vīcus} `Dorf')
 
-\lex{\bel{i̯u̯}}{\bel{i̯i̯}}{V\_V} (ion-att. inseldor. lesb.)
+\lex{\i{i̯u̯}}{\i{i̯i̯}}{\i{V}\_\i{V}} (ion-att. inseldor. lesb.)
 
-\rek{ai̯u̯esi} > kypr. lokr. αἰϜεί, hom. αἰεί `immer (< zu allen Zeiten)'
+\rek{ai̯u̯esi} > kypr. lokr. αἰϜεί, hom. αἰεί `immer (← zu allen Zeiten)'
 
 \rek{élai̯u̯on} (entlehnt in lat. \bel{oleum}) >
 myk. \bel{e-ra₃-wo}, ion-att. ἔλαιον `Olivenöl'
@@ -2098,11 +2325,11 @@ myk \bel{e-ra-wa}, hom. ἐλαίη `Olive'
 
 \rek{au̯i̯-etós} > \rek{ai̯u̯etós} > hom. αἰετός; αἰβετός (Hesychglosse)
 
-\lex{\bel{u̯}}{\bel{Ø}}{h\_V} (ion-att. inseldor. lesb.)
+\lex{\i{u̯}}{\i{Ø}}{\i{h}\_\i{V}} (ion-att. inseldor. lesb.)
 
 uridg. \rek{su̯ekurós} > ἑκυρός, ai. \bel{svaśurás} `Schwiegervater'
 
-\lex{\bel{u̯}}{\bel{h}}{\#\_r} (ion-att. inseldor.)
+\lex{\i{u̯}}{\i{h}}{\#\_\i{r}} (ion-att. inseldor.)
 
 \rek{u̯rḗtrā} > att. ῥήτρᾱ, el. Ϝρᾱ́τρᾱ `Verabredung'
 
@@ -2111,7 +2338,7 @@ Vor \bel{l}, \bel{m}, \bel{n} schwindet \bel{h} im Ion-att.
 Wann und in welchen Dialekten dies noch geschieht,
 bleibt herauszufinden.
 
-\lex{\bel{h}}{\bel{Ø}}{\#\_(l, m, n)} (ion-att.)
+\lex{\i{h}}{\i{Ø}}{\#\_(\i{l}, \i{m}, \i{n})} (ion-att.)
 
 ion-att. λαβών neben aigin. λhαβο̄́ν `genommen habend'
 
@@ -2127,7 +2354,7 @@ gesenkt.
 Dieser Wandel muss zwischen  \ref{digamma} und \ref{ED3}
 datiert werden, wie die Beispiele zeigen.
 
-\lex{\bel{ǣ}}{\bel{ā}}{(e, ē, ẹ̄, i̯, i, ī, r)\_}
+\lex{\i{ǣ}}{\i{ā}}{(\i{e}, \i{ē}, \i{ẹ̄}, \i{i̯}, \i{i}, \i{ī}, \i{r})\_}
 
 \rek{néu̯ā} > att. νέᾱ, ion. νέη `jung, neu (f.)'
 
@@ -2143,20 +2370,20 @@ aber \rek{kóru̯ā} > att. κόρη, ostion. κούρη `Mädchen'
 \mypara{Dritte Ersatzdehnung und Kontraktion}
 \label{ED3}
 In der Lautgruppe
-Resonant, \bel{d} oder \bel{s} + \bel{u̯} schwindet das \bel{u̯} in vielen Dialekten.
+Resonant, \bel{d}, \bel{tʰ} oder \bel{s} + \bel{u̯} schwindet das \bel{u̯} in vielen Dialekten.
 In einigen Dialekten geht das \bel{u̯} spurlos verloren,
 in anderen wird vorangehender Vokal ersatzgedehnt
-und in anderen bleibt die Lautkombination intakt (Rix §72,104b; Lejeune §71,131).
+und in anderen bleibt die Lautkombination intakt (Rix §72, 104b; Lejeune §71, 131).
 Das Ergebnis von gedehnten \bel{e}, \bel{o} sind die geschlossenen
-\bel{ẹ̄}, \bel{ọ̄} im Ion-att., Nordwestdor. und Saronisch-dor.
+\bel{ẹ̄}, \bel{ọ̄} im Ion-att., Nwdor. und Sardor (\cite{bart_langvok}).
 
 Dasselbe Ergebnis haben die Kontraktionen von \bel{e} + \bel{e}
 und \bel{o} + \bel{o}.
 
-\lex{\bel{(\#, V)(r, l, n, d, s)u̯}}{\bel{(\#, V̄)(r, l, n, d, s)}}
+\lex{(\#, \i{V})(\i{r}, \i{l}, \i{n}, \i{d}, \i{tʰ}, \i{s})\i{u̯}}{(\#, \i{V̄})(\i{r}, \i{l}, \i{n}, \i{d}, \i{tʰ}, \i{s})}
 (inselion., ostion., inseldor., kret.)
 
-\lex{\bel{u̯}}{\bel{Ø}}{\bel{(r, l, n, d, s)\_}} (ion-att., lesb., lak.)
+\lex{\i{u̯}}{\i{Ø}}{(\i{r}, \i{l}, \i{n}, \i{d}, \i{tʰ}, \i{s})\_} (ion-att. lesb. lak.)
 
 \rek{kóru̯ā} > att. κόρη, ion. κούρη, kor. κόρϜᾱ, `Mädchen'
 
@@ -2167,19 +2394,18 @@ att. ξένος, ostion. ξεῖνος, kor. ξένϜος `Fremder, Gast'
 
 \rek{dédu̯imen} > att. δέδιμεν, hom. δείδιμεν `wir fürchten'
 
-\rek{du̯ís} > hom. δίς, lat. \bel{bis}, ai. \bel{dvis} `zweimal'
+\rek{du̯ís} > hom. δίς; lat. \bel{bis}, ai. \bel{dvis} `zweimal'
 
 \rek{u̯ítsu̯os} > \rek{u̯ísu̯os} > att. ἴσος, ostion. ἶσος, kret. ϜίσϜος `vielleicht'
 
-\lex{\rek{ee}}{\bel{ẹ̄} bzw. \bel{ē}}
+\lex{\i{ee}}{\i{ẹ̄} bzw. \i{ē}}
 
 \rek{é-deu̯e} > ion-att. ἔδει `es musste'
 
-\lex{\rek{oo}}{\bel{ọ̄} bzw. \bel{ō}}
+\lex{\i{oo}}{\i{ọ̄} bzw. \i{ō}}
 
 \rek{-oso} > ion-att. -ου, inseldor. -ω (G.Sg. o-St.)
 
-%TODO: č > tš &c.
 \mypara{\rek{tš}}
 \label{tš}
 \rek{tš} scheint in einigen ionischen Dialekten länger erhalten geblieben
@@ -2191,15 +2417,53 @@ In den meisten Dialekten wird \rek{tš} zu \bel{ss}, das im Anlaut vereinfacht w
 Im Att., Euboi., Boiot. und Kret. wird es jedoch zu \bel{tt} bzw. \bel{t}
 im Anlaut.
 
-\lex{\rek{tš}}{\bel{t}}{\#\_} (att. euboi. boiot. kret.)
+\lex{\i{tš}}{\i{t}}{\#\_} (att. euboi. boiot. kret.)
 
-\lex{\rek{tš}}{\bel{tt}} (att. euboi. boiot. kret.)
+\lex{\i{tš}}{\i{tt}} (att. euboi. boiot. kret.)
 
-\lex{\rek{tš}}{\bel{s}}{\#\_}
+\lex{\i{tš}}{\i{s}}{\#\_}
 
-\lex{\rek{tš}}{\bel{ss}}
+\lex{\i{tš}}{\i{ss}}
 
 s. die Beispiele bei \ref{pal}
+
+\mypara{Hauchdissimilation (\textsc{Graßmann}s Gesetz)}
+\label{grassmann}
+\textsc{Graßmann}s Gesetz wird in der Literatur nie präzise formuliert
+und meist ungenau oder gar nicht datiert
+(Rix §107, \cite[147]{bart_hand}, \cite[§45]{lejeune}, \cite[§138]{sihler}).
+Da die lautgesetzlichen Reflexe durch morphologischen Druck
+ausgeglichen werden konnten,
+ist die genaue Wirkungsweise auch nicht mehr mit Sicherheit festzustellen.
+Nach einer möglichen Formulierung wird ein aspirierter Silbenanlaut
+(\rek{h} oder Tenuis aspirata)
+vor Tenuis aspirata in der folgenden Konsonantenverbindung deaspiriert.
+Da im In- und Auslaut meist Derivations- und Flexionsmorpheme stehen,
+die von dem Gesetz (vielleicht aber aus Systemzwang)
+nicht betroffen zu sein scheinen,
+beschränke ich meine Formulierung auf den Anlaut.
+Die Dissimilation \rek{-tʰē-tʰi} > -θη-τι im Imp.2.Sg.Aor.Pass.
+wird von der obigen Formulierung nicht abgedeckt,
+da hier der zweite Laut deaspiriert wird.
+
+Nach Bartoněk
+ist nicht klar, ob das Gesetz vor- oder nachmyk. ist,
+aber wie Lejeune mit ὄφρα < \rek{i̯ópʰra} (cf. Stamm des Relativums \rek{i̯o-})
+`bis; damit' zeigt,
+muss es nach \rek{i̯V-} > \bel{hV-} (s. \ref{yV-}) datiert werden.
+In den Absätzen zu diesem Gesetz liefert Mayrhofer (\citeyear[§4.10.2.1.3]{mayrhofer})
+sogar inschriftliche Belege für nicht-dissimilierte Wörter.
+Daher datiere ich dieses Gesetz erst spät.
+
+\lex{(\i{Tʰ}, \i{h})}{(\i{T}, \i{Ø})}{\#\_\i{C*VC*Tʰ}}
+
+zu uridg. \rek{seg̑ʰ-}: ἔχω `ich habe' vs. ἕξω `ich werde haben'
+
+τάφος `Grab' vs. θάπτω `ich bestatte'
+
+τριχός `des Haares' vs. θρίξ `Haar'
+
+nicht-dissimiliert: θυφλός statt τυφλός `Blind', ἀνεθέθη statt ἀνετέθη `er weihte' \&c.
 
 \mypara{Psilose}
 \label{psilose}
@@ -2208,7 +2472,7 @@ in der es überhaupt vorkommt).
 Die genaue Datierung (gerade bei später belegten Dialekten wie dem Lesb.)
 ist unsicher.
 
-\lex{\bel{h}}{\bel{Ø}} (el., lesb., ostion., inselion., kret.)
+\lex{\i{h}}{\i{Ø}} (el. lesb. ostion. inselion. kret.)
 
 \mypara{\bel{ǣ}}
 \label{ae>e}
@@ -2216,7 +2480,7 @@ Das aus \bel{ā} gehobene \bel{ǣ} fällt mit \bel{ē} zusammen,
 ist jedoch im Inselion. noch länger erhalten, wo die beiden Laute graphisch
 unterschieden sind.
 
-\lex{\bel{ǣ}}{\bel{ē}} (inselion. später)
+\lex{\i{ǣ}}{\i{ē}} (inselion. später)
 
 \mypara{Kontraktionen}
 \label{kontr2}
@@ -2235,9 +2499,9 @@ Viele Fehler, die einem dabei passieren,
 können oftmals schnell aufgedeckt werden und die Gnadenlosigkeit
 eines Computerprogramms zwingt einen zu Exaktheit und Strenge.
 Diese sind (sofern sie so gut es geht der Realität entsprechen wollen)
-allerdings nur auf Basis einer vernünftigen Beleglage möglich.
-Die einschlägige Literatur führt jedoch Formen oft ohne Belegstellen an,
-wodurch sie nicht überprüfbar sind
+allerdings nur auf Basis einer vernünftigen Beleglage möglich;
+die Literatur führt jedoch Formen oft ohne Belegstellen an,
+wodurch sie schwer überprüfbar sind
 (Fundort und Datierung wären z.B. oft wünschenswert zu wissen)
 und belegen außerdem nie alle beschriebenen Fälle.
 Die Beispiele, die ich bei der Beschreibung der Lautgesetze gegeben habe,
@@ -2249,7 +2513,8 @@ Besonders die Veränderungen ab dem frühen 1. Jt.,
 in dem sich die Dialekte stark differenzieren,
 sind schwer in den Griff zu bekommen.
 Sie bietet aber immerhin schon ein Gerüst für weitere Forschung
-bzw. die Einarbeitung des in der weitergehenden Literatur beschriebenen
+bzw. die Einarbeitung des in der weitergehenden Literatur
+detaillierter beschriebenen
 Lautwandels.
 
 Obwohl die Resultate automatisch erzeugt wurden,
@@ -2260,7 +2525,7 @@ mit denen man automatisch überprüfen kann,
 ob bei einer Reihe von Testfällen für eine bestimmte Eingabe die
 zu erwartende Ausgabe herauskommt.
 Da wir es allerdings aufgrund der vielen Dialekte
-nicht mit einer sondern vielen Ausgaben zu tun haben,
+nicht mit einer, sondern vielen Ausgaben zu tun haben,
 wird die Situation komplexer bzw. unübersichtlicher und
 für eine neue Version von \tt{lga} sollte man sich über eine elegante
 Lösung Gedanken machen.
@@ -2271,20 +2536,24 @@ Außerdem ist die Art, auf die Laut- bzw. Zeichenklassen implementiert sind,
 weder konzeptionell sauber,
 da man sie im Laufe der Sprachentwicklung nicht ändern kann,
 noch performant, da jeder reguläre Ausdruck vorbearbeitet werden muss.
-Das erste Problem kann man, wie ich ja schon erwähnte, lösen,
+Das erste Problem kann man, wie ja schon erwähnt, lösen,
 indem man Polygraphen in jeder Zeichenkette
-(d.h. reguläre Ausdrücken und Eingabewörtern) durch ansonsten unbenutze
+(d.h. regulären Ausdrücken und Eingabewörtern) durch ansonsten unbenutze
 Unicode Codepoints ersetzt und vor der Ausgabe wieder zurückersetzt.
 Das zweite Problem ist mit einer bestehenden Regex-Engine nicht zu lösen;
-hier ist eine eigene Implementation nötig,
+hier ist eine eigene Implementation mit einer eigenen Sprache nötig,
 die auf die Bedürfnisse der Lautgesetzformulierung optimiert ist.
-Als ein wichtiges Feature sollte es möglich sein Akzente zu ignorieren,
-da ein Ausdruck \tt{ab} z.B. nicht \tt{áb} matcht und man so zu
+Ein Feature, das so eine Lautgesetzsprache haben sollte,
+wäre eine Möglichkeit, Akzente wenn nötig zu ignorieren,
+da ein regulärer Ausdruck \rx{ab} z.B. nicht \str{áb} matcht und man so zu
 teilweise sehr umständlichen Ausdrücken gezwungen ist.
-Darüber wie eine optimierte Beschreibungssprache genau aussehen könnte
-und welche weiteren Features wünschenswert oder notwendig sind,
-muss noch nachgedacht werden.
-Für die meisten anderen Fälle funktioniert \tt{irregex} schon erstaunlich gut,
+Für einige Sprachen (für das Griechische allerdings eher weniger)
+wäre auch die Möglichkeit, mit Silben zu arbeiten, nützlich.
+Darüber, wie die Beschreibungssprache genau aussehen sollte
+und welche weiteren Features wünschenswert, notwendig
+und vernünftig implementierbar sind,
+wird man sich noch Gedanken machen müssen.
+Für die meisten Fälle funktioniert \tt{irregex} schon erstaunlich gut,
 aber die Lesbarkeit ist (wie oft bei regulären Ausdrücken) nicht optimal.
 
 Ein weiterer Punkt ist die Anwendung der Regellisten,
@@ -2293,10 +2562,48 @@ Diese müssen z.Z. noch für jede Sprache explizit vergeben werden,
 was unschön ist, aber nicht wichtig genug war,
 sofort verbessert zu werden.
 
-Schließlich ist die Benutzung von \tt{lga} noch völlig unintuitiv,
+Was die Benutzung betrifft ist \tt{lga} noch völlig unintuitiv;
 die nächste Version sollte eine graphische Benutzeroberfläche haben.
-Zusammen mit einer verbesserten Lautgesetzsprache.
+Lautgesetze sollten kommentierbar und mit Literaturverweisen
+und Belegen versehen werden können.
+Um die Sortierung zu erleichtern,
+wäre es vielleicht nützlich,
+Lautgesetze mit Beschränkungen zu versehen,
+die verhindern,
+dass zwei Lautgesetze, deren relative Chronologie zueinander klar ist,
+nicht fälschlicherweise in die falsche Reihenfolge kommen.
+Dass einem bei komplizierteren Fällen,
+in denen mehrere Lautwandel ineinandergreifen, solche Fehler schnell passieren,
+hat die Erfahrung gezeigt.
 
+Schließlich ist es mein Wunsch, mit \tt{lga} und seinen zukünftigen Nachfolgern
+die historisch-vergleichende Sprachwissenschaft
+mehr wie freie Softwareentwicklung zu betreiben
+und (hoffentlich) als Gemeinschaftsprojekt eine Sammlung aller Lautgesetze zu erstellen,
+die die Lautentwicklung vom Urindogermanischen in die Einzelsprachen
+möglichst gut modellieren.
+Das Projekt soll als dann Referenz und Grundlage für weitere Forschung dienen können.
+Aktuell findet sich sowohl die Arbeit als auch
+\tt{lga} samt den bisher eingetragenen Lautgesetzen unter 
+\tt{https://github.com/aap/lga}.
+Diese Arbeit ist nur der erste Schritt.
+
+\nocite{beekes}
 \printbibliography
+
+\appendix
+
+\section{Quelltext}
+
+Der Unterschied zwischen vorkombinierten Zeichen (also mit einem Codepoint)
+und kombinierten Zeichen (mehrere Codepoints)
+ist leider im Abdruck nicht mehr erkenntlich.
+Grundsätzlich wurden außer bei Akzenten
+wenn möglich vorkombinierte Zeichen verwendet.
+Auf
+\tt{https://github.com/aap/lga}
+ist die korrekte und ausführbare digitale Form zu finden.
+
+\input{code.tex}
 
 \end{document}

@@ -3,6 +3,20 @@
 (define run
   (lambda () (load "run-gr.scm")))
 
+(define (run-grassmann dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "sékʰō"
+    "tʰápʰi̯ō"
+    "tʰápʰos"
+    "tʰítʰēmi"
+    "tʰrikʰós"
+    "su̯étʰos"
+    "i̯ópʰra"
+    )))
+  (newline))
+(run-grassmann 'att)
+ 
 (define (run-contr dest)
   (print "  " (symbol->string dest))
   (print (run-list 'urgr1 dest (list
@@ -41,9 +55,9 @@
 (define (run-misc dest)
   (print "  " (symbol->string dest))
   (print (run-list 'uridg dest (list
-;    "u̯eu̯r̥h₁mh₁nos"
-;    "u̯r̥h₁mn̥"
-;    "h₂ensíi̯eh₂"
+    "u̯eu̯r̥h₁mh₁nos"
+    "u̯r̥h₁mn̥"
+    "h₂ensíi̯eh₂"
     "demspot-"
     "u̯idsu̯os"
     "orsmā́"
@@ -58,12 +72,12 @@
     "si̯umēn"
     )))
   (print (run-list 'urgr dest (list
-    "sundžugos"
+    "sunǰǰugos"
     )))
   (newline))
-;(run-misc 'urgr)
-;(run-misc 'att)
-;(run-misc 'oarg)
+(run-misc 'urgr)
+(run-misc 'att)
+(run-misc 'oarg)
 
 (define (run-y dest)
   (print "  " (symbol->string dest))
@@ -255,11 +269,11 @@
     "u̯ésma"
     )))
   (newline))
-(run-1ed 'urgr)
-(run-1ed 'att)
-(run-1ed 'inseldor)
-(run-1ed 'kret)
-(run-1ed 'lesb)
+;(run-1ed 'urgr)
+;(run-1ed 'att)
+;(run-1ed 'inseldor)
+;(run-1ed 'kret)
+;(run-1ed 'lesb)
 
 (define (run-pala dest)
   (print "  " (symbol->string dest))

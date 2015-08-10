@@ -10,12 +10,12 @@
     (s "č" "k")
     (s "ǰ" "g")
 
-    ;;; MA > TA -- Rix §94
-    (s "(<mediaasp>)" (stimmlos 1))
-
     ;;; Thorn -- Rix §91 -- Schindler 'A thorny problem'
     (s "(k|K)þ" 1 "t")
-    (s "(k!|K!)þ" 1 "t!")
+    (s "(g!|G!)þ" 1 "d!")
+
+    ;;; MA > TA -- Rix §94
+    (s "(<mediaasp>)" (stimmlos 1))
 
     ;;; (H)i̯ im Anlaut -- gegen Rix §68,80e
     (s "^y" "dy")
@@ -32,7 +32,7 @@
     (s "(<vok>)('?)(<lary>)(<kons>|<s-res>|$)"
        (dehnung 1) 2 (sonans->consonans 4))
     ; Rix §80d, §82c
-    (s "(<kons>|^)(<lary>)(<kons>)" 1 (laryngal->vokal 1) 2)
+    (s "(<kons>|^)(<lary>)(<kons>)" 1 (laryngal->vokal 2) 3)
     ; Rix §85c
     (s "NH2$" "na")
     ; Rix §84
@@ -54,7 +54,7 @@
     (s "(w|u|ū)('?)(<labiovelar>)" 1 2 (labiovelar->velar 3))
     (s "(<labiovelar>)(w|u|ū|y)" (labiovelar->velar 1) 2)
 
-    ;;; Liquiden und Nasale
+    ;;; silbische Resonanten
     ; Rix §76
     (s "(<s-nasal>)(<vok>|<halb-vok>)" "a" (sonans->consonans 1) 2)
     (s "(<s-nasal>)" "ə")
@@ -70,7 +70,7 @@
     (s "my" "ny")
 
     ;;; 1. Kontraktion (nach Laryngalverlust)
-    ;; TODO: Langvokale? gibt es die überhaupt?
+    ;; TODO: Langvokale? gibt es hier überhaupt welche?
     ; Rix §81
     (s "ee" "ē")
     (s "e'e" "ē~")
@@ -94,7 +94,6 @@
     (s "(<velar>)(<labiovelar>)" 2 2)
 
     ;; Beseitigung von Geminaten (αἰπόλος < *ai̯g-kʷolos) -- nicht Rix
-    ;; TODO: mehr Laute; möglicherweise nicht nach Kurzvokal
     (s "(<kurz-vok>)(['~]?)(<kons>)" 1 2 3 "#")
     (s "GG" "G") (s "KK" "K") (s "K!K!" "K!")
     (s "gg" "g") (s "kk" "k") (s "k!k!" "k!")
@@ -120,9 +119,8 @@
     'urgr1
 
     ;;; s > h
-; TODO: formulierung mit vokalen? o_O
-    ; s > h \ ($|V)_(V|RV) -- Rix §88,89
-    (s "(^|(<vok>)(['~]?))s((<vok>)|(<res>|w)(<vok>))" 1 "h" 4)
+    ; s > h \ ($|V)_(V|R) -- Rix §88,89
+    (s "(^|(<vok>)(['~]?))s(<vok>|<res>|w)" 1 "h" 4)
     ;; VRsV > VRhV in unbetonten Silben (Datierung?)
     (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
     ;; VNsV > VNhV
@@ -153,17 +151,13 @@
     ; Rix §77
     (s "m$" "n")
 
-    ;;; Palatalisierung -- TODO -- Rix §102
-    ;;; TODO: ty hinter langvokal in tt-dialekten
-    ;;;       tw (wohl nicht urgr (Allen 124))
+    ;;; Palatalisierung -- Rix §102
     (s "^(t!|t)y" "s")
     (s "(t!|t)y" "ts")
-    (s "(d|g)y" "dž")   ; ǰ
-    (s "(k!|k)y" "tš")  ; č
+    (s "(d|g)y" "ǰǰ")
+    (s "(k!|k)y" "čč")
     (s "(<labial>)y" "pč")
 
-    ;;; TODO: Umgebung. nach Langvokal, Diphthong, Konsonant?
-    ;; Datierung evtl. nachmyk. wegen u̯i̯ > ẅẅ nachmyk.
     (s "ly" "ĺĺ")
     (s "ry" "ŕŕ")
     (s "ny" "ńń")
@@ -179,6 +173,10 @@
     (s "m(<liquid>)" "bm" 1)
     (s "^n(<liquid>)" "d" 1)
     (s "n(<liquid>)" "nd" 1)
+
+    ;; u- > hu-
+    ; datierung unklar
+    (s "^u" "hu")
 
     ;;
     ;; Urgriechisch
@@ -196,9 +194,8 @@
 
     (s "pč" "pt")
 
-;;    ; WRONG
-;;    ; heteromorphemisches ty
-;;    (s "(t!|t)y" "ts")
+    ; heteromorphemisches ty
+    ; TODO
 
     (s "^y(<vok>)" "h" 1)
     (s "(<vok>)(['~]?)y(<vok>)" 1 2 "h" 3)
@@ -208,7 +205,8 @@
     ;;
     'myk
 
-    (s "dž" "ds")
+    (s "čč" "tš")
+    (s "ǰǰ" "ds")
 
     `(sub (el) (,(s "ē" "Ā")))
 
@@ -231,8 +229,8 @@
     `(sub (not kret) (,(s "^tw" "s")))
     (s "(.)tw" 1 "tš")
     ;;; tʰw -- unklar, aber vgl. -σθε ai. -dhvam
-    ;(s "^t!w" "t!")
     (s "(.)t!w" 1 "st!")
+    ;(s "^t!w" "t!")
 
     ;;; ds > sd
     ; vor CsC > ChC wegen ἔρδω < *u̯erzdō < *u̯erg̑i̯e/o-
@@ -254,7 +252,6 @@
     (s "#")
 
     ;;; u̯i̯ > ẅẅ -- Rix §73
-    ; Datierung? nach ChC > CC? das aber später und auch keine gute lösung
     (s "wy" "ẅẅ")
 
     ;;; Palatale ŕŕ ĺĺ ńń -- Rix §70
@@ -286,16 +283,13 @@
     ;; Gemination und Hauchumsprung
     (s "^(<vok>)(['~]?)h(<vok>)([^'~])" "h" 1 2 3 4)
     (s "^(<vok>)(['~]?)(<res>|w)h" "h" 1 2 3 "h")
-;    (s "(<kons>)h(<kons>)" 1 2)
-    ; TODO: prohorā aspirieren
-;    (s "(<vok>)(['~]?)h(<vok>)" 1 2 3)
+    ; TODO: prohorā > φρουρά aspirieren
     (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
     (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
     ;; h > 0 (nicht im anlaut)
     (s "(.)h" 1)
 
-    ;;; Cts > Cs (TODO: alle Konsonanten? Halbvokale/Diphthonge?)
-; TODO: schließt noch Diphthonge ein!
+    ;;; Cts > Cs
     (s "(<kons>)ts" 1 "s")
     ;;; ts > ss/tt -- Rix §102,87
     `(sub (boiot kret) (,(s "ts" "tt")))
@@ -333,6 +327,7 @@
 
 
     ;;; ältere Kontraktionen, TODO: datieren
+    ;; wegen Unsicherheit vorläufig auskommentiert
     ; a,ā + e
 ;    `(sub (ion-att) (,(s "(a|ā)'e" "ā~")
 ;                     ,(s "(a|ā)e" "ā")))
@@ -377,14 +372,13 @@
     ;; TODO: dialekte nach Rix §72; Bartoněk, Buck?
     ; [wo]arg?
     ; sw kret. erhalten
-    `(sub (inselion ostion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d|s)w" (dehnung2 1) 4)))
-    `(sub (ion-att lesb lak) (,(s "(r|l|n|d|s)w" 1)))
+    `(sub (inselion ostion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d|t!|s)w" (dehnung2 1) 4)))
+    `(sub (ion-att lesb lak) (,(s "(r|l|n|d|t!|s)w" 1)))
     ; Kontraktion
     (s "e'e" "Ē~")
     (s "ee" "Ē")
-    ; TODO: oe nicht in allen Dialekten
-    (s "o'(o|e)" "Ō~")
-    (s "o(o|e)" "Ō")
+    (s "o'o" "Ō~")
+    (s "oo" "Ō")
     ;; TODO: dialekte?
     `(sub (not ion-att nwdor sardor) (,(s "Ē" "ē")
                                       ,(s "Ō" "ō")))
@@ -395,16 +389,22 @@
     (s "tš" "ss")
     (s "^ss" "s")
 
+    ;; Graßmann -- Rix §107
+    (s "(<tenuisasp>)((<kons>)*)(<vok>)(['~]?)((<kons>)*)(<tenuisasp>)"
+       (->T 1) 2 4 5 6 8)
+    (s "h((<kons>)*)(<vok>)(['~]?)((<kons>)*)(<tenuisasp>)"
+       1 3 4 5 7)
+
     ;;; Psilose -- Rix §68
     `(sub (el lesb ostion inselion kret) (,(s "h")))
 
     ;;;; ca. homerisch; Sprachstufe der ionischen Archaismen
     'hom
 
-    ; TODO: datierung? dialekte?
     `(sub (not el inselion) (,(s "Ā" "ē")))
 
     ;;; jüngere Kontraktionen; teilweise nach Einsetzen der Überlieferung
+    ;; wegen Unsicherheit vorläufig auskommentiert
 ;    ; o + a > ō (nach w > 0)
 ;    (s "o'a" "ō~")
 ;    (s "oa" "ō")

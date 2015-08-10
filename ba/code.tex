@@ -1,0 +1,1347 @@
+\footnotesize
+\singlespacing
+\subsection{main.scm}
+\begin{verbatim}
+;;;;
+;;;; main file
+;;;;
+
+(require-extension utf8)
+(require-extension irregex)
+(require-extension srfi-1)
+
+(define s+ string-append)
+
+;;;
+;;; assoc lists
+;;;
+
+(define sound-classes '())
+(define phonological-rules '())
+(define prettyprint-rules '())
+
+;;; TODO: clean up the mess
+;; Associates a name with a set of sounds
+(define (set-class key value)
+  (let ((x (assoc key sound-classes)))
+    (if x
+        (set-cdr! x value)
+        (set! sound-classes (cons (cons key value) sound-classes)))))
+
+;; Associates a name with a list of rules to get to phonetic representation
+(define (set-phono-rules key value)
+  (let ((x (assoc key phonological-rules)))
+    (if x
+        (set-cdr! x value)
+        (set! phonological-rules (cons (cons key value) phonological-rules)))))
+
+;; Associates a name with a list of rules to pretty-print words
+(define (set-pretty-rules key value)
+  (let ((x (assoc key prettyprint-rules)))
+    (if x
+        (set-cdr! x value)
+        (set! prettyprint-rules (cons (cons key value) prettyprint-rules)))))
+
+
+(define (lookup key alist)
+  (let ((x (assoc key alist)))
+    (if x
+        (cdr x)
+        '())))
+
+(define (l key)
+  (lookup key sound-classes))
+
+;;;
+;;; tree and rule functions
+;;;
+
+;; makes a list of all languages between start and end language based on a tree
+(define (make-path tree start end)
+  (define (find-start tree)
+    (cond ((atom? tree)
+           (if (eq? tree start)
+               tree
+               '()))
+          ((eq? (car tree) start)
+           tree)
+          (else (let loop ((t (cdr tree)))
+                  (if (null? t)
+                      '()
+                      (let ((s (find-start (car t))))
+                        (if (null? s)
+                            (loop (cdr t))
+                            s)))))))
+  (define (to-end tree)
+    (cond ((atom? tree)
+           (if (eq? tree end)
+               (cons tree '())
+               '()))
+          ((eq? (car tree) end)
+           (cons end '()))
+          (else (let loop ((t tree))
+                  (if (null? t)
+                      '()
+                      (let ((p (to-end (car t))))
+                        (if (null? p)
+                            (loop (cdr t))
+                            (cons (car tree) p))))))))
+  (to-end (find-start tree)))
+
+;; make a list of rules that apply to the language development in path
+(define (make-rules tree path)
+  (define start (car path))
+  (define end (car (reverse path)))
+  (define (rule-applies? langlist)
+    (or (null? langlist)
+        (if (equal? (car langlist) 'not)
+            (eq? '() (lset-intersection eq? path (cdr langlist)))
+            (not (eq? '() (lset-intersection eq? path langlist))))))
+  (define (find-start tree)
+    (cond ((null? tree)
+           '())
+          ((eq? (car tree) start)
+           (cdr tree))
+          ((and (list? (car tree))
+                (eq? 'br (caar tree)))
+           (let ((l (find-start (caddar tree))))
+             (if (null? l)
+                 (find-start (cdr tree))
+                 l)))
+          (else (find-start (cdr tree)))))
+  (define (to-end tree)
+    (cond ((or (null? tree)
+               (eq? (car tree) end))
+           '())
+          ((procedure? (car tree))
+           (cons (car tree) (to-end (cdr tree))))   ; better use tail recursion
+          ((and (list? (car tree))
+                (rule-applies? (cadar tree)))
+           (case (caar tree)
+             ((br) (to-end (caddar tree)))
+             ((sub) (append (to-end (caddar tree)) (to-end (cdr tree))))
+             (else (to-end (cdr tree)))))
+          (else (to-end (cdr tree)))))
+  (to-end (find-start tree)))
+
+;;;
+;;; helper functions
+;;;
+
+;; convert list of strings to single string with one original string per line
+(define (make-words lst)
+  (if (null? lst)
+      '()
+      (let ((s (make-words (cdr lst))))
+        (if (null? s)
+            (car lst)
+            (s+ (car lst) "\n" s)))))
+
+;; make regex substitute function
+(define (s pattern . subst)
+  (let ((pat (string->irregex (make-regex pattern) 'utf8 'fast 'm)))
+    (lambda (word)
+      (apply irregex-replace/all (cons pat (cons word subst))))))
+
+;; compile regex containing custom character classes
+(define (make-regex s)
+  (let loop ((classes sound-classes)
+             (s s))
+    (if (null? classes)
+        s
+        (loop (cdr classes)
+              (irregex-replace/all (s+ "<"
+                                       (symbol->string (caar classes))
+                                       ">")
+                                   s
+                                   (cdar classes))))))
+
+;; apply a list of rules to a string, return transformed string
+(define (apply-rules rules words)
+  (if (null? rules)
+      words
+      (apply-rules (cdr rules)
+                   ((car rules) words))))
+
+;; runs 'words' from language 'from' through language 'to'
+(define (run-list from to words)
+  (let ((r1 (make-rules rules (make-path lang-tree from to)))
+        (r2 (lookup from phonological-rules))
+        (r3 (lookup to prettyprint-rules)))
+    (apply-rules r3
+                 (apply-rules r1
+                              (apply-rules r2 (make-words words))))))
+
+;;;
+;;; data
+;;;
+
+;; tree of languages
+;;  an atom is a leaf language
+;;  a list's car is a language, the cdr its children
+(define lang-tree
+  '(uridg (urgr1 (urgr (nwgr (dor (nwdor phok lokr aitol)
+                                  (sardor kor meg oarg)
+                                  (sdor el lak inseldor warg kret))
+                             (aiol boiot (thess wthess othess) lesb))
+                       (sogr (ach myk ark kypr pamph)
+                             (ion-att (ostion hom) inselion euboi att))))
+          ))
+
+;; sound classes
+;; TODO: these should be changeable by the rules
+(set-class 'kurz-vok "e|E|o|O|a|A|i|u|ə")
+(set-class 'lang-vok "ē|Ē|ō|Ō|ā|Ā|ī|ū")
+(set-class 'vok (s+ (l 'kurz-vok) "|" (l 'lang-vok)))
+(set-class 'liquid "r|ŕ|l|ĺ")
+(set-class 's-liquid "R|L")
+(set-class 'nasal "m|n|ṇ|ň|ñ|ń|ṅ")
+(set-class 's-nasal "M|N")
+(set-class 'halb-vok "y|w")
+(set-class 'res (s+ (l 'liquid) "|" (l 'nasal)))
+(set-class 'res-yw (s+ (l 'res) "|" (l 'halb-vok)))
+(set-class 's-res (s+ (l 's-liquid) "|" (l 's-nasal)))
+(set-class 'lary "H1|H2|H3|H")
+(set-class 'sibil "s|š|ṣ|ś|z!|z|ž!|ž|ẓ!|ẓ")
+(set-class 'labial "b!|p!|b|p")
+(set-class 'dental "d!|t!|d|t")
+(set-class 'retroflex "ḍ!|ṭ!|ḍ|ṭ")
+(set-class 'palatal "ǰ!|č!|ǰ|č")
+(set-class 'palatal2 "j!|c!|j|c")
+(set-class 'velar "g!|k!|g|k")
+(set-class 'labiovelar "G!|K!|G|K")
+(set-class 'okklu (s+ (l 'labial) "|" (l 'dental) "|" (l 'retroflex)
+                      "|" (l 'palatal) "|" (l 'palatal2) "|" (l 'velar)
+                      "|" (l 'labiovelar)))
+(set-class 'kons (s+ (l 'res) "|" (l 'halb-vok) "|" (l 'sibil) "|"
+                     (l 'okklu) "|" (l 'lary)))
+(set-class 'media "b|d|ḍ|ǰ|j|g|G")
+(set-class 'tenuis "p|t|ṭ|č|c|k|K")
+(set-class 'mediaasp "b!|d!|ḍ!|ǰ!|j!|g!|G!")
+(set-class 'tenuisasp "p!|t!|ṭ!|č!|c!|k!|K!")
+
+(load "subfuncs.scm")
+(load "rules.scm")
+\end{verbatim}
+
+\subsection{subfuncs.scm}
+\begin{verbatim}
+;;;;
+;;;; functions that transform submatches
+;;;;
+
+;; applies list of rules to the submatch i in a match
+(define (match-rulelist rules)
+  (lambda (i)
+    (lambda (match)
+      (let ((m (or (irregex-match-substring match i)
+                   "")))
+        (apply-rules rules m)))))
+
+(define (match-do f)
+  (lambda (i)
+    (lambda (match)
+      (let ((m (irregex-match-substring match i)))
+        (f m)))))
+
+(define match-print
+  (match-do
+    (lambda (s)
+      (display "   ")
+      (display s)
+      (newline)
+      s)))
+
+(define laryngal->vokal
+  (match-rulelist
+    (list (s "H1" "e")
+          (s "H2" "a")
+          (s "H3" "o")
+          (s "H" "a"))))
+
+(define laryngal->langvokal
+  (match-rulelist
+    (list (s "H1" "ē")
+          (s "H2" "ā")
+          (s "H3" "ō")
+          (s "H" "ā"))))
+
+(define dehnung
+  (match-rulelist
+    (list (s "a" "ā")
+          (s "e" "ē")
+          (s "o" "ō")
+          (s "i" "ī")
+          (s "u" "ū"))))
+
+(define dehnung2
+  (match-rulelist
+    (list (s "a" "ā")
+          (s "e" "Ē")
+          (s "o" "Ō")
+          (s "i" "ī")
+          (s "u" "ū"))))
+
+(define kuerzung
+  (match-rulelist
+    (list (s "ā" "a")
+          (s "ē|Ē" "e")
+          (s "ō|Ō" "o")
+          (s "ī" "i")
+          (s "ū" "u"))))
+
+(define dental->retroflex
+  (match-rulelist
+    (list (s "t" "ṭ")
+          (s "d" "ḍ"))))
+
+(define palatal->velar
+  (match-rulelist
+    (list (s "č" "k")
+          (s "ǰ" "g"))))
+
+(define labiovelar->velar
+  (match-rulelist
+    (list (s "K" "k")
+          (s "G" "g"))))
+
+(define labiovelar->labial
+  (match-rulelist
+    (list (s "K" "p")
+          (s "G" "b"))))
+
+(define labiovelar->dental
+  (match-rulelist
+    (list (s "K" "t")
+          (s "G" "d"))))
+
+(define velar->labiovelar
+  (match-rulelist
+    (list (s "k" "K")
+          (s "g" "G"))))
+
+(define sonans->consonans
+  (match-rulelist
+    (list (s "i" "y")
+          (s "u" "w")
+          (s "R" "r")
+          (s "L" "l")
+          (s "N" "n")
+          (s "M" "m"))))
+
+(define consonans->sonans
+  (match-rulelist
+    (list (s "y" "i")
+          (s "w" "u")
+          (s "r" "R")
+          (s "l" "L")
+          (s "n" "N")
+          (s "m" "M"))))
+
+(define stimmhaft
+  (match-rulelist
+    (list (s "K" "G")
+          (s "k" "g")
+          (s "č" "ǰ")
+          (s "c" "j")
+          (s "t" "d")
+          (s "ṭ" "ḍ")
+          (s "p" "b")
+          (s "s" "z")
+          (s "š" "ž"))))
+
+(define stimmlos
+  (match-rulelist
+    (list (s "G" "K")
+          (s "g" "k")
+          (s "ǰ" "č")
+          (s "j" "c")
+          (s "d" "t")
+          (s "ḍ" "ṭ")
+          (s "b" "p")
+          (s "z" "s")
+          (s "ž" "š"))))
+
+(define ->F
+  (match-rulelist
+    (list (s "k(!?)" "χ")
+          (s "g(!?)" "γ")
+          (s "t(!?)" "θ")
+          (s "d(!?)" "δ")
+          (s "p(!?)" "f")
+          (s "b(!?)" "β"))))
+
+(define depala
+  (match-rulelist
+    (list (s "ẅẅ" "w")
+          (s "ŕŕ" "r")
+          (s "ĺĺ" "l")
+          (s "ńń" "n"))))
+
+(define ->acute
+  (match-rulelist
+    (list (s "~" "'"))))
+
+(define ->circumflex
+  (match-rulelist
+    (list (s "'" "~"))))
+
+(define ->A
+  (match-rulelist
+    (list (s "(!|$)" "!"))))
+
+(define ->!A
+  (match-rulelist
+    (list (s "!"))))
+
+(define ->M
+  (match-rulelist
+    (list (s "(.*)" (->!A 1))
+          (s "(.*)" (stimmhaft 1)))))
+
+(define ->MA
+  (match-rulelist
+    (list (s "(.*)" (->A 1))
+          (s "(.*)" (stimmhaft 1)))))
+
+(define ->T
+  (match-rulelist
+    (list (s "(.*)" (->!A 1))
+          (s "(.*)" (stimmlos 1)))))
+
+(define ->TA
+  (match-rulelist
+    (list (s "(.*)" (->A 1))
+          (s "(.*)" (stimmlos 1)))))
+\end{verbatim}
+
+\subsection{rules.scm}
+Diese Datei definiert den Lautgesetzbaum und die phonologischen
+und graphematischen Regeln.
+Alle anderen Zweige außer dem Griechischen sind hier nicht abgedruckt.
+\begin{verbatim}
+(load "griechisch.scm")
+
+(define rules
+  (list
+    'uridg
+    `(br (urgr1) ,rules-urgr)
+    ))
+
+(set-phono-rules 'uridg
+  (list (s "ʰ" "!")
+        (s "kʷ" "K")
+        (s "gʷ" "G")
+        (s "k̑" "č")
+        (s "g̑" "ǰ")
+        (s "i̯" "y")
+        (s "u̯" "w")
+        (s "m̥" "M")
+        (s "n̥" "N")
+        (s "r̥" "R")
+        (s "l̥" "L")
+        (s "h₁" "H1")
+        (s "h₂" "H2")
+        (s "h₃" "H3")
+        (s "\u0301" "'")	; combining acute
+        ;;;
+        (s "e('?)H2" "a" 1 "H2")
+        (s "H2e" "H2a")
+        ;;; umgefärbtes e noch von o verschieden
+        (s "e('?)H3" "O" 1 "H3")
+        (s "H3e" "H3O")
+        ;;; TODO: bedingungen für stimmhaftwerdung
+        (s "s(G|g|ǰ|d|b|r|l|m|n)" "z" 1)
+        (s "(G|g|ǰ|d|b|r|l|m|n)(!?)s" 1 2 "z")
+        ;;; TT -> TsT
+        (s "(<dental>)(<dental>)" 1 "s" 2)
+        ))
+
+(let ((rules (list (s "ʰ" "!")
+                   (s "kʷ" "K")
+                   (s "gʷ" "G")
+                   (s "i̯" "y")
+                   (s "u̯" "w")
+                   (s "\u0301" "'"))))
+  (set-phono-rules 'urgr1 rules)
+  (set-phono-rules 'urgr rules))
+
+(let ((rules (list (s "!" "ʰ")
+                   (s "G" "gʷ")
+                   (s "K" "kʷ")
+                   (s "w" "u̯")
+                   (s "y" "i̯")
+                   (s "ā" "ā")
+                   (s "ē" "ɛ̄")
+                   (s "ī" "ī")
+                   (s "ō" "ɔ̄")
+                   (s "ū" "ū")
+                   (s "Ā" "ǣ")
+                   (s "Ē" "ē")
+                   (s "Ō" "ō")
+                   (s "~" "\u0303")	; combining tidle
+                   (s "'" "\u0301"))))	; combining acute
+  (set-pretty-rules 'urgr1 rules)
+  (set-pretty-rules 'urgr rules)
+  (set-pretty-rules 'lesb rules)
+  (set-pretty-rules 'ion-att rules)
+  (set-pretty-rules 'ostion rules)
+  (set-pretty-rules 'inselion rules)
+  (set-pretty-rules 'hom rules)
+  (set-pretty-rules 'euboi rules)
+  (set-pretty-rules 'att rules)
+  (set-pretty-rules 'kret rules)
+  (set-pretty-rules 'dor rules)
+  (set-pretty-rules 'sdor rules)
+  (set-pretty-rules 'sardor rules)
+  (set-pretty-rules 'inseldor rules)
+  (set-pretty-rules 'kypr rules)
+  (set-pretty-rules 'thess rules)
+  (set-pretty-rules 'boiot rules)
+  (set-pretty-rules 'el rules)
+  (set-pretty-rules 'kor rules)
+  (set-pretty-rules 'warg rules)
+  (set-pretty-rules 'oarg rules)
+  (set-pretty-rules 'ark rules)
+  )
+
+; Set to #t to have Greek printed out in Greek alphabet
+(define usegrkalphabet #f)
+
+(define (togrk str)
+ (define rules (list
+                    (s "u̯u̯" "u̯")
+                    (s "i̯i̯" "i̯")
+                    (s "\u301" "'")	; combinding acute
+
+                    (s "a(['~]?)i̯" "αι" 1)
+                    (s "a" "α")
+                    (s "ā(['~]?)i̯" "ᾱ" 1 "ι")
+                    (s "ā" "ᾱ")
+                    (s "e(['~]?)i̯" "ει" 1)
+                    (s "e" "ε")
+                    (s "ē" "ε̄ι")
+                    (s "ɛ̄(['~]?)i̯" "η" 1 "ι")
+                    (s "ɛ̄" "η")
+                    (s "o(['~]?)i̯" "οι" 1)
+                    (s "o" "ο")
+                    (s "ō" "ο̄")
+                    (s "ɔ̄(['~]?)i̯" "ω" 1 "ι")
+                    (s "ɔ̄" "ω")
+                    (s "u(['~]?)i̯" "υι" 1)
+                    (s "u̯" "ϝ")
+                    (s "u" "υ")
+                    (s "ū" "ῡ")
+                    (s "i" "ι")
+                    (s "ī" "ῑ")
+
+                    (s "b" "β")
+                    (s "g" "γ")
+                    (s "d" "δ")
+                    (s "sd" "ζ")
+                    (s "tʰ" "θ")
+                    (s "k" "κ")
+                    (s "l" "λ")
+                    (s "m" "μ")
+                    (s "n" "ν")
+                    (s "ks" "ξ")
+                    (s "p" "π")
+                    (s "r" "ρ")
+                    (s "s$" "ς")
+                    (s "s" "σ")
+                    (s "t" "τ")
+                    (s "pʰ" "φ")
+                    (s "kʰ" "χ")
+                    (s "ps" "ψ")
+                    (s "'" "\u0301")   ; combining acute
+                    (s "~" "\u0303")   ; combining tilde
+                    ))
+ (if usegrkalphabet
+     (apply-rules rules str)
+     str))
+
+\end{verbatim}
+
+\subsection{griechisch.scm}
+Diese Datei enthält sämtliche für das Griechische definierte Lautgesetze
+inklusive stichwortartiger Notizen.
+
+\begin{verbatim}
+(define rules-urgr
+  (list
+    ;;; Ein Laut der Einfachheit halber
+    (s "z" "s")
+
+    ;;; *e neben *H3 und *o fallen zusammen
+    (s "O" "o")
+
+    ;;; Kentum -- Rix §92-94
+    (s "č" "k")
+    (s "ǰ" "g")
+
+    ;;; Thorn -- Rix §91 -- Schindler 'A thorny problem'
+    (s "(k|K)þ" 1 "t")
+    (s "(g!|G!)þ" 1 "d!")
+
+    ;;; MA > TA -- Rix §94
+    (s "(<mediaasp>)" (stimmlos 1))
+
+    ;;; (H)i̯ im Anlaut -- gegen Rix §68,80e
+    (s "^y" "dy")
+    (s "^(<lary>)y" "y")
+
+    ;;; Laryngale -- Rix §79-85
+    ; Rix §85d
+    (s "(<kons>)(H1|H2)$" 1 (laryngal->vokal 2))
+    ; Rix §85
+    (s "(<kons>)(<kons>)(i|u)(H1|H2)$"
+       1 2 3 (laryngal->vokal 4))
+    (s "(i|u)(H1|H2)$" (sonans->consonans 1) (laryngal->vokal 2))
+    ; Dehnung -- Rix §82b,84,85a
+    (s "(<vok>)('?)(<lary>)(<kons>|<s-res>|$)"
+       (dehnung 1) 2 (sonans->consonans 4))
+    ; Rix §80d, §82c
+    (s "(<kons>|^)(<lary>)(<kons>)" 1 (laryngal->vokal 2) 3)
+    ; Rix §85c
+    (s "NH2$" "na")
+    ; Rix §84
+    (s "(<kons>)(<lary>)(<s-res>)" 1 (laryngal->vokal 2) (sonans->consonans 3))
+    ; Rix §83e
+    (s "(<s-res>)(<lary>)(<kons>)"
+       (sonans->consonans 1) (laryngal->langvokal 2) 3)
+    (s "(<s-res>)'(<lary>)(<kons>)"
+       (laryngal->vokal 2) "'" (sonans->consonans 1) (laryngal->vokal 2) 3)
+    ; Rix §79bc
+    (s "^(<lary>)(<s-res>)" (laryngal->vokal 1) (sonans->consonans 2))
+    ; kompletter Verlust -- Rix §79a,81a,82d,84
+    (s "<lary>")
+
+    ;;; vor Labiovelar > Velar wegen εἶπον -- nicht bei Rix
+    (s "wew" "wey")
+
+    ;;; Labiovelar > Velar -- Rix §97
+    (s "(w|u|ū)('?)(<labiovelar>)" 1 2 (labiovelar->velar 3))
+    (s "(<labiovelar>)(w|u|ū|y)" (labiovelar->velar 1) 2)
+
+    ;;; silbische Resonanten
+    ; Rix §76
+    (s "(<s-nasal>)(<vok>|<halb-vok>)" "a" (sonans->consonans 1) 2)
+    (s "(<s-nasal>)" "ə")
+    ; Rix §75
+    (s "(<s-liquid>)($|<vok>|<halb-vok>)" "ə" (sonans->consonans 1) 2)
+    (s "(<s-liquid>)" (sonans->consonans 1) "ə")
+
+    ;;; Assimilationen (nach Labiovelarwandel noch mal!) -- Rix §78
+    (s "(<nasal>)(<labial>)" "m" 2)
+    ; gegen Rix nicht *ms > *ns wegen ἔνειμα < *enemsa (oder analog?)
+    (s "(<nasal>)(<dental>|<velar>|<labiovelar>)" "n" 2)
+    ; Rix §77
+    (s "my" "ny")
+
+    ;;; 1. Kontraktion (nach Laryngalverlust)
+    ;; TODO: Langvokale? gibt es hier überhaupt welche?
+    ; Rix §81
+    (s "ee" "ē")
+    (s "e'e" "ē~")
+    (s "aa" "ā")
+    (s "a'a" "ā~")
+    (s "oo" "ō")
+    (s "o'o" "ō~")
+    ; i,u > y,w
+    (s "(i|u)('?)(<vok>)" 1 2 (sonans->consonans 1) 3)
+    (s "(<vok>)(['~]?)(i|u)" 1 2 (sonans->consonans 3))
+
+    ;;; unmittelbare Assimilation -- Rix §106a
+    ; TODO: früher (idg); phonologisch?
+    (s "(<okklu>)(<media>)([^!])" (->M 1) 2 3)
+    (s "(<okklu>)(<tenuis>)([^!])" (->T 1) 2 3)
+    (s "(<okklu>)(<tenuisasp>)([^!])" (->TA 1) 2 3)
+
+    ;; Kw > Kʷ (Beibehaltung des Silbengewichts)
+    (s "(<vok>)(['~]?)(<velar>)w" 1 2 (velar->labiovelar 3) (velar->labiovelar 3))
+    (s "(<velar>)w" (velar->labiovelar 1))
+    (s "(<velar>)(<labiovelar>)" 2 2)
+
+    ;; Beseitigung von Geminaten (αἰπόλος < *ai̯g-kʷolos) -- nicht Rix
+    (s "(<kurz-vok>)(['~]?)(<kons>)" 1 2 3 "#")
+    (s "GG" "G") (s "KK" "K") (s "K!K!" "K!")
+    (s "gg" "g") (s "kk" "k") (s "k!k!" "k!")
+    (s "bb" "b") (s "pp" "p") (s "p!p!" "p!")
+    (s "dd" "d") (s "tt" "t") (s "t!t!" "t!")
+    (s "#")
+
+    ;;; Okklusive neben s -- Rix §105
+    ;; Assimilation über s; Tenuis vor s
+    (s "(<media>)s(<tenuis>)([^!])" 1 "s" (stimmhaft 2) 3)
+    (s "(<tenuisasp>)s(<tenuis>)([^!])" 1 "s" (->A 2) 3)
+    (s "(<okklu>)s" (->T 1) "s")
+
+    ; CsC -- Rix §87c
+    ; s zwischen gleichen Konsonanten -- TODO: alle Fälle abgedeckt?
+    (s "ks(<velar>)" "s" 1)
+    (s "Ks(<labiovelar>)" "s" 1)
+    (s "ts(<dental>)" "s" 1)
+    (s "ps(<labial>)" "s" 1)
+    (s "rsr" "sr") (s "lsl" "sl")
+
+    ; vor s > h und Palatalisierung
+    'urgr1
+
+    ;;; s > h
+    ; s > h \ ($|V)_(V|R) -- Rix §88,89
+    (s "(^|(<vok>)(['~]?))s(<vok>|<res>|w)" 1 "h" 4)
+    ;; VRsV > VRhV in unbetonten Silben (Datierung?)
+    (s "(<vok>)(<res>|w)s(<vok>)" 1 2 "h" 3)
+    ;; VNsV > VNhV
+    (s "(<vok>)(['~]?)(<nasal>)s(<vok>)" 1 2 3 "h" 4)
+
+    ;; ab hier substrat-s
+
+    ; sy,ys > yy -- Rix §89g, Lejeune §127
+    ; TODO: Datierung
+    ;       was neben Konsonant (Csy)? vermutlich verlust
+    ;       was im Anlaut sy- (ὑμήν)
+    (s "(<vok>)(['~]?)sy" 1 2 "yy")
+    (s "^sy" "y")
+    ; TODO: beispiele (-oi̯si > myk. -o-i)
+    (s "ys(<vok>)" "yy" 1)
+
+    ;;; Osthoff -- Rix §58,64
+    ; Wohl nach *ns > *nh wegen μηνός < *mēnsós und
+    ;      vor Verlust von Okklusiven im Auslaut
+    ; *nh (und *nm, *u̯i̯?) nicht betroffen
+    (s "nh" "#nh")
+    (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
+    (s "#")
+
+    ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100
+    ; nach *r̥C > *rəC wegen ὑπόδρα < *upo-dr̥k
+    (s "(<okklu>)+$")
+    ; Rix §77
+    (s "m$" "n")
+
+    ;;; Palatalisierung -- Rix §102
+    (s "^(t!|t)y" "s")
+    (s "(t!|t)y" "ts")
+    (s "(d|g)y" "ǰǰ")
+    (s "(k!|k)y" "čč")
+    (s "(<labial>)y" "pč")
+
+    (s "ly" "ĺĺ")
+    (s "ry" "ŕŕ")
+    (s "ny" "ńń")
+
+    ;;; Datierung? -- Rix §105
+    (s "dl" "ll")
+
+    ;;; tk, tkw, tp Metathese -- Rix §106 (etwas anders)
+    (s "(t)(k|K|p)" 2 1)
+
+    ;;; Datierung unklar, vermutlich später und gestaffelt -- Rix §78
+    (s "^m(<liquid>)" "b" 1)
+    (s "m(<liquid>)" "bm" 1)
+    (s "^n(<liquid>)" "d" 1)
+    (s "n(<liquid>)" "nd" 1)
+
+    ;; u- > hu-
+    ; datierung unklar
+    (s "^u" "hu")
+
+    ;;
+    ;; Urgriechisch
+    ;;
+    'urgr
+
+    ; ti > si -- Rix §101
+    ;  Kein wirkliches (ausnahmsloses) Lautgesetz;
+    ;    schwierig einigermaßen zufriedenstellend zu formulieren.
+    `(sub (sogr) (,(s "([^sk])ti" 1 "si")))
+
+    ; TODO: wann o?
+    `(sub (aiol) (,(s "ə" "o")))
+    (s "ə" "a")
+
+    (s "pč" "pt")
+
+    ; heteromorphemisches ty
+    ; TODO
+
+    (s "^y(<vok>)" "h" 1)
+    (s "(<vok>)(['~]?)y(<vok>)" 1 2 "h" 3)
+
+    ;;
+    ;; Mykenisch
+    ;;
+    'myk
+
+    (s "čč" "tš")
+    (s "ǰǰ" "ds")
+
+    `(sub (el) (,(s "ē" "Ā")))
+
+    ;;; Labiovelare > T/P -- Rix §96-99
+    `(sub (not aiol) (,(s "K(i|ī)" "t" 1)))
+    `(sub (not kypr aiol) (,(s "(<labiovelar>)(e|ē)" (labiovelar->dental 1) 2)))
+    (s "(<labiovelar>)" (labiovelar->labial 1))
+    ;; Assimilationen an Labiovelarreflexe
+    (s "(<nasal>)(<labial>)" "m" 2)
+    (s "(<nasal>)(<dental>)" "n" 2)
+    (s "(<nasal>)(<velar>)" "ŋ" 2)
+
+    ;; b,g > m,ŋ \ _n -- Rix §105
+    (s "bn" "mn")
+    (s "gn" "ŋn")
+
+    ;;;; ca. 1000
+
+    ;;; tw -- Rix §104
+    `(sub (not kret) (,(s "^tw" "s")))
+    (s "(.)tw" 1 "tš")
+    ;;; tʰw -- unklar, aber vgl. -σθε ai. -dhvam
+    (s "(.)t!w" 1 "st!")
+    ;(s "^t!w" "t!")
+
+    ;;; ds > sd
+    ; vor CsC > ChC wegen ἔρδω < *u̯erzdō < *u̯erg̑i̯e/o-
+    (s "ds" "sd")
+
+    ;;; (N|T)sC > sC -- Rix §78, Lejeune §134
+    ; vor CsC > ChC wegen ἴσος < u̯idsu̯os und δεσπότης < *demspot-
+    ; nach dz > zd wegen σύζυγος < *sun-dzugos
+    (s "(<nasal>|<dental>)s(<kons>)" "s" 2)
+
+    ;;; CsC -- Rix §87c, Lejeune §132-133
+    ; TODO: πασταδ-/παρταδ- < parstad-
+    ;       θύσθεν < *tʰurstʰen
+    (s "(<res-yw>)s(<tenuis>|<tenuisasp>)" 1 "#s" 2)
+    (s "(<kons>)s(<kons>)" 1 "h" 2)
+    (s "(<tenuis>)h" (->A 1))
+    (s "(<tenuisasp>)(<tenuis>)([^!])" 1 (->A 2) 3)
+    (s "(<tenuisasp>)(<media>)([^!])" (->M 1) 2 3)
+    (s "#")
+
+    ;;; u̯i̯ > ẅẅ -- Rix §73
+    (s "wy" "ẅẅ")
+
+    ;;; Palatale ŕŕ ĺĺ ńń -- Rix §70
+    ; TODO: Datierung? wohl nach myk.
+    (s "(a|o)(['~]?)(ŕŕ|ńń|ẅẅ)" 1 2 "y" (depala 3))
+    `(sub (kypr) (,(s "a(['~]?)ĺĺ" "a" 1 "yl")))
+    (s "ĺĺ" "ll")
+    `(sub (thess lesb) (,(s "(ŕŕ|ńń)" (depala 1) (depala 1))))
+
+    ;;; 1. Ersatzdehnung/Gemination
+    ;; Palataldehnung -- Rix §73
+    (s "(e|i|u)(['~]?)(ŕŕ|ńń|ẅẅ)" (dehnung2 1) 2 (depala 3))
+    ;; Rh/hR-Dehnung
+    `(sub (not thess lesb) (,(s "(<vok>)(['~]?)(<res>|w)h(<vok>)"
+                                (dehnung2 1) 2 3 4)
+                            ,(s "(<vok>)(['~]?)h(<res>|w)(<vok>)"
+                                (dehnung2 1) 2 3 4)))
+    ;; ln-Dehnung
+    `(sub (not thess lesb) (,(s "(<vok>)(['~]?)ln(<vok>)" (dehnung2 1) 2 "l" 3)))
+    (s "(<vok>)(['~]?)ln(<vok>)" 1 2 "ll" 3)
+    ;; 7 vs. 5 Langvokale
+    `(sub (not ion-att nwdor sardor) (,(s "Ē" "ē")
+                                      ,(s "Ō" "ō")))
+
+    ;; ws > wh
+    ; TODO: dialektal rs > rh (oder später rs > rr ?)
+    (s "(<vok>)(['~])(w)s(<vok>)" 1 2 3 "h" 4)
+
+    ;; Gemination und Hauchumsprung
+    (s "^(<vok>)(['~]?)h(<vok>)([^'~])" "h" 1 2 3 4)
+    (s "^(<vok>)(['~]?)(<res>|w)h" "h" 1 2 3 "h")
+    ; TODO: prohorā > φρουρά aspirieren
+    (s "(<vok>)(['~]?)(<res>|w)h(<vok>)" 1 2 3 3 4)
+    (s "(<vok>)(['~]?)h(<res>|w)(<vok>)" 1 2 3 3 4)
+    ;; h > 0 (nicht im anlaut)
+    (s "(.)h" 1)
+
+    ;;; Cts > Cs
+    (s "(<kons>)ts" 1 "s")
+    ;;; ts > ss/tt -- Rix §102,87
+    `(sub (boiot kret) (,(s "ts" "tt")))
+    (s "ts" "ss")
+    ; ss > s nach Langvokal
+    (s "(<lang-vok>)(['~]?)ss" 1 2 "s")
+    `(sub (ion-att ark) (,(s "ss" "s")))
+
+    ;;; ds -- Rix §102
+    `(sub (boiot kret lak el) (,(s "sd" "dd")))
+    (s "^dd" "d")
+
+    ;;;; ca. 900
+
+    ;;; ion. ā > ǣ
+    `(sub (ion-att) (,(s "ā" "Ā")))
+
+    ;;;; ca. 800
+
+    ;;; 2. Ersatzdehnung/Diphthongierung
+    ;; TODO: bei allen Vokale gleich? (nicht im Kyrenischen)
+    ;; VnsV
+    ;; TODO: dialekte? sardor, arg, achaisch?
+    `(sub (lesb) (,(s "(<vok>)(['~]?)ns(<vok>)" 1 2 "ys" 3)))
+    `(sub (ion-att boiot el lak inseldor kypr)
+          (,(s "(<vok>)(['~]?)ns(<vok>)" (dehnung2 1) 2 "s" 3)))
+    ;; Vns$
+    `(sub (lesb el) (,(s "(<vok>)(['~]?)ns$" 1 2 "ys")))
+    `(sub (ion-att boiot lak inseldor)
+          (,(s "(<vok>)(['~]?)ns$" (dehnung2 1) 2 "s")))
+    ;; Vokaleinreihung
+    ;; TODO: dialekte? inseldorisch einteilung (ost west)? thera?
+    `(sub (not ion-att nwdor inseldor) (,(s "Ē" "ē")
+                                        ,(s "Ō" "ō")))
+
+
+    ;;; ältere Kontraktionen, TODO: datieren
+    ;; wegen Unsicherheit vorläufig auskommentiert
+    ; a,ā + e
+;    `(sub (ion-att) (,(s "(a|ā)'e" "ā~")
+;                     ,(s "(a|ā)e" "ā")))
+;    (s "(a|ā)'e" "ē~")
+;    (s "(a|ā)e" "ē")
+;    ; a+O
+;    (s "a'(o|ō|Ō)" "ō~")
+;    (s "a(o|ō|Ō)" "ō")
+;    ; att. a+e
+;    `(sub (att) (,(s "e'a" "ē~")
+;                 ,(s "ea" "ē")))
+;    ; att. e+o,ō
+;    `(sub (att) (,(s "e'o" "Ō~")
+;                 ,(s "e'ō" "ō~")
+;                 ,(s "eo([^'])" "Ō" 1)
+;                 ,(s "eō([^'])" "ō" 1)))
+;    ; e + ē
+;    (s "e'ē" "ē~")
+;    (s "eē" "ē")
+
+    ;;; w > 0
+    ; TODO: dialekte. vieles unklar
+    ; V_V früh -- Buck §53
+    `(sub (ion-att inseldor lesb kret ark) (,(s "(<vok>)(['~]?)w(<vok>)" 1 2 3)))
+    ; _V später (TODO: wann > h?)
+    `(sub (att) (,(s "^w(<vok>)(['~]?)s(<kons>)" "h" 1 2 "s" 3)))
+    `(sub (ion-att inseldor lesb) (,(s "^w(<vok>)" 1)
+                                   ,(s "(<vok>)(['~]?)yw(<vok>)" 1 2 "yy" 3)
+                                   ,(s "^hw" "h")))
+    `(sub (ion-att inseldor) (,(s "^wr" "hr")))
+
+    ;;; hR-
+    ;; TODO: dialekte
+    `(sub (ion-att) (,(s "^h(l|m|n)" 1)))
+
+    ;;; att. ǣ > ā \ eir_
+    `(sub (att) (,(s "(((e|ē|Ē|i|ī)(['~]?))|r|y)Ā" 1 "ā")))
+
+    ;;;; ca. 700
+
+    ;;; 3. Ersatzdehnung/Schwund; e+e, o+o Kontraktion
+    ;; TODO: dialekte nach Rix §72; Bartoněk, Buck?
+    ; [wo]arg?
+    ; sw kret. erhalten
+    `(sub (inselion ostion inseldor kret) (,(s "(^|(<vok>)(['~]?))(r|l|n|d|t!|s)w" (dehnung2 1) 4)))
+    `(sub (ion-att lesb lak) (,(s "(r|l|n|d|t!|s)w" 1)))
+    ; Kontraktion
+    (s "e'e" "Ē~")
+    (s "ee" "Ē")
+    (s "o'o" "Ō~")
+    (s "oo" "Ō")
+    ;; TODO: dialekte?
+    `(sub (not ion-att nwdor sardor) (,(s "Ē" "ē")
+                                      ,(s "Ō" "ō")))
+
+
+    `(sub (att euboi boiot kret) (,(s "tš" "tt")))
+    (s "^tt" "t")
+    (s "tš" "ss")
+    (s "^ss" "s")
+
+    ;; Graßmann -- Rix §107
+    (s "(<tenuisasp>)((<kons>)*)(<vok>)(['~]?)((<kons>)*)(<tenuisasp>)"
+       (->T 1) 2 4 5 6 8)
+    (s "h((<kons>)*)(<vok>)(['~]?)((<kons>)*)(<tenuisasp>)"
+       1 3 4 5 7)
+
+    ;;; Psilose -- Rix §68
+    `(sub (el lesb ostion inselion kret) (,(s "h")))
+
+    ;;;; ca. homerisch; Sprachstufe der ionischen Archaismen
+    'hom
+
+    `(sub (not el inselion) (,(s "Ā" "ē")))
+
+    ;;; jüngere Kontraktionen; teilweise nach Einsetzen der Überlieferung
+    ;; wegen Unsicherheit vorläufig auskommentiert
+;    ; o + a > ō (nach w > 0)
+;    (s "o'a" "ō~")
+;    (s "oa" "ō")
+;    ; ē + o,ō; TODO: genauere Bedinungen
+;    `(sub (att) (,(s "ē'ō" "ō~")))
+;    (s "ē(['~]?)(o|ō)" "e" (->acute 1) "ō")
+;    ; e + ē (nach ion. ā > ē)
+;    (s "e'ē" "ē~")
+;    (s "eē" "ē")
+;    ; ā + o,ō; TODO: datierung? dialekte (aiol, hom)?
+;    `(sub (dor) (,(s "ā(['~])ō" "ā~")
+;                 ,(s "āō" "ā")))
+;    `(sub (dor) (,(s "ā(['~])o" "ā~")
+;                 ,(s "(['~])(.*)āo" 1 2 "ā")
+;                 ,(s "āo([^'])" "ā" 1)))
+
+    ))
+
+\end{verbatim}
+
+\subsection{run-gr.scm}
+Diese Datei ist mit \str{csi run-gr.scm} auszuführen
+und führt die Simulation an den entsprechenden Wörter aus.
+
+\begin{verbatim}
+(load "main.scm")
+
+(define run
+  (lambda () (load "run-gr.scm")))
+
+(define (run-grassmann dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "sékʰō"
+    "tʰápʰi̯ō"
+    "tʰápʰos"
+    "tʰítʰēmi"
+    "tʰrikʰós"
+    "su̯étʰos"
+    "i̯ópʰra"
+    )))
+  (newline))
+(run-grassmann 'att)
+
+(define (run-contr dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "enīkae"
+    "nīkáei̯"
+    "tīmáomen"
+    " ́-āo"
+    "i̯ā~u̯os"
+    "lāu̯ós"
+    "nasu̯ós"
+    "au̯sṓs"
+    "lāu̯okrínēs"
+    "-ā́sōm"
+    "tʰeāu̯ōrós"
+    "potei̯dā́u̯ōn"
+    "koināu̯ṓn"
+    "u̯étesa"
+    "kréu̯as"
+    "-éās"
+    "génesos"
+    "tʰesós"
+    "su̯ādéu̯os"
+    "pʰiléi̯ō nt i"
+    "pʰiléi̯oi̯"
+    "-ē~os"
+    "hikʷkʷóu̯anaks"
+    )))
+  (newline))
+;(run-contr 'att)
+;(run-contr 'ostion)
+;(run-contr 'hom)
+;(run-contr 'lesb)
+;(run-contr 'boiot)
+;(run-contr 'kret)
+
+(define (run-misc dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "u̯eu̯r̥h₁mh₁nos"
+    "u̯r̥h₁mn̥"
+    "h₂ensíi̯eh₂"
+    "demspot-"
+    "u̯idsu̯os"
+    "orsmā́"
+    "h₂eu̯sriom"
+    "u̯erg̑i̯oh₂"
+    "ph₂n̥tih₂"
+    "kʷelesi̯etai̯"
+    "gelosi̯os"
+    )))
+  (print (run-list 'urgr1 dest (list
+    "plangi̯ō"
+    "si̯umēn"
+    )))
+  (print (run-list 'urgr dest (list
+    "sunǰǰugos"
+    )))
+  (newline))
+(run-misc 'urgr)
+(run-misc 'att)
+(run-misc 'oarg)
+
+(define (run-y dest)
+  (print "  " (symbol->string dest))
+  (print (togrk (run-list 'urgr1 dest (list
+    "káu̯i̯ō"
+    "au̯i̯etós"
+    "glukéu̯i̯a"
+    "eu̯réu̯i̯a"
+    "díu̯i̯os"
+    "élai̯u̯om"
+    "elái̯u̯ā"
+    "ai̯u̯ési"
+    "pói̯u̯ā"
+    ))))
+  (newline))
+(run-y 'urgr)
+(run-y 'att)
+(run-y 'lesb)
+
+(define (run-labvel dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "kʷis"
+    "kʷe"
+    "kʷidkʷe"
+    "gʷou̯kʷolos"
+    "gʷih₃os"
+    "h₁ln̥gʰus"
+    "kʷukʷlos"
+    "penkʷe"
+    "gʷelbʰus"
+    "gʷʰeni̯oh₂"
+    "gʷʰonos"
+    "gʷm̥i̯oh₂"
+    "kʷoineh₂"
+    "kʷinu̯oh₂"
+    "snigʷʰm̥"
+    "ogʷʰis"
+    "penkʷtos"
+    "kʷl̥Him"
+    "-gʷʰnet"
+    "sens"
+    )))
+  (newline))
+(run-labvel 'urgr1)
+(run-labvel 'urgr)
+(run-labvel 'att)
+(run-labvel 'lesb)
+(run-labvel 'ark)
+
+(define (run-ky dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "ki̯ā́meron"
+    "pʰuláki̯ō"
+    "glṓki̯a"
+    "tu̯éi̯sō"
+    "tʰu̯ari̯ós"
+    )))
+  (print (run-list 'uridg dest (list
+    "kʷétu̯r̥es"
+    "-dʰu̯e"
+    )))
+  (newline))
+(run-ky 'ostion)
+(run-ky 'euboi)
+(run-ky 'att)
+(run-ky 'boiot)
+(run-ky 'kret)
+(run-ky 'sdor)
+
+(define (run-s-test dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "asa"
+    "a'sa"
+    "asra"
+    "a'sra"
+    "asla"
+    "a'sla"
+    "asma"
+    "a'sma"
+    "asna"
+    "a'sna"
+    "aswa"
+    "a'swa"
+    "sa"
+    "sra"
+    "sla"
+    "sma"
+    "sna"
+    "swa"
+    )))
+  (newline))
+(run-s-test 'urgr)
+(run-s-test 'att)
+
+(define (run-2ed dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "-ánti̯a"
+    "-ónti̯a"
+    "-énti̯a"
+    "-áns"
+    "-óns"
+    "-éns"
+    )))
+  (newline))
+(run-2ed 'urgr)
+(run-2ed 'lesb)
+(run-2ed 'thess)
+(run-2ed 'boiot)
+(run-2ed 'ostion)
+(run-2ed 'el)
+(run-2ed 'ark)
+(run-2ed 'kret)
+(run-2ed 'inseldor)
+
+(define (run-wau dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "kalu̯ós"
+    "ksénu̯os"
+    "kóru̯ā"
+    "néu̯ā"
+    "kʰṓrā"
+    "du̯ei̯nós"
+    "dédu̯imen"
+    )))
+  (newline))
+(run-wau 'att)
+(run-wau 'ostion)
+(run-wau 'inseldor)
+(run-wau 'kret)
+(run-wau 'el)
+(run-wau 'kor)
+(run-wau 'ark)
+(run-wau 'boiot)
+(run-wau 'lesb)
+
+(define (run-s dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "ploksmós"
+    "ekstrós"
+    "ai̯ksmā́"
+    "persnā́"
+    "orsmā́"
+    "parstádes"
+    "tʰúrstʰen"
+    "prosorā́"
+    "akóu̯sō"
+
+    "éu̯sō"
+    "éserpon"
+    "iserós"
+
+    "īsáomai̯"
+    "isáni̯ō"
+    "esús"
+    "īsā́tro-"
+    "witswos"
+    )))
+  (newline))
+(run-s 'urgr)
+(run-s 'att)
+(run-s 'lesb)
+
+(define (run-1ed dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'urgr1 dest (list
+    "korsā́"
+    "akou̯sā́"
+    "au̯sṓs"
+    "ou̯satós"
+    "kórsā"
+    "akóu̯sō"
+    "éu̯sō"
+    "au̯si̯ō"
+    "kʰésras"
+    " selásnā"
+    "kʰánsas"
+    "énemsa"
+    "kʷélson"
+    "nasu̯ós"
+    "gʷolnā́"
+    "mēnsós"
+    "mḗns"
+    "u̯ésma"
+    )))
+  (newline))
+(run-1ed 'urgr)
+(run-1ed 'att)
+(run-1ed 'inseldor)
+(run-1ed 'kret)
+(run-1ed 'lesb)
+
+(define (run-pala dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "gʷm̥i̯oh₂"
+    "komi̯os"
+    "ali̯os"
+    )))
+  (print (run-list 'urgr1 dest (list
+    "katʰari̯ō"
+    "pʰtʰeri̯ō"
+    "oi̯ktiri̯ō"
+    "kteni̯ō"
+    "krini̯ō"
+    "pluni̯ō"
+    )))
+  (newline))
+(run-pala 'ion-att)
+(run-pala 'kypr)
+(run-pala 'thess)
+(run-pala 'boiot)
+
+(define (run-myk)
+  (let ((dest 'ion-att))
+    (print (run-list 'uridg dest (list
+      "Hi̯os"
+      "trei̯es"
+      "dh₃tis"
+      "di̯ḗu̯s"
+      "di̯ḗm"
+      "toti̯os"
+      "medʰi̯os"
+      "podsi"
+      "mr̥tós"
+      "h₂n̥rós"
+      )))
+    (run-list 'urgr dest (list
+      "pantsa"
+      ))))
+(run-myk)
+
+(define (run-gr-kw dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "ai̯gkʷólos"
+    "h₁ék̑u̯os"
+    )))
+  (newline))
+(run-gr-kw 'urgr)
+(run-gr-kw 'att)
+
+(define (run-gr-s)
+  (print (run-list 'uridg 'att (list
+    "au̯si̯ō"
+    "psde-"
+    "pn̥dʰskoh₂"
+    "dikskos"
+    "legʰskeh₂"
+    "migskoh₂"
+    "u̯oi̯dtʰh₂e"
+    "u̯iddʰi"
+    "parstádes"
+    "tʰúrstʰen"
+    "kenttós"
+    "tu̯e-"
+    "etu̯e-"
+    ))))
+(run-gr-s)
+
+\end{verbatim}

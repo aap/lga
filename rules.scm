@@ -29,7 +29,7 @@
         (s "h₁" "H1")
         (s "h₂" "H2")
         (s "h₃" "H3")
-        (s "́" "'")
+        (s "\u0301" "'")  ; combining acute
         ;;;
         (s "e('?)H2" "a" 1 "H2")
         (s "H2e" "H2a")
@@ -48,7 +48,7 @@
                    (s "gʷ" "G")
                    (s "i̯" "y")
                    (s "u̯" "w")
-                   (s "́" "'"))))
+                   (s "\u0301" "'")))) ; combining acute
   (set-phono-rules 'urgr1 rules)
   (set-phono-rules 'urgr rules))
 
@@ -57,12 +57,12 @@
         (s "ō" "o")
         (s "R" "ṛ")
         (s "!" "h")
-        (s "'" "́")))
+        (s "'" "\u0301"))) ; combining acute
 
 (set-pretty-rules 'urav
   (list (s "!" "ʰ")
         (s "χ" "x")
-        (s "'" "́")))
+        (s "'" "\u0301"))) ; combining acute
 
 (set-pretty-rules 'urgerm
   (list (s "'" "́")))
@@ -80,8 +80,8 @@
                    (s "Ā" "ǣ")
                    (s "Ē" "ē")
                    (s "Ō" "ō")
-                   (s "~" "͂")
-                   (s "'" "́"))))
+                   (s "~" "\u0303")     ; combining tidle
+                   (s "'" "\u0301"))))  ; combining acute
   (set-pretty-rules 'urgr1 rules)
   (set-pretty-rules 'urgr rules)
   (set-pretty-rules 'lesb rules)
@@ -112,7 +112,7 @@
  (define rules (list
                     (s "u̯u̯" "u̯")
                     (s "i̯i̯" "i̯")
-                    (s "́" "'")
+                    (s "\u0301" "'")   ; combining acute
 
                     (s "a(['~]?)i̯" "αι" 1)
                     (s "a" "α")
@@ -153,8 +153,8 @@
                     (s "pʰ" "φ")
                     (s "kʰ" "χ")
                     (s "ps" "ψ")
-                    (s "'" "́")
-                    (s "~" "͂")
+                    (s "'" "\u0301")   ; combining acute
+                    (s "~" "\u0303")   ; combining tilde
                     ))
  (if usegrkalphabet
      (apply-rules rules str)
