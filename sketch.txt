@@ -1,0 +1,288 @@
+================================================================
+lga rewrite sketch — fantasy notation built up while porting
+griechisch.scm. nothing executable; just thinking.
+================================================================
+
+
+--- notation summary (current state) ------------------------------
+
+#   T              named class (bare identifier)
+#   "t"            object-language glyph
+#   <a b c>        shortcut for ["a" "b" "c"] — bare graphemes
+#   [T D]          anonymous class built from named classes (union)
+#                  ([] contents are always classes, never raw graphemes)
+#   [<a b> T]      mix: graphemes (via <>) and named classes inside one []
+#
+# rules are multi-position rewrites:    LHS → RHS
+#
+#   _              RHS: copy the matched element at this position
+#   .              RHS: delete this element
+#   +X             RHS: insert X (no LHS counterpart at this index)
+#   $              LHS only: word boundary (start or end). not produced on RHS.
+#
+# pairing: a class on the RHS at position i pairs positionally with
+# the class on the LHS at position i. works the same for named classes
+# (H ↔ H.v) and inline graphemes-as-class (<H1 H2> ↔ <e a>).
+#
+# rule application: source order. each rule applied left-to-right
+# on the word, then next rule.
+
+
+--- alphabet ------------------------------------------------------
+
+# the `alphabet` block declares every segment of the input/working
+# language. anything not declared here is a lexer error.
+# polygraphs are matched longest-first.
+
+alphabet:
+  # stops
+  p   t   č   k   K       # tenuis        (lab, den, pal, vel, labv)
+  b   d   ǰ   g   G       # media
+  p!  t!  č!  k!  K!      # tenuis aspirata     ← each is ONE segment
+  b!  d!  ǰ!  g!  G!      # media aspirata
+  # vowels
+  a   e   i   o   u
+  ā   ē   ī   ō   ū
+  # resonants
+  r   l   m   n
+  R   L   M   N           # syllabic resonants (one segment each)
+  y   w                   # glides
+  # sibilants
+  s   z
+  # laryngeals
+  H1  H2  H3  H           # each is ONE segment
+  # other
+  þ
+  '                       # acute accent (suprasegmental — see below)
+
+
+--- classes ------------------------------------------------------
+
+# `.` is just an identifier character. by convention, dotted names
+# group related classes (rows vs columns of the stop grid, etc.).
+#
+# class definitions take a <...> grapheme-sequence on the RHS.
+
+# stop rows (organized lab, den, pal, vel, labv)
+class C.T     = < p    t    č    k    K  >
+class C.D     = < b    d    ǰ    g    G  >
+class C.Tasp  = < p!   t!   č!   k!   K! >
+class C.Dasp  = < b!   d!   ǰ!   g!   G! >
+
+# stop columns (one place across all four rows)
+class C.lab   = < p    b    p!   b!  >
+class C.den   = < t    d    t!   d!  >
+class C.pal   = < č    ǰ    č!   ǰ!  >
+class C.vel   = < k    g    k!   g!  >
+class C.labv  = < K    G    K!   G!  >
+
+# vowels (short / long, paired by quality)
+class V.s     = < a    e    i    o    u  >
+class V.l     = < ā    ē    ī    ō    ū  >
+
+# laryngeals + colored-vowel reflexes
+class H       = < H1   H2   H3   H  >
+class H.v     = < e    a    o    a  >       # short reflex
+class H.vl    = < ē    ā    ō    ā  >       # long reflex
+
+# syllabic resonants ↔ consonantal counterparts
+class R.syl   = < R    L    M    N  >
+class R.cons  = < r    l    m    n  >
+
+# small subsets (could also be inlined as <...> in rules)
+class IU      = < i   u  >
+class YW      = < y   w  >
+class H12     = < H1  H2 >
+class H12.v   = < e   a  >
+class H12.vl  = < ē   ā  >
+
+# unions, used only in context (no positional correspondence).
+# the [...] form is a union of classes; raw graphemes are wrapped in <>.
+class V       = [ V.s V.l ]
+class C       = [ C.T C.D C.Tasp C.Dasp  <r l m n y w s z>  H ]
+
+
+--- griechisch.scm: rules-urgr ------------------------------------
+
+# (s "z" "s")
+"z" → "s"
+
+# (s "O" "o")
+# DELETED. "O" was an ASCII workaround for o-coloured e during
+# laryngeal coloring. in the new system the laryngeal rule outputs
+# `o` directly. no downstream merge needed.
+
+# (s "č" "k") ; (s "ǰ" "g")
+# centum: palatovelars merge with velars.
+# old system silently missed č!/ǰ! because aspiration was a regex char.
+C.pal → C.vel
+
+# (s "(k|K)þ" 1 "t")
+# (s "(g!|G!)þ" 1 "d!")
+# "thorn" cluster. dorsal kept, þ becomes the matching dental.
+<k K>   "þ"  →  _  "t"
+<g! G!> "þ"  →  _  "d!"
+
+# (s "(<mediaasp>)" (stimmlos 1))
+# voiced aspirates → voiceless aspirates.
+C.Dasp → C.Tasp
+
+
+# (s "^y" "dy")          ;;; (H)i̯ im Anlaut -- gegen Rix §68,80e
+# (s "^(<lary>)y" "y")
+# word-initial *y- behaves as if from *Hy-; bare *y- strengthens to dy.
+# H-deletion must come before the bare-y rule.
+$ H "y"  →  . _
+$ "y"    →  +"d" _
+
+
+# Laryngeals -- Rix §79–85
+# reminder of the reflex classes:
+#   class H       = < H1   H2   H3   H  >
+#   class H.v     = < e    a    o    a  >
+#   class H.vl    = < ē    ā    ō    ā  >
+
+# Rix §85d:  word-final H₁/H₂ after C vocalizes to e/a
+# (H₃ excluded by Rix)
+C H12 $  →  _ H12.v
+
+# Rix §85:  CC i/u H# stays syllabic; i/u H# desyllabifies
+C C IU H12 $  →  _ _ _  H12.v
+    IU H12 $  →  YW     H12.v
+
+# Dehnung -- Rix §82b,84,85a
+# V H + { C | syllabic R | $ } → lengthen V, drop H, desyllabify any sR.
+V.s H C      →  V.l . _
+V.s H R.syl  →  V.l . R.cons
+V.s H $      →  V.l .
+
+# Rix §80d, §82c:  laryngeal between C's vocalizes
+  C H C  →  _ H.v _
+# word-initial form, kept inline (uncomment when needed):
+# $ H C  →  H.v _
+
+# Rix §85c:  syllabic N + H₂ word-finally → na
+"N" "H2" $  →  "n" "a"
+
+# Rix §84:  C H sR  →  C vowel cR
+C H R.syl  →  _ H.v R.cons
+
+# Rix §83e:  accent-driven epenthesis
+# unaccented:    sR H  C  →  cR longV C
+# accented:      sR ' H C →  V ' cR V C   (epenthetic short H-vowel
+#                                           on either side of the resonant)
+R.syl      H C  →  R.cons H.vl _
+R.syl  "'" H C  →  H.v "'" R.cons H.v _
+
+# Rix §79bc:  word-initial H sR  →  vowel cR
+$ H R.syl  →  H.v R.cons
+
+# Kompletter Verlust:  drop any surviving laryngeal
+H  →  .
+
+
+--- known notation issues to revisit ------------------------------
+# 1. "context that also transforms" (dehnung-with-sR) — handled by
+#    branching into N rules, one per right-side environment. fine.
+# 2. source order = rule order; document explicitly in the spec.
+# 3. "+X" insertion: works for the bare-y-strengthening case. need
+#    to see how it composes when the inserted material depends on
+#    the LHS (e.g. echoing a matched class).
+
+
+================================================================
+SWITCHING TO arisch.scm to stress-test the notation
+================================================================
+
+
+--- arisch.scm: rules-urar (a selection of interesting rules) ------
+
+# We'll need more class infrastructure. The Aryan branch has the
+# voiceless/voiced/aspirated grid same as Greek, plus retroflexes,
+# palatals, sibilants. Reusing the grid from above.
+#
+# New classes needed (alphabet extensions assumed):
+class C.retro       = < ṭ   ḍ   ṭ!   ḍ!  >
+class C.pal2        = < c   j   c!   j!  >    # secondary palatals (satəm)
+class C.sibil       = < s   z   š   ž   ṣ   ẓ >
+class C.sibil.vless = < s š ṣ >                # subset, voiceless
+class C.sibil.vd    = < z ž ẓ >                # voiced counterparts
+
+
+# voicing assimilation across an optional sibilant (lines 101–102):
+# stop1 + (s/z) + stop2 → both voicing of stop2.
+# two rules per direction (with and without sibilant):
+C.T            C.D  →  C.D            _
+C.T  C.sibil   C.D  →  C.D  C.sibil.vd _
+C.D            C.T  →  C.T            _
+C.D  C.sibil   C.T  →  C.T  C.sibil.vless _
+# the union-target trick from Bartholomae could collapse the with-
+# sibilant cases further (both sibilants → opposite voicing class
+# of the matched sibilant) but enumeration is fine at this size.
+
+
+# satem (centum's opposite — labiovelars merge with velars)
+# (s "K" "k") (s "G" "g")
+C.labv → C.vel
+# (the old rule misses K!/G! the same way Greek missed č!/ǰ!.
+# in the new system this is one line and gets aspirated labiovelars
+# for free.)
+
+
+# Brugmann's law (line 115):
+# o → ō in open syllables. faked here as "before C + V or sR".
+# (real solution wants syllable structure; deferred.)
+"o" C [V R.syl]  →  "ō" _ _
+
+
+# Bartholomae's Law (lines 128–130).
+#
+# meaning:
+#   - voiced aspirate + voiceless/voiced/aspirate stop
+#     → media (deaspirated) + voiced aspirate (at same place as stop 2).
+#   - voiced aspirate + s/z (no following stop)
+#     → media + voiced aspirated sibilant.
+#
+# the LHS union [C.T C.D C.Dasp] is one position that matches any
+# member of those three classes. on the RHS, [C.Dasp C.Dasp C.Dasp]
+# is one position whose value is the C.Dasp segment at the matched
+# place — because all three classes are column-aligned, the union
+# carries the place information for free. T→Dasp(place), D→Dasp(place),
+# Dasp→Dasp(place) all do the right thing.
+C.Dasp [C.T C.D C.Dasp]  →  C.D  [C.Dasp C.Dasp C.Dasp]
+
+# With sibilant intervening (Bartholomae's second clause):
+C.Dasp C.sibil  →  C.D "z!"
+# (output sibilant isn't positionally paired with the input sibilant;
+# it's a fresh literal. clean — just write the literal you want.)
+
+
+# RUKI (lines 132–133):
+# classic ruki environment. big trigger class.
+# mixed bag: bare graphemes via <>, named classes bare inside [].
+class RUKI = [ <i ī u ū y w r R>  C.vel  C.pal ]
+
+RUKI <s z> → _ <š ž>
+
+--- impressions from the Aryan port -------------------------------
+#
+# big wins:
+#   - satem labv→vel: one line, fixes K!/G! handling. parallels Greek
+#     centum č/ǰ→k/g.
+#   - column classes pay real dividends across daughter languages.
+#   - the union-target trick (Bartholomae's [T D Dh] → [Dh Dh Dh])
+#     gives us "the X at the same column as the matched Y" without
+#     introducing a place feature. nice.
+#   - <> vs [] distinction keeps brackets uncluttered: [] is for
+#     class composition, <> is for inline grapheme sequences. RUKI's
+#     declaration shows the mix.
+#
+# pressure points:
+#   - synthesizing new material (the "z!" in Bartholomae's clause 2)
+#     is fine — just write the literal.
+#
+# new notation introduced:
+#   - <a b c> shortcut for ["a" "b" "c"]. usable both in class
+#     definitions and inline in rules.
+#   - [X Y Z] is strictly class-composition: contents are named
+#     classes or <>-wrapped grapheme sequences, never bare glyphs.
