@@ -81,7 +81,7 @@
       "u̯ék̑ti"
       "ug̑ʰtós"
       )))))
-(run-test)
+;(run-test)
 
 (define run-av
   (lambda ()
@@ -98,7 +98,7 @@
 
 (define run-ved
   (lambda ()
-    (run-list 'uridg 'ved (list
+    (print (run-list 'uridg 'ved (list
       "bʰeu̯dʰsi̯eti"
       "upopdós"
       "nigʷtós"
@@ -173,5 +173,6 @@
       "eHi̯ag̑sta"
       "u̯ék̑ti"
       "ug̑ʰtós"
-      ))))
-;(run-ved)
+      "gʷm̥sk̑ónti"
+      )))))
+(run-ved)

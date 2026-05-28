@@ -142,7 +142,7 @@
     ;      vor Verlust von Okklusiven im Auslaut
     ; *nh (und *nm, *u̯i̯?) nicht betroffen
     (s "nh" "#nh")
-    (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung 1) 2 3 4)
+    (s "(<lang-vok>)(['~]?)(<res-yw>)(<kons>)" (kuerzung-gr 1) 2 3 4)
     (s "#")
 
     ;;; Konsonanten im Auslaut (Datierung unklar) -- Rix §100

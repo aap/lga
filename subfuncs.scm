@@ -41,8 +41,11 @@
 (define dehnung
   (match-rulelist
     (list (s "a" "ā")
+          (s "A" "Ā")
           (s "e" "ē")
+          (s "E" "Ē")
           (s "o" "ō")
+          (s "O" "Ō")
           (s "i" "ī")
           (s "u" "ū"))))
 
@@ -54,11 +57,23 @@
           (s "i" "ī")
           (s "u" "ū"))))
 
+(define kuerzung-gr
+  (match-rulelist
+    (list (s "ā" "a")
+          (s "Ā" "A")
+          (s "ē|Ē" "e")
+          (s "ō|Ō" "o")
+          (s "ī" "i")
+          (s "ū" "u"))))
+
 (define kuerzung
   (match-rulelist
     (list (s "ā" "a")
-          (s "ē|Ē" "e")
-          (s "ō|Ō" "o")
+          (s "Ā" "A")
+          (s "ē" "e")
+          (s "Ē" "E")
+          (s "ō" "o")
+          (s "Ō" "O")
           (s "ī" "i")
           (s "ū" "u"))))
 

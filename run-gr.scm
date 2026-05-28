@@ -3,6 +3,19 @@
 (define run
   (lambda () (load "run-gr.scm")))
 
+(define (run-test dest)
+  (print "  " (symbol->string dest))
+  (print (run-list 'uridg dest (list
+    "pĺ̥h₂meh₂"
+    "pl̥h₂méh₂"
+    "melh₃noh₂"
+    "melnoh₂"
+    )))
+  (newline))
+(run-test 'myk)
+(run-test 'att)
+(run-test 'lesb)
+
 (define (run-grassmann dest)
   (print "  " (symbol->string dest))
   (print (run-list 'urgr1 dest (list
@@ -15,8 +28,8 @@
     "i̯ópʰra"
     )))
   (newline))
-(run-grassmann 'att)
- 
+;(run-grassmann 'att)
+
 (define (run-contr dest)
   (print "  " (symbol->string dest))
   (print (run-list 'urgr1 dest (list
@@ -28,6 +41,7 @@
     "lāu̯ós"
     "nasu̯ós"
     "au̯sṓs"
+    "h₁éu̯soh₂"
     "lāu̯okrínēs"
     "-ā́sōm"
     "tʰeāu̯ōrós"
@@ -55,6 +69,7 @@
 (define (run-misc dest)
   (print "  " (symbol->string dest))
   (print (run-list 'uridg dest (list
+    "gʷm̥sk̑ónti"
     "u̯eu̯r̥h₁mh₁nos"
     "u̯r̥h₁mn̥"
     "h₂ensíi̯eh₂"
@@ -75,9 +90,9 @@
     "sunǰǰugos"
     )))
   (newline))
-(run-misc 'urgr)
-(run-misc 'att)
-(run-misc 'oarg)
+;(run-misc 'urgr)
+;(run-misc 'att)
+;(run-misc 'oarg)
 
 (define (run-y dest)
   (print "  " (symbol->string dest))
@@ -267,10 +282,13 @@
     "mēnsós"
     "mḗns"
     "u̯ésma"
+    "parau̯sái"  ; difficult! παρείαι
     )))
   (newline))
 ;(run-1ed 'urgr)
+;(run-1ed 'myk)
 ;(run-1ed 'att)
+;(run-1ed 'ion-att)
 ;(run-1ed 'inseldor)
 ;(run-1ed 'kret)
 ;(run-1ed 'lesb)

@@ -1,13 +1,14 @@
 ;(load "arisch.scm")
-(load "griechisch.scm")
+;(load "griechisch.scm")
 ;(load "germanisch.scm")
+(load "germanisch_auslaut.scm")
 
 (define rules
   (list
     'uridg
 ;    `(br (urar) ,rules-urar)
-    `(br (urgr1) ,rules-urgr)
-;    `(br (urgerm) ,rules-urgerm)
+;    `(br (urgr1) ,rules-urgr)
+    `(br (urgerm) ,rules-urgerm)
     ))
 
 ;;
@@ -160,9 +161,9 @@
      (apply-rules rules str)
      str))
 
-(set-pretty-rules 'urgerm
-  (list (s "x" "h")
-        (s "X" "ƕ")
-        (s "(<vok>)('?)(w|y)" 1 2 (consonans->sonans 3))
-        (s "y" "j")))
+;(set-pretty-rules 'urgerm
+;  (list (s "x" "h")
+;        (s "X" "ƕ")
+;        (s "(<vok>)('?)(w|y)" 1 2 (consonans->sonans 3))
+;        (s "y" "j")))
 

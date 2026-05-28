@@ -135,6 +135,7 @@
 
 ;; make regex substitute function
 (define (s pattern . subst)
+;  (print "s " pattern " " subst)
   (let ((pat (string->irregex (make-regex pattern) 'utf8 'fast 'm)))
     (lambda (word)
       (apply irregex-replace/all (cons pat (cons word subst))))))
@@ -185,7 +186,7 @@
           (urar (urir ap
                       (urav aav jav))
                 (uria ved))
-          urgerm
+          (urgerm1 (urgerm got (wgerm ahd as ae)))
           ))
 
 ;; sound classes
