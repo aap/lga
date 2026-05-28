@@ -12,9 +12,9 @@
     "melnoh₂"
     )))
   (newline))
-(run-test 'myk)
-(run-test 'att)
-(run-test 'lesb)
+;(run-test 'myk)
+;(run-test 'att)
+;(run-test 'lesb)
 
 (define (run-grassmann dest)
   (print "  " (symbol->string dest))
@@ -449,7 +449,7 @@
     ""
     "i̯ugom"
     ))))
-;(run-gr)
+(run-gr)
 
 (define (run-gr-kw dest)
   (print "  " (symbol->string dest))
@@ -525,5 +525,5 @@
 
     "kenttós"
     ))))
-;(run-gr-s)
+(run-gr-s)
 

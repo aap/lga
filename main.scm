@@ -2,9 +2,9 @@
 ;;;; main file
 ;;;;
 
-(require-extension utf8)
-(require-extension irregex)
-(require-extension srfi-1)
+(import (utf8))
+(import (chicken irregex))
+(import (srfi 1))
 
 (define s+ string-append)
 

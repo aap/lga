@@ -1,13 +1,13 @@
-;(load "arisch.scm")
-;(load "griechisch.scm")
-;(load "germanisch.scm")
+(load "arisch.scm")
+(load "griechisch.scm")
+(load "germanisch.scm")
 (load "germanisch_auslaut.scm")
 
 (define rules
   (list
     'uridg
-;    `(br (urar) ,rules-urar)
-;    `(br (urgr1) ,rules-urgr)
+    `(br (urar) ,rules-urar)
+    `(br (urgr1) ,rules-urgr)
     `(br (urgerm) ,rules-urgerm)
     ))
 
